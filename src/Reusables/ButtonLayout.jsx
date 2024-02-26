@@ -16,7 +16,7 @@ const Head = styled.div`
     color: white;
     width: 30vw;
     border: none;
-    padding: 13px 12px 13px 12px;
+    padding: 10px;
     line-height: 21px;
     font-size: 15px;
     border-radius: 15px;

@@ -72,9 +72,11 @@ function Login() {
               </div>
               <p>Forgot Password</p>
             </div>
-            <ButtonLayout title="Login" />
+            <ButtonLayout title="Login" onClick={() => navigate("/overview")} />
           </div>
-          <img src={background} alt="" />
+          <div className="bgg">
+            <img src={background} alt="" />
+          </div>
         </div>
       </div>
     </Head>
@@ -83,6 +85,11 @@ function Login() {
 
 export default Login;
 const Head = styled.div`
+  .bgg img {
+    width: 60vw;
+    height: 100vh;
+  }
+
   .email {
     display: flex;
     flex-direction: column;
@@ -175,13 +182,15 @@ const Head = styled.div`
   }
   .container {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: repeat(2, 1fr);
   }
   .header {
     display: flex;
     flex-direction: column;
+    width: 50vw;
+    /* justify-content: center; */
+    padding-top: 150px;
     align-items: center;
     gap: 25px;
-    padding: 120px 0px 0px 0px;
   }
 `;

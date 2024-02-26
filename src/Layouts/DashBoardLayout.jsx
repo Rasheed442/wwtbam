@@ -22,11 +22,11 @@ const Head = styled.div`
     grid-template-columns: 1.9fr 9fr;
   }
   .container {
-    height: 100vh;
     overflow: hidden;
     overflow: scroll;
+    height: 100vh;
   }
   .main {
-    background-color: #f6f6f6;
+    /* background-color: red; */
   }
 `;

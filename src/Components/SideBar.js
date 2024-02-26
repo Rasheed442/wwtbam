@@ -2,7 +2,7 @@ import React from "react";
 import { wwtlogo } from "../assets/Icons";
 import styled from "styled-components";
 import { albert } from "../assets/Images";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function SideBar() {
   const navigate = useNavigate();
@@ -197,7 +197,7 @@ function SideBar() {
     <Head>
       <div className="container">
         <div className="logo">
-          <img src={wwtlogo} />
+          <img src={wwtlogo} alt="" />
         </div>
         <div className="line"></div>
         <div className="search">
@@ -262,9 +262,9 @@ function SideBar() {
             </svg>
             <span>Account Settings</span>
           </div>
-          <div className="exit">
+          <div className="exit" onClick={() => navigate("/")}>
             <div className="fotname">
-              <img src={albert} />
+              <img src={albert} alt="" />
               <div className="names">
                 <p>Funke Oba</p>
                 <span>Log out</span>

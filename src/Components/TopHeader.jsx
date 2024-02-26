@@ -1,7 +1,6 @@
 import React from "react";
 import { albert } from "../assets/Images";
 // import { AiOutlineDown } from "react-icons";
-import { wwtlogo } from "../assets/Icons";
 import styled from "styled-components";
 function TopHeader({ title }) {
   return (
@@ -132,22 +131,26 @@ const Head = styled.div`
     align-items: center;
     position: fixed;
     width: -webkit-fill-available;
-    z-index: 99999;
+    z-index: 1;
     box-shadow: 0px 0px 10px 0px #0000001a;
   }
   .top {
     display: flex;
     gap: 15px;
+    padding-left: 20px;
   }
   .top span {
     color: #999999;
     line-height: 20px;
-    font-size: 14px;
+    font-size: 12px;
+    letter-spacing: -2%;
+
     font-weight: 400;
   }
   .top p {
     line-height: 20px;
-    font-size: 14px;
+    font-size: 12px;
+    letter-spacing: -2%;
     font-weight: 500;
   }
 

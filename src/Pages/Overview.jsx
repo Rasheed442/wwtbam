@@ -7,7 +7,7 @@ import { FaArrowDown, FaChevronDown } from "react-icons/fa";
 import PartnersChartComponent from "../ChartComponents/PartnersChartComponent";
 import GamesChartComponent from "../ChartComponents/GamesChartComponent";
 import ChannelChartComponent from "../ChartComponents/ChannelChartComponent";
-import TransactionHistoryTable from "../ChartComponents/TransactionHistoryTable";
+import TransactionHistoryTable from "../TableComponents/TransactionHistoryTable";
 
 function Overview() {
   const collections = [
@@ -199,7 +199,7 @@ function Overview() {
                   return (
                     <div className="box2">
                       <div className="boxcont">
-                        <img src={c.icon} />
+                        <img src={c.icon} alt="" />
                         <p>{c.name}</p>
                       </div>
                       <h2>{c.amount}</h2>
@@ -233,6 +233,8 @@ function Overview() {
 
 export default Overview;
 const Head = styled.div`
+  background-color: #f6f6f6;
+
   .gameschannel {
     display: grid;
     grid-template-columns: 50% 50%;
