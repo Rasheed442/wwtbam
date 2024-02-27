@@ -61,7 +61,7 @@ function PartnersDetails({ close }) {
               </p>
             </div>
           </div>
-          <div className="line"></div>
+          {/* <div className="line"></div> */}
           <div className="space">
             <div className="mobile">
               <div className="number">
@@ -171,7 +171,7 @@ const Partners = styled.div`
     display: flex;
     align-items: center;
     position: relative;
-    justify-content: space-between;
+    justify-content: space-around;
   }
   .line {
     height: 170px;

@@ -16,7 +16,7 @@ function Login() {
             <div className="logo">
               <img src={wwtlogo} alt="" />
               {/* <h2>Admin Login</h2> */}
-              <h2>WE ARE UNDER CONSTRUCTION</h2>
+              <h2>We'll be live soon</h2>
               {/* <p>Welcome back! Please enter your details</p> */}
             </div>
             {/* <div className="email">
@@ -127,7 +127,7 @@ const Head = styled.div`
     gap: 10px;
   }
   .logo img {
-    width: 70px;
+    width: 200%;
   }
   .logo p {
     color: #667085;
