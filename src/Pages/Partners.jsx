@@ -6,17 +6,22 @@ import styled from "styled-components";
 import PartnersTable from "../TableComponents/PartnersTable";
 import AddNewPartner from "../Components/AddNewPartner";
 import PartnersDetails from "../Components/PartnersDetails";
+import UpdateCommission from "../Components/UpdateCommission";
 
 function Partners() {
   const [addPartner, setAddPartner] = useState(false);
   const [ViewPartnerDetails, setViewPartnerDetails] = useState(false);
+  const [update, setUpdate] = useState(false);
+
   return (
     <Partner>
       {addPartner && <AddNewPartner close={setAddPartner} />}
+      {update && <UpdateCommission close={setUpdate} />}
+
       <DashBoardLayout>
         <TopHeader title="Game History" />
         {ViewPartnerDetails && (
-          <PartnersDetails close={setViewPartnerDetails} />
+          <PartnersDetails close={setViewPartnerDetails} update={setUpdate} />
         )}
         {ViewPartnerDetails ? (
           ""

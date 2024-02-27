@@ -22,7 +22,11 @@ function History() {
         </div>
         <div className="white">
           <div className="mylabels">
-            <LabelinputLayout label="Partner name" placeholder="Hope Bank" />
+            <LabelinputLayout
+              label="Partner name"
+              placeholder="Hope Bank"
+              style={{ width: "20vw" }}
+            />
             <div className="labels">
               <label>Games</label>
               <div className="select">
@@ -76,12 +80,11 @@ const Hist = styled.div`
     border-top: 1px solid #eaecf0;
   }
   .btn button {
-    padding: 13px;
+    padding: 10px;
     border-radius: 8px;
     font-size: 14px;
     font-weight: 500;
     display: flex;
-    width: 100px;
     justify-content: center;
     background-color: white;
   }
@@ -89,6 +92,7 @@ const Hist = styled.div`
     display: grid;
     grid-template-columns: auto auto auto;
     gap: 20px;
+    padding-right: 120px;
     padding-bottom: 20px;
   }
   .labels {
@@ -115,6 +119,7 @@ const Hist = styled.div`
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 5px;
+    width: 20vw;
   }
   .select select {
     appearance: none;

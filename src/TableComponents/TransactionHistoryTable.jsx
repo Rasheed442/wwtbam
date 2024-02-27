@@ -8,48 +8,6 @@ import {
 import { TiArrowUnsorted, TiMediaRecord } from "react-icons/ti";
 import { hope, opay } from "../assets/Images";
 function TransactionHistoryTable() {
-  const columnHeader = [
-    {
-      title: "PARTNER ID",
-      Index: "partner_id",
-    },
-    {
-      title: "PARTNER ",
-      Index: "partner",
-    },
-    {
-      title: " PHONE NUMBER",
-      Index: "phonenumber",
-    },
-    {
-      title: "GAME ",
-      Index: "game",
-    },
-    {
-      title: "QUESTION",
-      Index: "question",
-    },
-    {
-      title: "ANSWER ",
-      Index: "answer",
-    },
-    {
-      title: "NO OF ENTRIES",
-      Index: "NOOFENTRIES",
-    },
-    {
-      title: "AMOUNT ",
-      Index: "maount",
-    },
-    {
-      title: "DATE ",
-      Index: "date",
-    },
-    {
-      title: "STATUS ",
-      Index: "status",
-    },
-  ];
   return (
     <Head>
       <div className="tablecontent">
@@ -91,7 +49,7 @@ function TransactionHistoryTable() {
                     gap: "10px",
                   }}
                 >
-                  <img src={hope} width={40} height={40} />
+                  <img src={hope} width={40} height={40} alt="" />
                   <p>HopePSBank</p>
                 </td>
                 <td>09127805458</td>
@@ -132,7 +90,7 @@ function TransactionHistoryTable() {
                     gap: "10px",
                   }}
                 >
-                  <img src={opay} width={40} height={40} />
+                  <img src={opay} width={40} height={40} alt="" />
                   <p>Opay</p>
                 </td>
                 <td>09127805458</td>

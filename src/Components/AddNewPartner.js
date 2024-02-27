@@ -181,7 +181,6 @@ const NewPartner = styled.div`
   }
   .top {
     display: flex;
-    align-items: center;
     justify-content: space-between;
   }
   .add {
