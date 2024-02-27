@@ -15,17 +15,18 @@ function Login() {
           <div className="header">
             <div className="logo">
               <img src={wwtlogo} alt="" />
-              <h2>Admin Login</h2>
-              <p>Welcome back! Please enter your details</p>
+              {/* <h2>Admin Login</h2> */}
+              <h2>WE ARE UNDER CONSTRUCTION</h2>
+              {/* <p>Welcome back! Please enter your details</p> */}
             </div>
-            <div className="email">
+            {/* <div className="email">
               <label>Email Address</label>
               <div className="mail">
                 <CiMail />
                 <input type="text" placeholder="Enter your email" />
               </div>
-            </div>
-            <div className="password">
+            </div> */}
+            {/* <div className="password">
               <label>Password</label>
               <div className="pass">
                 <div className="lock">
@@ -71,8 +72,8 @@ function Login() {
                 </div>
               </div>
               <p>Forgot Password</p>
-            </div>
-            <ButtonLayout title="Login" onClick={() => navigate("/overview")} />
+            </div> */}
+            {/* <ButtonLayout title="Login" onClick={() => navigate("/overview")} /> */}
           </div>
           <div className="bgg">
             <img src={background} alt="" />
