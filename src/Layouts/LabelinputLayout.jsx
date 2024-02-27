@@ -1,12 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 
-function LabelinputLayout({ label, placeholder }) {
+function LabelinputLayout({
+  label,
+  placeholder,
+  onChange,
+  style,
+  inputstyle,
+  disabled,
+}) {
   return (
     <Labels>
-      <div className="labels">
+      <div className="labels" style={style}>
         <label>{label}</label>
-        <input type="text" placeholder={placeholder} />
+        <input
+          type="text"
+          disabled={disabled}
+          style={inputstyle}
+          placeholder={placeholder}
+          onChange={onChange}
+        />
       </div>
     </Labels>
   );
@@ -33,9 +46,11 @@ const Labels = styled.div`
   }
   .labels input {
     color: #667085;
+    outline: none;
     line-height: 24px;
     font-size: 14px;
     font-weight: 400;
+    background-color: white;
     padding: 5px;
     border: 1px solid #d0d5dd;
     border-radius: 5px;

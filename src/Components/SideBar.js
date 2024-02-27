@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { wwtlogo } from "../assets/Icons";
 import styled from "styled-components";
 import { albert } from "../assets/Images";
 import { useNavigate } from "react-router-dom";
-
+import { AiOutlineDown } from "react-icons/ai";
+import Aos from "aos";
+import "aos/dist/aos.css";
 function SideBar() {
   const navigate = useNavigate();
+  useEffect(() => {
+    Aos.init({ duration: 400 });
+  }, []);
   const navlinks = [
     {
       icon: (
@@ -158,7 +163,48 @@ function SideBar() {
         </svg>
       ),
       name: "Games",
-      paths: "/games",
+      paths: "",
+      icon2: (
+        <svg
+          width="17"
+          height="17"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M1.64693 5.73049C1.64703 5.28487 1.96658 4.73784 2.36196 4.50776L9.27407 0.48566C9.66893 0.255887 10.3084 0.255887 10.704 0.486468L17.6185 4.51624C18.0135 4.74631 18.3335 5.29355 18.3333 5.74109L18.3304 13.7739C18.3303 14.2202 18.0103 14.7694 17.616 15.0004L10.689 19.0575C10.2946 19.2886 9.65589 19.2885 9.26082 19.0565L2.3581 15.0014C1.96376 14.7698 1.64432 14.221 1.64453 13.7752L1.64693 5.73049ZM3.10077 5.0772L9.96875 8.78657L16.5167 5.12574L9.95769 1.40031L3.10077 5.0772ZM2.65782 6.27773C2.65782 6.44201 2.54671 13.5292 2.54671 13.5292C2.54317 13.7518 2.69976 14.0254 2.89797 14.1411L9.3255 17.8932L9.38465 10.0814C9.38465 10.0814 2.65782 6.11335 2.65782 6.27773ZM10.5975 17.8762L16.952 13.975C17.1953 13.8257 17.3926 13.479 17.3926 13.2001V6.23787L10.5975 10.0233V17.8762Z"
+            stroke="#E28C05"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4.76251 10.1897C4.26364 10.4685 3.60223 10.2639 3.2853 9.73301C2.96847 9.20212 3.11609 8.5458 3.61496 8.26719C4.11394 7.98847 4.77534 8.19302 5.09217 8.72391C5.4091 9.2548 5.26149 9.91112 4.76251 10.1897ZM8.10084 12.3089C7.60197 12.5876 6.94056 12.383 6.62363 11.8521C6.3068 11.3212 6.45442 10.6649 6.95329 10.3863C7.45226 10.1076 8.11367 10.3121 8.4305 10.843C8.74743 11.3739 8.59981 12.0302 8.10084 12.3089ZM4.76251 13.9234C4.26364 14.2021 3.60223 13.9976 3.2853 13.4667C2.96847 12.9358 3.11609 12.2795 3.61496 12.0009C4.11394 11.7222 4.77534 11.9267 5.09217 12.4576C5.4091 12.9885 5.26149 13.6448 4.76251 13.9234ZM8.10084 16.0426C7.60197 16.3213 6.94056 16.1167 6.62363 15.5858C6.3068 15.0549 6.45442 14.3986 6.95329 14.12C7.45226 13.8413 8.11367 14.0458 8.4305 14.5767C8.74743 15.1076 8.59981 15.7639 8.10084 16.0426ZM16.2628 8.16628C15.7639 7.88756 15.1026 8.09211 14.7856 8.623C14.4688 9.15389 14.6163 9.81021 15.1153 10.0888C15.6143 10.3675 16.2757 10.163 16.5925 9.6321C16.9094 9.10121 16.7618 8.44489 16.2628 8.16628ZM14.5688 11.0927C14.07 10.814 13.4086 11.0185 13.0916 11.5494C12.7748 12.0803 12.9224 12.7366 13.4213 13.0152C13.9203 13.294 14.5817 13.0894 14.8985 12.5585C15.2154 12.0276 15.0678 11.3713 14.5688 11.0927ZM12.7954 13.9182C12.2965 13.6395 11.6351 13.844 11.3182 14.3749C11.0013 14.9058 11.1489 15.5621 11.6478 15.8407C12.1468 16.1194 12.8082 15.9149 13.125 15.384C13.442 14.8531 13.2943 14.1968 12.7954 13.9182ZM10.0558 3.8034C9.39329 3.8034 8.85613 4.30039 8.85613 4.91342C8.85613 5.52645 9.39329 6.02344 10.0558 6.02344C10.7184 6.02344 11.2556 5.52645 11.2556 4.91342C11.2556 4.30039 10.7184 3.8034 10.0558 3.8034Z"
+            stroke="#E28C05"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      ),
+      subMenu: [
+        {
+          name: "Hot Seat Play",
+          path: "/hotseat",
+        },
+        {
+          name: "Audience Play",
+          path: "/audience",
+        },
+        {
+          name: "Home Play",
+          path: "/homeplay",
+        },
+      ],
+      icon3: <AiOutlineDown style={{ color: "gray" }} size={13} />,
     },
     {
       icon: (
@@ -193,6 +239,17 @@ function SideBar() {
       ),
     },
   ];
+
+  const [subMenu, setSubmenu] = useState(false);
+  // useEffect(() => {
+  //   setSubmenu(true);
+  // }, [navigate]);
+  function Routes(n) {
+    navigate(n?.paths);
+    if (n?.name === "Games") {
+      setSubmenu(!subMenu);
+    }
+  }
   return (
     <Head>
       <div className="container">
@@ -224,23 +281,47 @@ function SideBar() {
           <div className="navlink">
             {navlinks.map((n) => {
               return (
-                <div
-                  className="selections"
-                  onClick={() => navigate(n?.paths)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <p>
-                    {window.location.pathname === n?.paths ? n.icon2 : n?.icon}
-                  </p>
-                  <p
-                    style={{
-                      color:
-                        window.location.pathname === n?.paths ? "#E28C05" : "",
-                    }}
+                <>
+                  <div
+                    className="mysections"
+                    onClick={() => Routes(n)}
+                    style={{ cursor: "pointer" }}
                   >
-                    {n.name}
-                  </p>
-                </div>
+                    <div className="selections">
+                      <div>
+                        {window.location.pathname === n?.paths
+                          ? n.icon2
+                          : n?.icon}
+                      </div>
+                      <p
+                        style={{
+                          color:
+                            window.location.pathname === n?.paths
+                              ? "#E28C05"
+                              : "",
+                        }}
+                      >
+                        {n.name}
+                      </p>
+                    </div>
+                    <span>{n?.icon3}</span>
+                  </div>
+                  {subMenu &&
+                    n?.subMenu?.map((s) => {
+                      return (
+                        <div
+                          className="submenu"
+                          data-aos="slide-right"
+                          onClick={() => {
+                            navigate(s.path);
+                            setSubmenu(true);
+                          }}
+                        >
+                          <p>{s.name}</p>
+                        </div>
+                      );
+                    })}
+                </>
               );
             })}
           </div>
@@ -295,6 +376,14 @@ function SideBar() {
 
 export default SideBar;
 const Head = styled.div`
+  .submenu {
+    padding-left: 60px;
+    cursor: pointer;
+  }
+  .submenu p {
+    color: white;
+    font-size: 11px;
+  }
   .logo {
     /* display: none; */
     display: flex;
@@ -369,9 +458,13 @@ const Head = styled.div`
     gap: 10px;
     transition: 0.5s;
   }
-  /* .selections:hover {
-    background-color: black;
-  } */
+  .mysections {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
+  }
+
   .selections p {
     color: white;
     font-size: 11px;

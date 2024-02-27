@@ -144,7 +144,7 @@ function AddNewPartner({ close }) {
           <button
             style={{
               backgroundColor: "white",
-              color: "black",
+              color: "#464F60",
               border: "1px  solid #D0D5DD",
             }}
             onClick={() => close(false)}

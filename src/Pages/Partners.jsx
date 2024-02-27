@@ -77,7 +77,7 @@ const Partner = styled.div`
   .overview h2 {
     color: #090814;
     font-size: 29px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 43px;
   }
   .overview span {

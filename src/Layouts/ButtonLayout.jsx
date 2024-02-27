@@ -38,7 +38,7 @@ const Head = styled.div`
     border-radius: 5px;
     display: flex;
     align-items: center;
-    font-size: 12px;
+    font-size: 15px;
     line-height: 20px;
     font-weight: 500;
     gap: 6px;

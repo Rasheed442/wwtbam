@@ -2,13 +2,13 @@ import React from "react";
 import { albert } from "../assets/Images";
 // import { AiOutlineDown } from "react-icons";
 import styled from "styled-components";
-function TopHeader({ title }) {
+function TopHeader({ title, othertitle }) {
   return (
     <Head>
       <div className="head">
         <div className="top">
           <p>
-            <span>Pages&nbsp; </span>/ &nbsp;{title}
+            <span>Pages&nbsp; </span>/ &nbsp;{title} / &nbsp;{othertitle}
           </p>
         </div>
         <div className="content">
@@ -112,7 +112,7 @@ function TopHeader({ title }) {
                 Albert Abiodun &nbsp; &nbsp;
                 {/* <AiOutlineDown size={10} /> */}
               </p>
-              <span>Admin</span>
+              <span>System Admin</span>
             </div>
           </div>
         </div>
@@ -191,5 +191,9 @@ const Head = styled.div`
     line-height: 19px;
     font-size: 16px;
     font-weight: 500;
+  }
+  .user span {
+    font-size: 12px;
+    font-weight: 300;
   }
 `;
