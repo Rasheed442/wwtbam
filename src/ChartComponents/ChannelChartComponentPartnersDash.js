@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { FaChevronDown } from "react-icons/fa";
 
-function ChannelChartComponent() {
+function ChannelChartComponentPartnersDash() {
   const banks = [
     {
       name: "App Game Revenue",
@@ -132,7 +132,7 @@ function ChannelChartComponent() {
     // },
   ];
   return (
-    <Head>
+    <Hills>
       <div className="header">
         <div className="selection">
           <div className="overhead">
@@ -153,7 +153,7 @@ function ChannelChartComponent() {
             return (
               <div className="content">
                 <div
-                  className="line"
+                  className="lines"
                   style={{ backgroundColor: b?.color }}
                 ></div>
                 <p>{b.name}</p>
@@ -210,12 +210,12 @@ function ChannelChartComponent() {
           </BarChart>
         </ResponsiveContainer>
       </div>
-    </Head>
+    </Hills>
   );
 }
 
-export default ChannelChartComponent;
-const Head = styled.div`
+export default ChannelChartComponentPartnersDash;
+const Hills = styled.div`
   .selection {
     display: flex;
     justify-content: space-between;
@@ -251,7 +251,7 @@ const Head = styled.div`
     font-size: 13px;
     font-weight: 400;
   }
-  .line {
+  .lines {
     height: 12px;
     width: 12px;
     border-radius: 50%;

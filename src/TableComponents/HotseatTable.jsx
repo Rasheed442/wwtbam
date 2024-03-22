@@ -1,72 +1,137 @@
 import React from "react";
 import styled from "styled-components";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { TiMediaRecord } from "react-icons/ti";
+
 import { TiArrowUnsorted } from "react-icons/ti";
-function HotseatTable({ view }) {
+function HotseatTable({ viewGames, table }) {
   return (
     <Head>
-      <div className="tablecontent">
-        <div className="gridoutside">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>
-                  ACTION
-                  <TiArrowUnsorted />
-                </th>
-                <th>QUESTION</th>
-                <th>CORRECT ANSWER </th>
-                <th>DURATION</th>
+      {table === "Partner" && (
+        <div className="tablecontent">
+          <div className="gridoutside">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>
+                    ACTION
+                    <TiArrowUnsorted />
+                  </th>
+                  <th>QUESTION</th>
+                  <th>CORRECT ANSWER </th>
+                  <th>DURATION</th>
 
-                <th>DATE</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style={{ color: "#417CD4" }} onClick={() => view(true)}>
-                  View Details
-                </td>
-                <td>who's the president of nigeria</td>
-                <td>A</td>
-                <td>2 days</td>
-                <td>29/02/2023, 09:11:04</td>
-              </tr>
-              <tr>
-                <td style={{ color: "#417CD4" }} onClick={() => view(true)}>
-                  View Details
-                </td>
-                <td>who's the president of nigeria</td>
-                <td>A</td>
-                <td>2 days</td>
-                <td>29/02/2023, 09:11:04</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="row">
-          <span>Showing 1-5 of entries</span>
-          <div className="pagins">
-            <p>Rows per page:</p>
-            <select>
-              <option>5</option>
-            </select>
-            <div className="arrow">
-              <button
-                onClick={() => {
-                  // setSortDate(sortdate - 1);
-                  // setEnd((prev) => prev - end);
-                }}
-              >
-                <AiOutlineLeft />
-              </button>
-              <button>1</button>
-              <button>
-                <AiOutlineRight />
-              </button>
+                  <th>DATE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    style={{ color: "#417CD4" }}
+                    onClick={() => viewGames(true)}
+                  >
+                    View Details
+                  </td>
+                  <td>who's the president of nigeria</td>
+                  <td>A</td>
+                  <td>2 days</td>
+                  <td>29/02/2023, 09:11:04</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "#417CD4" }}>View Details</td>
+                  <td>who's the president of nigeria</td>
+                  <td>A</td>
+                  <td>2 days</td>
+                  <td>29/02/2023, 09:11:04</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="row">
+            <span>Showing 1-5 of entries</span>
+            <div className="pagins">
+              <p>Rows per page:</p>
+              <select>
+                <option>5</option>
+              </select>
+              <div className="arrow">
+                <button
+                  onClick={() => {
+                    // setSortDate(sortdate - 1);
+                    // setEnd((prev) => prev - end);
+                  }}
+                >
+                  <AiOutlineLeft />
+                </button>
+                <button>1</button>
+                <button>
+                  <AiOutlineRight />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
+      {table === "admin" && (
+        <div className="tablecontent">
+          <div className="gridoutside">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>
+                    ACTION
+                    <TiArrowUnsorted />
+                  </th>
+                  <th>QUESTION</th>
+                  <th>CORRECT ANSWER </th>
+                  <th>DURATION</th>
+
+                  <th>DATE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style={{ color: "#417CD4" }}>View Details</td>
+                  <td>who's the president of nigeria</td>
+                  <td>A</td>
+                  <td>2 days</td>
+                  <td>29/02/2023, 09:11:04</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "#417CD4" }}>View Details</td>
+                  <td>who's the president of nigeria</td>
+                  <td>A</td>
+                  <td>2 days</td>
+                  <td>29/02/2023, 09:11:04</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="row">
+            <span>Showing 1-5 of entries</span>
+            <div className="pagins">
+              <p>Rows per page:</p>
+              <select>
+                <option>5</option>
+              </select>
+              <div className="arrow">
+                <button
+                  onClick={() => {
+                    // setSortDate(sortdate - 1);
+                    // setEnd((prev) => prev - end);
+                  }}
+                >
+                  <AiOutlineLeft />
+                </button>
+                <button>1</button>
+                <button>
+                  <AiOutlineRight />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </Head>
   );
 }

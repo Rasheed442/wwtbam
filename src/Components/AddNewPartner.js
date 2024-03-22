@@ -1,8 +1,137 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "../Layouts/Modal";
 import LabelinputLayout from "../Layouts/LabelinputLayout";
+import PasswordInputLayout from "../Layouts/PasswordInputLayout";
 function AddNewPartner({ close }) {
+  const [partnerLogo, setPartnerLogo] = useState();
+  const [image, setImage] = useState(null);
+  const [upload, setUpload] = useState(false);
+  const [addPartners, setAddpartners] = useState({
+    companyName: "",
+    address: "",
+    city: {
+      id: 77002,
+    },
+    state: {
+      id: 306,
+    },
+    country: {
+      id: 161,
+    },
+    phone: "",
+    email: "",
+    password: "?",
+    bvn: "",
+    idType: {
+      id: 1,
+    },
+    idNumber: "",
+    idURL: "",
+    companyRegistrationNumber: "",
+    companyCertificateURL: "",
+    dateRegistered: "",
+    formCo7URL: "",
+    formCo2URL: "",
+    articlesAndMemorandumOfAssociation: "",
+    utilityBill: "",
+    sector: "Fintech",
+    partnerLogo: "",
+  });
+  const token = localStorage.getItem("token");
+  const userID = localStorage.getItem("userID");
+
+  // const handleFileChanges = async (event) => {
+  //   try {
+  //     const file = event.target.files[0];
+  //     if (file) {
+  //       const reader = new FileReader();
+  //       reader.onload = () => {
+  //         setImage(reader.result);
+  //       };
+  //       reader.readAsDataURL(file);
+  //     }
+
+  //     // fetch handler
+  //     const myHeaders = new Headers();
+
+  //     myHeaders.append("x-session-id", `${token}`);
+
+  //     const formdata = new FormData();
+  //     formdata.append("file", file);
+
+  //     const requestOptions = {
+  //       method: "POST",
+  //       headers: myHeaders,
+  //       body: formdata,
+  //       redirect: "follow",
+  //     };
+
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_BASE_URL}FileUploadAPI/${userID}`,
+  //       requestOptions
+  //     );
+  //     const data = await response.json();
+
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleFileChange = async (event) => {
+    const fileInputElement = document.getElementById("fileInput");
+    const file = fileInputElement.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+    console.log("🚀 ~ handleFileChange ~ file:", file);
+    var myHeaders = new Headers();
+    myHeaders.append("x-session-id", `${token}`);
+
+    var formdata = new FormData();
+    formdata.append("file", file, "ID.jpeg");
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+    fetch(
+      `${process.env.REACT_APP_BASE_URL}FileUploadAPI/${userID}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+  };
+
+  // add handler
+  async function AddHandler(e) {
+    try {
+      e.preventDefault();
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}addnewpartner`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `x-session-id ${token}`,
+          },
+          body: JSON.stringify(addPartners),
+        }
+      );
+      const server = await response.json();
+      console.log(server);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <NewPartner>
       <Modal>
@@ -50,6 +179,7 @@ function AddNewPartner({ close }) {
                 stroke-linecap="round"
               />
             </svg>
+
             <p>Add New Partner</p>
           </div>
           <div onClick={() => close(false)}>
@@ -84,47 +214,80 @@ function AddNewPartner({ close }) {
         <div className="upload">
           <span>Upload logo</span>
           <div className="logo">
-            <svg
-              width="46"
-              height="46"
-              viewBox="0 0 46 46"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect x="3" y="3" width="40" height="40" rx="20" fill="#F2F4F7" />
-              <rect
-                x="3"
-                y="3"
-                width="40"
-                height="40"
-                rx="20"
-                stroke="#F9FAFB"
-                stroke-width="6"
-              />
-              <g clip-path="url(#clip0_42_61297)">
-                <path
-                  d="M26.3333 26.3334L23 23M23 23L19.6666 26.3334M23 23V30.5M29.9916 28.325C30.8044 27.8819 31.4465 27.1808 31.8165 26.3322C32.1866 25.4837 32.2635 24.5361 32.0351 23.6389C31.8068 22.7418 31.2862 21.9463 30.5555 21.3779C29.8248 20.8095 28.9257 20.5006 28 20.5H26.95C26.6977 19.5244 26.2276 18.6186 25.5749 17.8509C24.9222 17.0831 24.104 16.4732 23.1817 16.0672C22.2594 15.6612 21.2571 15.4695 20.2501 15.5066C19.243 15.5437 18.2575 15.8086 17.3676 16.2814C16.4777 16.7542 15.7066 17.4226 15.1122 18.2363C14.5177 19.0501 14.1155 19.988 13.9358 20.9795C13.756 21.9711 13.8034 22.9905 14.0743 23.9611C14.3452 24.9317 14.8327 25.8282 15.5 26.5834"
-                  stroke="#475467"
-                  stroke-width="1.66667"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+            {image ? (
+              ""
+            ) : (
+              <svg
+                width="46"
+                height="46"
+                viewBox="0 0 46 46"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="3"
+                  y="3"
+                  width="40"
+                  height="40"
+                  rx="20"
+                  fill="#F2F4F7"
                 />
-              </g>
-              <defs>
-                <clipPath id="clip0_42_61297">
-                  <rect
-                    width="20"
-                    height="20"
-                    fill="white"
-                    transform="translate(13 13)"
+                <rect
+                  x="3"
+                  y="3"
+                  width="40"
+                  height="40"
+                  rx="20"
+                  stroke="#F9FAFB"
+                  stroke-width="6"
+                />
+                <g clip-path="url(#clip0_42_61297)">
+                  <path
+                    d="M26.3333 26.3334L23 23M23 23L19.6666 26.3334M23 23V30.5M29.9916 28.325C30.8044 27.8819 31.4465 27.1808 31.8165 26.3322C32.1866 25.4837 32.2635 24.5361 32.0351 23.6389C31.8068 22.7418 31.2862 21.9463 30.5555 21.3779C29.8248 20.8095 28.9257 20.5006 28 20.5H26.95C26.6977 19.5244 26.2276 18.6186 25.5749 17.8509C24.9222 17.0831 24.104 16.4732 23.1817 16.0672C22.2594 15.6612 21.2571 15.4695 20.2501 15.5066C19.243 15.5437 18.2575 15.8086 17.3676 16.2814C16.4777 16.7542 15.7066 17.4226 15.1122 18.2363C14.5177 19.0501 14.1155 19.988 13.9358 20.9795C13.756 21.9711 13.8034 22.9905 14.0743 23.9611C14.3452 24.9317 14.8327 25.8282 15.5 26.5834"
+                    stroke="#475467"
+                    stroke-width="1.66667"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   />
-                </clipPath>
-              </defs>
-            </svg>
+                </g>
+                <defs>
+                  <clipPath id="clip0_42_61297">
+                    <rect
+                      width="20"
+                      height="20"
+                      fill="white"
+                      transform="translate(13 13)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            )}
+            {image && (
+              <img
+                src={image}
+                alt="Preview"
+                style={{
+                  maxWidth: "60%",
+                  maxHeight: "60%",
+                  borderRadius: "30px",
+                  padding: "10px",
+                }}
+              />
+            )}
             <p>
-              <span style={{ color: "#276EF1", cursor: "pointer" }}>
+              <label
+                style={{ color: "#276EF1", cursor: "pointer" }}
+                for="fileInput"
+              >
                 Click to upload
-              </span>{" "}
+              </label>
+              &nbsp;
+              <input
+                type="file"
+                id="fileInput"
+                value={addPartners.partnerLogo}
+                onChange={handleFileChange}
+              />
               or drag and drop
               <br />
               SVG, PNG, JPG or GIF (max. 800x400px)
@@ -132,12 +295,66 @@ function AddNewPartner({ close }) {
           </div>
         </div>
         <LabelinputLayout
-          label="Partner name"
-          placeholder="Enter email address"
+          label="Company name"
+          placeholder="Enter company name"
+          value={addPartners.companyName}
+          onChange={(e) => {
+            setAddpartners((prev) => {
+              return { ...prev, companyName: e.target.value };
+            });
+          }}
         />
+
         <LabelinputLayout
           label="Partner email"
           placeholder="Enter email address"
+          value={addPartners.email}
+          onChange={(e) => {
+            setAddpartners((prev) => {
+              return { ...prev, email: e.target.value };
+            });
+          }}
+        />
+        <PasswordInputLayout
+          label="Password"
+          placeholder="***********"
+          value={addPartners.password}
+          onChange={(e) => {
+            setAddpartners((prev) => {
+              return { ...prev, password: e.target.value };
+            });
+          }}
+        />
+
+        <LabelinputLayout
+          label="Address"
+          placeholder="Enter  address"
+          value={addPartners.address}
+          onChange={(e) => {
+            setAddpartners((prev) => {
+              return { ...prev, address: e.target.value };
+            });
+          }}
+        />
+        {/* <LabelinputLayout
+          label="BVN"
+          placeholder="Enter BVN"
+          value={addPartners.bvn}
+          onChange={(e) => {
+            setAddpartners((prev) => {
+              return { ...prev, bvn: e.target.value };
+            });
+          }}
+        /> */}
+        <LabelinputLayout
+          label="Partner Phone number"
+          placeholder="Enter email address"
+          value={addPartners.phone}
+          onChange={(e) => {
+            setAddpartners((prev) => {
+              return { ...prev, phone: e.target.value };
+            });
+          }}
         />
 
         <div className="btn">
@@ -151,7 +368,10 @@ function AddNewPartner({ close }) {
           >
             Cancel
           </button>
-          <button style={{ backgroundColor: "#38197A", color: "white" }}>
+          <button
+            style={{ backgroundColor: "#38197A", color: "white" }}
+            onClick={AddHandler}
+          >
             Add
           </button>
         </div>
@@ -216,10 +436,20 @@ const NewPartner = styled.div`
     padding: 16px;
     border-radius: 10px;
   }
-  .logo p {
+  .logo span {
     color: #667085;
     line-height: 20px;
     font-size: 12px;
     font-weight: 400;
   }
+  .logo input[type="file"] {
+    /* Hide the default button */
+    display: none;
+  }
 `;
+
+// (e) => {
+//                   setAddpartners((prev) => {
+//                     return { ...prev, partnerLogo: e.target.value };
+//                   });
+//                 }

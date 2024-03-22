@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import PulseLoader from "react-spinners/PulseLoader";
 
-function ButtonLayout({ title, onClick }) {
+function ButtonLayout({ title, onClick, loading }) {
   return (
     <Head>
-      <button onClick={onClick}>{title}</button>
+      <button onClick={onClick}>
+        {loading ? <PulseLoader color="white" size={20} /> : title}
+      </button>
     </Head>
   );
 }

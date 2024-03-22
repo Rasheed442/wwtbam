@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { FaChevronDown } from "react-icons/fa";
 
-function GamesChartComponent() {
+function GamesChartComponentPartnersDash() {
   const banks = [
     {
       name: "Audience Play Revenue",
@@ -29,7 +29,7 @@ function GamesChartComponent() {
     },
   ];
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-
+  console.log(userDetails);
   const data = [
     {
       name: "Jan",
@@ -120,7 +120,7 @@ function GamesChartComponent() {
     // },
   ];
   return (
-    <Head>
+    <Hill>
       <div className="header">
         <div className="selection">
           <div className="overhead">
@@ -139,7 +139,7 @@ function GamesChartComponent() {
             return (
               <div className="content">
                 <div
-                  className="line"
+                  className="lines"
                   style={{ backgroundColor: b?.color }}
                 ></div>
                 <p>{b.name}</p>
@@ -196,12 +196,12 @@ function GamesChartComponent() {
           </BarChart>
         </ResponsiveContainer>
       </div>
-    </Head>
+    </Hill>
   );
 }
 
-export default GamesChartComponent;
-const Head = styled.div`
+export default GamesChartComponentPartnersDash;
+const Hill = styled.div`
   .selection {
     display: flex;
     justify-content: space-between;
@@ -236,7 +236,7 @@ const Head = styled.div`
     font-size: 13px;
     font-weight: 400;
   }
-  .line {
+  .lines {
     height: 12px;
     width: 12px;
     border-radius: 50%;

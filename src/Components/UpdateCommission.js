@@ -17,7 +17,7 @@ function UpdateCommission({ close }) {
           <label>Games</label>
           <div className="select">
             <select>
-              <option>All</option>
+              <option>Fixed</option>
             </select>
             <AiOutlineDown size={10} />
           </div>

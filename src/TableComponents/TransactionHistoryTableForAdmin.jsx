@@ -7,13 +7,15 @@ import {
 } from "react-icons/ai";
 import { TiArrowUnsorted, TiMediaRecord } from "react-icons/ti";
 import { hope, opay } from "../assets/Images";
+import { useNavigate } from "react-router-dom";
 function TransactionHistoryTable() {
+  const navigate = useNavigate();
   return (
     <Head>
       <div className="tablecontent">
         <div className="content">
           <h1>Recent History</h1>
-          <button>
+          <button onClick={() => navigate("/history")}>
             See All <AiOutlineArrowRight size={17} />
           </button>
         </div>

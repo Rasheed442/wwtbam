@@ -5,9 +5,13 @@ import styled from "styled-components";
 import ButtonLayout from "../../Layouts/ButtonLayout";
 import HotseatTable from "../../TableComponents/HotseatTable";
 import AddNewGame from "../../Components/AddNewGame";
+import AddNewGameForPartner from "../../Components/AddNewGameForPartner";
+import ViewGamesDetailsPartners from "../../Components/ViewGamesDetailsPartners";
+import PartnerHeader from "../../Components/PartnerHeader";
 
-function Hotseatplay() {
+function PartnerAudienceplay() {
   const [newgame, setNewgame] = useState();
+  const [viewGames, setViewGames] = useState(false);
   const statistics = [
     {
       name: "Total Games Played",
@@ -317,23 +321,24 @@ function Hotseatplay() {
   return (
     <Hot>
       <DashBoardLayout>
-        <TopHeader title="Games History" othertitle="Hot Seat Play" />
-        {newgame && <AddNewGame close={setNewgame} />}
-        {newgame ? (
+        <PartnerHeader title="Games History" othertitle="Hot Seat Play" />
+        {newgame && <AddNewGameForPartner close={setNewgame} />}
+        {viewGames && <ViewGamesDetailsPartners closegame={setViewGames} />}
+        {newgame || viewGames ? (
           ""
         ) : (
           <div className="overview">
             <div>
-              <h2>Hot Seat Play</h2>
+              <h2>Audience Play</h2>
               <span>This page allows you to manage this game mode</span>
             </div>
-            <ButtonLayout
+            {/* <ButtonLayout
               placeholder="New Game"
               onClick={() => setNewgame(true)}
-            />
+            /> */}
           </div>
         )}
-        {newgame ? (
+        {newgame || viewGames ? (
           ""
         ) : (
           <div className="white">
@@ -380,7 +385,7 @@ function Hotseatplay() {
                 <input type="text" placeholder="Search" />
               </div>
             </div>
-            <HotseatTable table="admin" />
+            <HotseatTable table="Partner" viewGames={setViewGames} />
           </div>
         )}
       </DashBoardLayout>
@@ -388,7 +393,7 @@ function Hotseatplay() {
   );
 }
 
-export default Hotseatplay;
+export default PartnerAudienceplay;
 const Hot = styled.div`
   background-color: #f6f6f6;
   .log {

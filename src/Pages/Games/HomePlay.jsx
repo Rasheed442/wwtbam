@@ -380,7 +380,7 @@ function HomePlay() {
                 <input type="text" placeholder="Search" />
               </div>
             </div>
-            <HotseatTable />
+            <HotseatTable table="admin" />
           </div>
         )}
       </DashBoardLayout>

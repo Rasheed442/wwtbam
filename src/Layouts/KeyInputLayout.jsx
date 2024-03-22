@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function LabelinputLayout({
+function KeyinputLayout({
   label,
   placeholder,
   onChange,
@@ -9,6 +9,7 @@ function LabelinputLayout({
   inputstyle,
   disabled,
   value,
+  open,
 }) {
   return (
     <Labels>
@@ -16,7 +17,7 @@ function LabelinputLayout({
         <label>{label}</label>
         <input
           value={value}
-          type="text"
+          type={open ? "text" : "password"}
           disabled={disabled}
           style={inputstyle}
           placeholder={placeholder}
@@ -27,7 +28,7 @@ function LabelinputLayout({
   );
 }
 
-export default LabelinputLayout;
+export default KeyinputLayout;
 const Labels = styled.div`
   .labels {
     display: flex;

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import LabelinputLayout from "../Layouts/LabelinputLayout";
 import { FiCopy } from "react-icons/fi";
+import KeyinputLayout from "../Layouts/KeyInputLayout";
 
-function ApiKeys() {
+function ApiKeysPartnerDash() {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  const [open, setOpen] = useState();
   return (
     <MyKeys>
       <div className="contain">
@@ -23,6 +25,9 @@ function ApiKeys() {
               border: "1px solid #D0D5DD",
               color: "#344054",
             }}
+            onClick={() => {
+              setOpen(!open);
+            }}
           >
             Reveal keys
           </button>
@@ -40,18 +45,21 @@ function ApiKeys() {
 
       <div className="livekeys">
         <div className="testkeys">
-          <LabelinputLayout
+          <KeyinputLayout
+            open={open}
             label="Test Keys"
-            placeholder="*****************"
+            value={userDetails?.clientKeys?.testKey}
             disabled
           />
           <FiCopy size={20} style={{ color: "#667085" }} />
         </div>
 
         <div className="testkeys">
-          <LabelinputLayout
+          <KeyinputLayout
+            open={open}
             style={{ width: "100%" }}
             label="Live Keys"
+            value={userDetails?.clientKeys?.liveKey}
             placeholder="*****************"
             disabled
           />
@@ -62,8 +70,9 @@ function ApiKeys() {
   );
 }
 
-export default ApiKeys;
+export default ApiKeysPartnerDash;
 const MyKeys = styled.div`
+  padding: 30px;
   .livekeys {
     display: grid;
     grid-template-columns: auto auto;

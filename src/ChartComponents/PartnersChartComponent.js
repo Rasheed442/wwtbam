@@ -30,6 +30,16 @@ function PartnersChartComponent() {
       color: "#D2BAF2",
     },
   ];
+  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  //   let data = [];
+  // if (userDetails?.analyticByGameChannels && Array.isArray(userDetails?.analyticByGameChannels )) {
+  //   data = userDetails?.analyticByGameChannels.map((s) => ({
+  //         name: "Jan",
+  //     uv: 4000,
+  //     pv: 2400,
+  //     amt: 2400,
+  //   }));
+  // }
   const data = [
     {
       name: "Jan",
@@ -107,7 +117,7 @@ function PartnersChartComponent() {
   return (
     <Head>
       <div className="header">
-        <div className="overhead">
+        <div className="overhea">
           <h2>Partners</h2>
           <p>Shows a snapshot of payment types on your system</p>
         </div>
@@ -160,25 +170,25 @@ function PartnersChartComponent() {
               radius={[3, 3, 0, 0]}
             />
             <Bar
-              dataKey="pv"
+              dataKey="uv"
               barSize={10}
               fill="#884FD3"
               activeBar={<Rectangle fill="pink" stroke="blue" />}
               radius={[3, 3, 0, 0]}
             />
             <Bar
-              dataKey="pv"
+              dataKey="amt"
               barSize={10}
               fill="#A779E2"
               activeBar={<Rectangle fill="pink" stroke="blue" />}
               radius={[3, 3, 0, 0]}
             />
-            <Bar
+            {/* <Bar
               dataKey="uv"
               fill="#D2BAF2"
               barSize={10}
               activeBar={<Rectangle fill="gold" stroke="purple" />}
-            />
+            /> */}
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -209,18 +219,18 @@ const Head = styled.div`
     margin: 20px;
     padding: 20px;
   }
-  .overhead {
+  .overhea {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 15px;
   }
-  .overhead p {
+  .overhea p {
     color: #909090;
     letter-spacing: 2%;
     line-height: 19px;
     font-size: 14px;
   }
-  .overhead h2 {
+  .overhea h2 {
     color: #090814;
     font-weight: 500;
     font-size: 24px;

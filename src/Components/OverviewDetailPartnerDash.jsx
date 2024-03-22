@@ -1,12 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import PartnerDetailsChart from "../ChartComponents/PartnerDetailsChart";
+import GamesChartComponentPartnersDash from "../ChartComponents/GamesChartComponentPartnerDash";
+import ChannelChartComponentPartnersDash from "../ChartComponents/ChannelChartComponentPartnersDash";
+import TransactionHistoryTablePartners from "../TableComponents/TransactionHistoryTablePartners";
 
-function OverviewDetail() {
+function OverviewDetailPartnerDash() {
+  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  const numberWithSeparator = (number) => {
+    return number?.toLocaleString(); // This will add thousand separators
+  };
+
   const statistics = [
     {
       name: "Total Games Played",
-      amount: "1,450",
+      amount: numberWithSeparator(userDetails?.partnerTotalGamePlayed),
       icon: (
         <svg
           width="60"
@@ -110,7 +117,7 @@ function OverviewDetail() {
     },
     {
       name: "Total Revenue",
-      amount: "5,280",
+      amount: numberWithSeparator(userDetails?.partnerGamePlayedRevenue),
       icon: (
         <svg
           width="60"
@@ -245,26 +252,22 @@ function OverviewDetail() {
           })}
         </div>
       </div>
-      <div className="overtime">
-        <span>Revenue over time</span>
-        <div className="banks">
-          {banks?.map((b) => {
-            return (
-              <div className="content">
-                <div
-                  className="line2"
-                  style={{ backgroundColor: b?.color }}
-                ></div>
-                <p>{b.name}</p>
-              </div>
-            );
-          })}
+
+      <Oving>
+        <div className="gameschannel">
+          <GamesChartComponentPartnersDash />
+          <ChannelChartComponentPartnersDash />
         </div>
-      </div>
-      <PartnerDetailsChart />
+      </Oving>
+      <TransactionHistoryTablePartners />
     </>
   );
 }
 
-export default OverviewDetail;
-const Oving = styled.div``;
+export default OverviewDetailPartnerDash;
+const Oving = styled.div`
+  .gameschannel {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+`;

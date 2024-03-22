@@ -34,13 +34,25 @@ const OvalModal = styled.div`
     position: relative;
     border-radius: 10px;
     width: 100%;
-    max-height: 100%;
-    max-width: 400px;
+    max-height: 80%;
+    max-width: 500px;
     overflow: hidden;
-    overflow: scroll;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 20px 30px 30px 30px;
+  }
+  .center::-webkit-scrollbar-thumb {
+    background-color: #0000001a;
+  }
+
+  .center::-webkit-scrollbar {
+    width: 5px !important;
+    height: 5px !important;
+  }
+
+  .center::-webkit-scrollbar-track {
+    display: none;
   }
 `;

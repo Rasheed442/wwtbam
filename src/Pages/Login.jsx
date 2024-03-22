@@ -5,9 +5,56 @@ import { CiMail } from "react-icons/ci";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import ButtonLayout from "../Reusables/ButtonLayout";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 function Login() {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [LoginCredentials, setLoginCredentials] = useState({
+    username: "keem@wwtbam.com",
+    password: "fileopen",
+  });
   const navigate = useNavigate();
+  const successToastStyle = {
+    backgroundColor: "green", // Set the background color to green
+    color: "white",
+  };
+  const errorToastStyle = {
+    backgroundColor: "red", // Set the background color to green
+    color: "white",
+  };
+
+  async function LoginHandler() {
+    try {
+      setLoading(true);
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}auth`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(LoginCredentials),
+      });
+      const server = await response.json();
+      setLoading(false);
+      console.log(server);
+      if (server?.status) {
+        toast.success(server?.message, {
+          style: successToastStyle, // Apply the custom style
+        });
+        localStorage.setItem("userDetails", JSON.stringify(server?.data));
+        localStorage.setItem("userID", JSON.stringify(server?.data?.userId));
+        localStorage.setItem("token", server?.data?.sessionToken);
+        localStorage.setItem("role", server?.data?.role?.name);
+        setTimeout(() => {
+          navigate("/overview");
+        }, 1000);
+      } else {
+        toast.error(server?.message, {
+          style: errorToastStyle, // Apply the custom style
+        });
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
+  }
   return (
     <Head>
       <div className="top">
@@ -15,18 +62,27 @@ function Login() {
           <div className="header">
             <div className="logo">
               <img src={wwtlogo} alt="" />
-              {/* <h2>Admin Login</h2> */}
-              <h2>We'll be live soon</h2>
-              {/* <p>Welcome back! Please enter your details</p> */}
+              <h2>Admin Login</h2>
+              {/* <h2>We'll be live soon</h2> */}
+              <p>Welcome back! Please enter your details</p>
             </div>
-            {/* <div className="email">
-              <label>Email Address</label>
+            <div className="email">
+              <label>Username / Email</label>
               <div className="mail">
                 <CiMail />
-                <input type="text" placeholder="Enter your email" />
+                <input
+                  type="text"
+                  placeholder="Enter username or email"
+                  value={LoginCredentials.username}
+                  onChange={(e) =>
+                    setLoginCredentials((prev) => {
+                      return { ...prev, username: e.target.value };
+                    })
+                  }
+                />
               </div>
-            </div> */}
-            {/* <div className="password">
+            </div>
+            <div className="password">
               <label>Password</label>
               <div className="pass">
                 <div className="lock">
@@ -61,6 +117,12 @@ function Login() {
                   <input
                     type={open ? "text" : "password"}
                     placeholder="Password"
+                    value={LoginCredentials.password}
+                    onChange={(e) =>
+                      setLoginCredentials((prev) => {
+                        return { ...prev, password: e.target.value };
+                      })
+                    }
                   />
                 </div>
                 <div onClick={() => setOpen(!open)}>
@@ -72,8 +134,12 @@ function Login() {
                 </div>
               </div>
               <p>Forgot Password</p>
-            </div> */}
-            {/* <ButtonLayout title="Login" onClick={() => navigate("/overview")} /> */}
+            </div>
+            <ButtonLayout
+              title="Login"
+              onClick={LoginHandler}
+              loading={loading}
+            />
           </div>
           <div className="bgg">
             <img src={background} alt="" />
@@ -127,7 +193,8 @@ const Head = styled.div`
     gap: 10px;
   }
   .logo img {
-    width: 200%;
+    /* width: 200%; */
+    width: 30%;
   }
   .logo p {
     color: #667085;

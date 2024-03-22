@@ -7,131 +7,44 @@ import {
 } from "react-icons/ai";
 import { TiArrowUnsorted, TiMediaRecord } from "react-icons/ti";
 import { hope, opay } from "../assets/Images";
-function PartnersTable({ view }) {
-  const columnHeader = [
-    {
-      title: "PARTNER ID",
-      Index: "partner_id",
-    },
-    {
-      title: "PARTNER ",
-      Index: "partner",
-    },
-    {
-      title: " PHONE NUMBER",
-      Index: "phonenumber",
-    },
-    {
-      title: "GAME ",
-      Index: "game",
-    },
-    {
-      title: "QUESTION",
-      Index: "question",
-    },
-    {
-      title: "ANSWER ",
-      Index: "answer",
-    },
-    {
-      title: "NO OF ENTRIES",
-      Index: "NOOFENTRIES",
-    },
-    {
-      title: "AMOUNT ",
-      Index: "maount",
-    },
-    {
-      title: "DATE ",
-      Index: "date",
-    },
-    {
-      title: "STATUS ",
-      Index: "status",
-    },
-  ];
-  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-  console.log(userDetails);
+import { useNavigate } from "react-router-dom";
+function TransactionHistoryTablePartners() {
+  const navigate = useNavigate();
+
   return (
     <Head>
       <div className="tablecontent">
+        <div className="content">
+          <h1>Recent History</h1>
+          <button onClick={() => navigate("/history")}>
+            See All <AiOutlineArrowRight size={17} />
+          </button>
+        </div>
         <div className="gridoutside">
           <table className="table">
             <thead>
               <tr>
                 <th>
-                  ACTION
+                  PARTNER ID
                   <TiArrowUnsorted />
                 </th>
-                <th>PARTNER ID</th>
-                <th>PARTNER </th>
-                <th>USERNAME</th>
-                <th>DATE / TIME</th>
-                <th>SECTOR</th>
+                <th>PARTNER</th>
+                <th> PHONE NUMBER</th>
+                <th>GAME</th>
+                <th>QUESTION</th>
+                <th>
+                  ANSWER
+                  <TiArrowUnsorted />
+                </th>
+                <th>NO OF ENTRIES</th>
+                <th>AMOUNT</th>
+                <th>DATE</th>
                 <th>STATUS</th>
               </tr>
             </thead>
             <tbody>
-              {userDetails.partners.map((u) => {
-                return (
-                  <tr>
-                    <td
-                      style={{ color: "#417CD4" }}
-                      onClick={() => {
-                        view(true);
-                        localStorage.setItem(
-                          "PartnerUserId",
-                          JSON.stringify(u)
-                        );
-                      }}
-                    >
-                      View Details
-                    </td>
-                    <td>{u?.userId}</td>
-                    <td
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
-                    >
-                      <img
-                        src={u.partnerLogo}
-                        style={{ borderRadius: "50%" }}
-                        width={30}
-                        height={30}
-                      />
-                      <p>{u?.companyName}</p>
-                    </td>
-                    <td>{u?.username}</td>
-                    <td>
-                      {u?.dateCreated.toString().slice(0, 10)} /{" "}
-                      {u?.dateCreated.toString().slice(11, 16)}
-                    </td>
-                    <td>{u?.sector}</td>
-                    <td>
-                      <div
-                        style={{
-                          color: "#027A48",
-                          backgroundColor: "#ECFDF3",
-                          display: "flex",
-                          alignItems: "center",
-                          width: " 100%",
-                          padding: "9px",
-                          gap: "5px",
-                          borderRadius: "10px",
-                        }}
-                      >
-                        <TiMediaRecord /> {u.status}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-
-              {/* <tr>
-                <td style={{ color: "#417CD4" }}>View Details</td>
-                <td>TX6352822</td>
+              <tr>
+                <td>TX2354455</td>
                 <td
                   style={{
                     display: "flex",
@@ -139,10 +52,19 @@ function PartnersTable({ view }) {
                     gap: "10px",
                   }}
                 >
-                  <img src={opay} width={40} height={40} />
+                  <img src={hope} width={40} height={40} alt="" />
                   <p>HopePSBank</p>
                 </td>
-                <td>₦909272.00</td>
+                <td>09127805458</td>
+
+                <td>Hot Seat</td>
+
+                <td>Who's the president of nigeria</td>
+                <td>A</td>
+                <td>4</td>
+
+                <td>30.00</td>
+
                 <td>29/02/2023, 09:11:04</td>
                 <td>
                   <div
@@ -161,7 +83,48 @@ function PartnersTable({ view }) {
                     <TiMediaRecord /> Successful
                   </div>
                 </td>
-              </tr> */}
+              </tr>
+              <tr>
+                <td>TX2354455</td>
+                <td
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <img src={opay} width={40} height={40} alt="" />
+                  <p>Opay</p>
+                </td>
+                <td>09127805458</td>
+
+                <td>Hot Seat</td>
+
+                <td>Who's the president of nigeria</td>
+                <td>A</td>
+                <td>4</td>
+
+                <td>30.00</td>
+
+                <td>29/02/2023, 09:11:04</td>
+                <td>
+                  <div
+                    style={{
+                      color: "#027A48",
+                      backgroundColor: "#ECFDF3",
+
+                      display: "flex",
+                      alignItems: "center",
+                      width: " 100%",
+                      padding: "9px",
+                      gap: "5px",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <TiMediaRecord /> Successful
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -193,11 +156,10 @@ function PartnersTable({ view }) {
   );
 }
 
-export default PartnersTable;
+export default TransactionHistoryTablePartners;
 const Head = styled.div`
   .tablecontent {
     background-color: white;
-    margin: 20px 0px 0px 0px;
   }
   .content {
     display: flex;
@@ -241,13 +203,13 @@ const Head = styled.div`
   .table {
     border-collapse: collapse;
     font-size: 11.5px;
-    width: 100%;
+    width: 100vw;
   }
 
   .table th {
-    font-weight: 600;
+    font-weight: 500;
     text-align: left;
-    font-size: 11px;
+    font-size: 12px;
     padding: 15px;
     color: #687182;
     background-color: #f9fafb;
@@ -260,11 +222,10 @@ const Head = styled.div`
   .table td {
     padding: 18px;
     font-weight: 500;
-    font-size: 11px;
+    font-size: 12px;
     border-top: 1px solid gainsboro;
     color: #5a6376;
     line-height: 20px;
-    cursor: pointer;
     font-weight: 500;
   }
   .table span {
