@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   AiOutlineLeft,
@@ -7,51 +7,35 @@ import {
 } from "react-icons/ai";
 import { TiArrowUnsorted, TiMediaRecord } from "react-icons/ti";
 import { hope, opay } from "../assets/Images";
+import Axios from "axios";
 function PartnersTable({ view }) {
-  const columnHeader = [
-    {
-      title: "PARTNER ID",
-      Index: "partner_id",
-    },
-    {
-      title: "PARTNER ",
-      Index: "partner",
-    },
-    {
-      title: " PHONE NUMBER",
-      Index: "phonenumber",
-    },
-    {
-      title: "GAME ",
-      Index: "game",
-    },
-    {
-      title: "QUESTION",
-      Index: "question",
-    },
-    {
-      title: "ANSWER ",
-      Index: "answer",
-    },
-    {
-      title: "NO OF ENTRIES",
-      Index: "NOOFENTRIES",
-    },
-    {
-      title: "AMOUNT ",
-      Index: "maount",
-    },
-    {
-      title: "DATE ",
-      Index: "date",
-    },
-    {
-      title: "STATUS ",
-      Index: "status",
-    },
-  ];
+  const token = localStorage.getItem("token");
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-  console.log(userDetails);
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("x-session-id", `${token}`);
+    myHeaders.append("X-API-Key", `${token}`);
+    myHeaders.append("Cookie", `JSESSIONID=${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.REACT_APP_BASE_URL}getpartners`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <Head>
       <div className="tablecontent">

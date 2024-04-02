@@ -3,15 +3,69 @@ import styled from "styled-components";
 import { IoMdArrowBack } from "react-icons/io";
 import LabelinputLayout from "../Layouts/LabelinputLayout";
 import { switchh, swt } from "../assets/Icons";
+import PulseLoader from "react-spinners/PulseLoader";
+
 function AddNewGame({ close }) {
-  const [check, setCheck] = useState(false);
+  const [click, setClick] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [addQuestion, setQuestion] = useState({
+    gameId: 20001,
+    question: "",
+    gameSelectionType: {
+      id: 1,
+    },
+    answerOptions: [
+      {
+        answer: "A",
+        answerDescription: "Olusegun Obasanjo",
+        isCorrectAsnwer: false,
+      },
+      {
+        answer: "B",
+        answerDescription: "Muhamadu Buhari",
+        isCorrectAsnwer: false,
+      },
+      {
+        answer: "C",
+        answerDescription: "Bola ahmen Tinubu",
+        isCorrectAsnwer: false,
+      },
+      {
+        answer: "D",
+        answerDescription: "Yakubu Gowon",
+        isCorrectAsnwer: false,
+      },
+    ],
+  });
+
+  async function SubmitQuestion(e) {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}addnewquestion`,
+        {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(addQuestion),
+        }
+      );
+      const server = await response.json();
+      console.log(server);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  }
   return (
     <NewGame>
       <div className="new" onClick={() => close(false)}>
         <p>
           <IoMdArrowBack /> Back to Hot seat play
         </p>
-        <h2>New Game</h2>
+        <h2>New Question</h2>
       </div>
       <div className="white">
         <div className="Bank">
@@ -23,6 +77,12 @@ function AddNewGame({ close }) {
             inputstyle={{ width: "50%" }}
             label="Question"
             placeholder="who's the current president of Nigeria"
+            value={addQuestion.question}
+            onChange={(e) => {
+              setQuestion((prev) => {
+                return { ...prev, question: e.target.value };
+              });
+            }}
           />
           <span>Make sure it's an easy question</span>
         </div>
@@ -35,50 +95,45 @@ function AddNewGame({ close }) {
           </span>
         </div>
         <div className="flexout">
-          <div className="answ">
-            <LabelinputLayout
-              placeholder="Olusegun Obansanjo"
-              label="Option A"
-              disabled
-            />
-            <div className="check">
-              <input type="checkbox" />
-              <span>Right Answer</span>
-            </div>
-          </div>
-          <div className="answ">
-            <LabelinputLayout
-              placeholder="Muhammadu Buhari"
-              label="Option B"
-              disabled
-            />
-            <div className="check">
-              <input type="checkbox" />
-              <span>Right Answer</span>
-            </div>
-          </div>
-          <div className="answ">
-            <LabelinputLayout
-              placeholder="Bola Ahmed Tinubu"
-              label="Option C"
-              disabled
-            />
-            <div className="check">
-              <input type="checkbox" />
-              <span>Right Answer</span>
-            </div>
-          </div>
-          <div className="answ">
-            <LabelinputLayout
-              placeholder="Yakubu Gowon"
-              label="Option D"
-              disabled
-            />
-            <div className="check">
-              <input type="checkbox" />
-              <span>Right Answer</span>
-            </div>
-          </div>
+          {addQuestion?.answerOptions?.map((p, index) => {
+            return (
+              <div className="answ" key={index}>
+                <LabelinputLayout
+                  value={p.answerDescription}
+                  label={p?.answer}
+                  onChange={(e) => {
+                    const updatedAnswerOptions = [...addQuestion.answerOptions];
+                    updatedAnswerOptions[index].answerDescription =
+                      e.target.value;
+                    setQuestion((prev) => {
+                      return { ...prev, answerOptions: updatedAnswerOptions };
+                    });
+                  }}
+                />
+                <div className="check">
+                  {/* Assuming optionA is specific to each answer option */}
+                  <input
+                    type="checkbox"
+                    checked={p.optionA}
+                    onChange={() => {
+                      const updatedAnswerOptions = [
+                        ...addQuestion.answerOptions,
+                      ];
+                      updatedAnswerOptions[
+                        index
+                      ].isCorrectAsnwer = !updatedAnswerOptions[index]
+                        .isCorrectAsnwer;
+                      setQuestion((prev) => {
+                        return { ...prev, answerOptions: updatedAnswerOptions };
+                      });
+                      console.log(addQuestion);
+                    }}
+                  />
+                  <span>{p.optionA ? "Right Answer" : ""}</span>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         <div className="time">
@@ -89,8 +144,8 @@ function AddNewGame({ close }) {
               duration
             </span>
           </div>
-          <div onClick={() => setCheck(!check)}>
-            {check ? <img src={swt} alt="" /> : <img src={switchh} alt="" />}
+          <div onClick={() => setClick(!click)}>
+            {click ? <img src={swt} alt="" /> : <img src={switchh} alt="" />}
           </div>
         </div>
         <div className="btn">
@@ -103,8 +158,15 @@ function AddNewGame({ close }) {
           >
             Cancel
           </button>
-          <button style={{ backgroundColor: "#38197A", color: "white" }}>
-            Submit Question
+          <button
+            style={{ backgroundColor: "#38197A", color: "white" }}
+            onClick={SubmitQuestion}
+          >
+            {loading ? (
+              <PulseLoader color="white" size={20} />
+            ) : (
+              "Submit Question"
+            )}
           </button>
         </div>
       </div>

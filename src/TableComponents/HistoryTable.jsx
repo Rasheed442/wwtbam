@@ -11,23 +11,19 @@ function HistoryTable({ view }) {
           <table className="table">
             <thead>
               <tr>
-                <th>PARTNER ID</th>
-                <th>PARTNER </th>
-                <th>PHONE NUMBER </th>
-                <th>GAME </th>
-                <th>QUESTION </th>
-                <th>ANSWER </th>
-                <th>NO OF ENTRIES </th>
-                <th>AMOUNT </th>
-
-                <th>DATE</th>
-                <th>STATUS</th>
+                <th>GAME REF</th>
+                <th>PARTICIPANT PHONE </th>
+                <th>PARTICIPANT NAME </th>
+                <th>NUMBER OF ENTRIES </th>
+                <th>STATUS CODE </th>
+                <th>CHANNEL </th>
+                <th>STATUS </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>TX6352822</td>
-                <td
+                <td>FC123456789</td>
+                {/* <td
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -36,14 +32,12 @@ function HistoryTable({ view }) {
                 >
                   <img src={hope} width={30} height={30} alt="" />
                   <p>HopePSBank</p>
-                </td>
-                <td>09073483633</td>
+                </td> */}
+                <td>8012346789</td>
                 <td>Hot Seat</td>
-                <td>who's the president of Nigeria</td>
-                <td>A</td>
-                <td>4</td>
-                <td>₦90.00</td>
-                <td>29/02/2023, 09:11:04</td>
+                <td>5</td>
+                <td>0</td>
+                <td>APP</td>
                 <td>
                   <div
                     style={{
@@ -63,6 +57,41 @@ function HistoryTable({ view }) {
                 </td>
               </tr>
               <tr>
+                <td>FC123456789</td>
+                {/* <td
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <img src={hope} width={30} height={30} alt="" />
+                  <p>HopePSBank</p>
+                </td> */}
+                <td>8012346789</td>
+                <td>Hot Seat</td>
+                <td>5</td>
+                <td>0</td>
+                <td>APP</td>
+                <td>
+                  <div
+                    style={{
+                      color: "#027A48",
+                      backgroundColor: "#ECFDF3",
+
+                      display: "flex",
+                      alignItems: "center",
+                      width: " 100%",
+                      padding: "9px",
+                      gap: "5px",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <TiMediaRecord /> Successful
+                  </div>
+                </td>
+              </tr>
+              {/* <tr>
                 <td>TX6352822</td>
                 <td
                   style={{
@@ -98,7 +127,7 @@ function HistoryTable({ view }) {
                     <TiMediaRecord /> Successful
                   </div>
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>

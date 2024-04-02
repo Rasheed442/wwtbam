@@ -3,6 +3,8 @@ import { albert } from "../assets/Images";
 // import { AiOutlineDown } from "react-icons";
 import styled from "styled-components";
 function PartnerHeader({ title, othertitle }) {
+  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+
   return (
     <Head>
       <div className="head">
@@ -106,10 +108,10 @@ function PartnerHeader({ title, othertitle }) {
           </div>
           <div className="line"></div>
           <div className="profile">
-            <img src={albert} width={35} height={35} alt="" />
+            <img src={userDetails?.partnerLogo} width={35} height={35} alt="" />
             <div className="user">
               <p>
-                Albert Abiodun &nbsp; &nbsp;
+                {userDetails?.username} &nbsp; &nbsp;
                 {/* <AiOutlineDown size={10} /> */}
               </p>
               <span>Partner</span>

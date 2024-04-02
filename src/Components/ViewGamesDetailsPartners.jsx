@@ -104,7 +104,7 @@ function ViewGamesDetailsPartners({ closegame }) {
             Cancel
           </button>
           <button style={{ backgroundColor: "#38197A", color: "white" }}>
-            Submit Question
+            Save and Exit
           </button>
         </div>
       </div>

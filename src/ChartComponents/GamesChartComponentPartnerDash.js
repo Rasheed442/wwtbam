@@ -17,15 +17,15 @@ function GamesChartComponentPartnersDash() {
   const banks = [
     {
       name: "Audience Play Revenue",
-      color: "#5E5ADB",
+      color: "#FB6D48",
     },
     {
       name: "Home Play Revenue",
-      color: "#8784F0",
+      color: "#D37676",
     },
     {
       name: "Host Seat Revenue",
-      color: "#B9B6FA",
+      color: "#FF004D",
     },
   ];
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -176,20 +176,20 @@ function GamesChartComponentPartnersDash() {
             <Bar
               dataKey="audiencePlayRevenue"
               barSize={10}
-              fill="#5E5ADB"
+              fill="#FB6D48"
               activeBar={<Rectangle fill="pink" stroke="blue" />}
               radius={[3, 3, 0, 0]}
             />
             <Bar
               dataKey="homePlayRevenuw"
               barSize={10}
-              fill="#B9B6FA"
+              fill="#D37676"
               activeBar={<Rectangle fill="pink" stroke="blue" />}
               radius={[3, 3, 0, 0]}
             />
             <Bar
               dataKey="hostSeatRevenue"
-              fill="#8784F0"
+              fill="#FF004D"
               barSize={10}
               activeBar={<Rectangle fill="gold" stroke="purple" />}
             />

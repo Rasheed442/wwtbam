@@ -328,7 +328,7 @@ function Audienceplay() {
               <span>This page allows you to manage this game mode</span>
             </div>
             <ButtonLayout
-              placeholder="New Game"
+              placeholder="New Question"
               onClick={() => setNewgame(true)}
             />
           </div>

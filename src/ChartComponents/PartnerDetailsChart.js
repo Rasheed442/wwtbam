@@ -116,7 +116,7 @@ function PartnerDetailsChart() {
         {/* <Legend /> */}
         <Bar
           dataKey="pv"
-          fill="#6941C6"
+          fill="#4D2087"
           barSize={10}
           activeBar={<Rectangle fill="pink" stroke="blue" />}
           radius={[3, 3, 0, 0]}
@@ -124,14 +124,14 @@ function PartnerDetailsChart() {
         <Bar
           dataKey="pv"
           barSize={10}
-          fill="#9E77ED"
+          fill="#9BCF53"
           activeBar={<Rectangle fill="pink" stroke="blue" />}
           radius={[3, 3, 0, 0]}
         />
         <Bar
           dataKey="pv"
           barSize={10}
-          fill="#D6BBFB"
+          fill="#FAA300"
           activeBar={<Rectangle fill="pink" stroke="blue" />}
           radius={[3, 3, 0, 0]}
         />

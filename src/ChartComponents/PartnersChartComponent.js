@@ -19,15 +19,11 @@ function PartnersChartComponent() {
     },
     {
       name: "Opay",
-      color: "#884FD3",
+      color: "#9BCF53",
     },
     {
       name: "Hope PS Bank",
-      color: "#A779E2",
-    },
-    {
-      name: "Palmpay",
-      color: "#D2BAF2",
+      color: "#FAA300",
     },
   ];
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -172,14 +168,14 @@ function PartnersChartComponent() {
             <Bar
               dataKey="uv"
               barSize={10}
-              fill="#884FD3"
+              fill="#9BCF53"
               activeBar={<Rectangle fill="pink" stroke="blue" />}
               radius={[3, 3, 0, 0]}
             />
             <Bar
               dataKey="amt"
               barSize={10}
-              fill="#A779E2"
+              fill="#FAA300"
               activeBar={<Rectangle fill="pink" stroke="blue" />}
               radius={[3, 3, 0, 0]}
             />

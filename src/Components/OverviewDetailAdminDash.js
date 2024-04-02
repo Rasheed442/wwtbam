@@ -214,11 +214,11 @@ function OverviewDetailAdminDash() {
     },
     {
       name: "Hot Seat Play",
-      color: "#884FD3",
+      color: "#9BCF53",
     },
     {
       name: "Audience Play",
-      color: "#A779E2",
+      color: "#FAA300",
     },
   ];
   return (

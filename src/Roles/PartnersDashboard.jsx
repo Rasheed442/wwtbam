@@ -11,6 +11,7 @@ import OverviewDetailPartnerDash from "../Components/OverviewDetailPartnerDash";
 import ApiKeysPartnerDash from "../Components/ApiKeysPartnerDash";
 import TransactionHistoryTablePartners from "../TableComponents/TransactionHistoryTablePartners";
 import PartnerHeader from "../Components/PartnerHeader";
+import toast from "react-hot-toast";
 
 // import ApiKeys from "./ApiKeys";
 
@@ -19,6 +20,37 @@ function PartnersDashboard({ close, update }) {
   const [commission, setCommission] = useState(false);
   const [apikeys, setApikeys] = useState(false);
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+
+  function HandleCopy() {
+    navigator.clipboard
+      .writeText(userDetails?.phone)
+      .then(() => {
+        toast.success("Copied");
+      })
+      .catch((error) => {
+        toast.error("Copy failed: " + error);
+      });
+  }
+  function HandleCopy2() {
+    navigator.clipboard
+      .writeText(userDetails?.email)
+      .then(() => {
+        toast.success("Copied");
+      })
+      .catch((error) => {
+        toast.error("Copy failed: " + error);
+      });
+  }
+  function HandleCopy3() {
+    navigator.clipboard
+      .writeText(userDetails?.address)
+      .then(() => {
+        toast.success("Copied");
+      })
+      .catch((error) => {
+        toast.error("Copy failed: " + error);
+      });
+  }
 
   return (
     <DashBoardLayout>
@@ -52,7 +84,7 @@ function PartnersDashboard({ close, update }) {
                 </div>
                 <div className="edit">
                   <RxPencil1 size={22} />
-                  <FiCopy size={18} />
+                  <FiCopy size={18} onClick={HandleCopy} />
                 </div>
               </div>
               <div className="mobile">
@@ -62,7 +94,7 @@ function PartnersDashboard({ close, update }) {
                 </div>
                 <div className="edit">
                   <RxPencil1 size={22} />
-                  <FiCopy size={18} />
+                  <FiCopy size={18} onClick={HandleCopy2} />
                 </div>
               </div>
               <div className="mobile">
@@ -76,7 +108,7 @@ function PartnersDashboard({ close, update }) {
                 </div>
                 <div className="edit">
                   <RxPencil1 size={22} />
-                  <FiCopy size={18} />
+                  <FiCopy size={18} onClick={HandleCopy3} />
                 </div>
               </div>
             </div>

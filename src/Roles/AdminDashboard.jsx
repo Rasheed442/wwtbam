@@ -68,6 +68,9 @@ function AdminDashboard() {
                   {/* <CountryDropdown defaultValue={"Nigeria"} /> */}
                   <select>
                     <option>All Games</option>
+                    <option>Hot Seat Play</option>
+                    <option>Audience Play</option>
+                    <option>Home Play</option>
                   </select>
                   <FaChevronDown style={{ color: "#667085" }} size={13} />
                 </div>
