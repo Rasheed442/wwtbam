@@ -7,7 +7,6 @@ import {
 } from "react-icons/ai";
 import { TiArrowUnsorted, TiMediaRecord } from "react-icons/ti";
 import { hope, opay } from "../assets/Images";
-import Axios from "axios";
 function PartnersTable({ view }) {
   const token = localStorage.getItem("token");
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
