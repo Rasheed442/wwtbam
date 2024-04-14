@@ -1,13 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { TiMediaRecord } from "react-icons/ti";
 import { hope } from "../assets/Images";
-function HistoryTable({ view }) {
+import { Table, TableColumnProps } from "@arco-design/web-react";
+import "@arco-design/web-react/dist/css/arco.css";
+function HistoryTable({ view, search }) {
+  const currentItems = view?.data.filter((u) => {
+    if (!search?.length) return u;
+    else if (
+      Object.values(u).some((value) =>
+        value?.toString()?.toLowerCase()?.includes(search)
+      )
+    ) {
+      return u;
+    }
+  });
+
+  const columns = [
+    {
+      title: "GAME REF",
+      dataIndex: "gameRef",
+    },
+    {
+      title: "CHANEEL",
+      dataIndex: "channel",
+    },
+    {
+      title: "PARTCIPANT PHONE",
+      dataIndex: "partcipantPhone",
+    },
+    {
+      title: "PARTICIPANT NAME",
+      dataIndex: "participantName",
+    },
+    {
+      title: "	NUMBER OF ENTRIES",
+      dataIndex: "numerOfEntries",
+    },
+    {
+      title: "STATUS CODE",
+      dataIndex: "statusCode",
+    },
+    {
+      title: "STATUS",
+      dataIndex: "status",
+    },
+  ];
+
   return (
     <Head>
       <div className="tablecontent">
-        <div className="gridoutside">
+        <Table
+          columns={columns}
+          data={currentItems}
+          onChange={(pagination, changedSorter) => {
+            console.log(changedSorter);
+          }}
+          scroll={{
+            x: 1600,
+            y: 400,
+          }}
+        />
+        {/* <div className="gridoutside">
           <table className="table">
             <thead>
               <tr>
@@ -16,144 +71,65 @@ function HistoryTable({ view }) {
                 <th>PARTICIPANT NAME </th>
                 <th>NUMBER OF ENTRIES </th>
                 <th>STATUS CODE </th>
-                <th>CHANNEL </th>
                 <th>STATUS </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>FC123456789</td>
-                {/* <td
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <img src={hope} width={30} height={30} alt="" />
-                  <p>HopePSBank</p>
-                </td> */}
-                <td>8012346789</td>
-                <td>Hot Seat</td>
-                <td>5</td>
-                <td>0</td>
-                <td>APP</td>
-                <td>
-                  <div
-                    style={{
-                      color: "#027A48",
-                      backgroundColor: "#ECFDF3",
+              {currentItems?.map((v, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{v?.gameRef}</td>
 
-                      display: "flex",
-                      alignItems: "center",
-                      width: " 100%",
-                      padding: "9px",
-                      gap: "5px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <TiMediaRecord /> Successful
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>FC123456789</td>
-                {/* <td
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <img src={hope} width={30} height={30} alt="" />
-                  <p>HopePSBank</p>
-                </td> */}
-                <td>8012346789</td>
-                <td>Hot Seat</td>
-                <td>5</td>
-                <td>0</td>
-                <td>APP</td>
-                <td>
-                  <div
-                    style={{
-                      color: "#027A48",
-                      backgroundColor: "#ECFDF3",
+                    <td>{v?.partcipantPhone}</td>
+                    <td>{v?.participantName}</td>
+                    <td>{v?.numerOfEntries}</td>
+                    <td>{v?.statusCode}</td>
 
-                      display: "flex",
-                      alignItems: "center",
-                      width: " 100%",
-                      padding: "9px",
-                      gap: "5px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <TiMediaRecord /> Successful
-                  </div>
-                </td>
-              </tr>
-              {/* <tr>
-                <td>TX6352822</td>
-                <td
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <img src={hope} width={30} height={30} alt="" />
-                  <p>HopePSBank</p>
-                </td>
-                <td>09073483633</td>
-                <td>Hot Seat</td>
-                <td>who's the president of Nigeria</td>
-                <td>A</td>
-                <td>4</td>
-                <td>₦90.00</td>
-                <td>29/02/2023, 09:11:04</td>
-                <td>
-                  <div
-                    style={{
-                      color: "#027A48",
-                      backgroundColor: "#ECFDF3",
+                    <td>
+                      <div
+                        style={{
+                          color: "#027A48",
+                          backgroundColor: "#ECFDF3",
 
-                      display: "flex",
-                      alignItems: "center",
-                      width: " 100%",
-                      padding: "9px",
-                      gap: "5px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <TiMediaRecord /> Successful
-                  </div>
-                </td>
-              </tr> */}
+                          display: "flex",
+                          alignItems: "center",
+                          width: " 100%",
+                          padding: "9px",
+                          gap: "5px",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <TiMediaRecord /> {v?.status}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
-        </div>
-        <div className="row">
+        </div> */}
+        {/* <div className="row">
           <span>Showing 1-5 of entries</span>
           <div className="pagins">
             <p>Rows per page:</p>
             <select>
-              <option>5</option>
+              <option>{totalPages}</option>
             </select>
-            <div className="arrow">
-              <button
-                onClick={() => {
-                  // setSortDate(sortdate - 1);
-                  // setEnd((prev) => prev - end);
-                }}
-              >
+            <div
+              className="arrow"
+              onClick={prevPage}
+              disabled={currentPage === 1}
+            >
+              <button>
                 <AiOutlineLeft />
               </button>
-              <button>1</button>
-              <button>
+              <button>{currentPage}</button>
+              <button onClick={nextPage} disabled={currentPage === totalPages}>
                 <AiOutlineRight />
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Head>
   );
@@ -221,14 +197,15 @@ const Head = styled.div`
     background-color: #f9fafb;
   }
 
-  /* .table tr:nth-child(odd) {
-    background-color: #f6f6f6;
-} */
+  .table tr:nth-child(even) {
+    background-color: #f9fafb;
+  }
 
   .table td {
     padding: 18px;
     font-weight: 500;
     font-size: 11px;
+    text-transform: uppercase;
     border-top: 1px solid gainsboro;
     color: #5a6376;
     line-height: 20px;

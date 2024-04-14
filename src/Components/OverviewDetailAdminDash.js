@@ -8,7 +8,7 @@ function OverviewDetailAdminDash() {
   const statistics = [
     {
       name: "Total Games Played",
-      amount: "undefined",
+      amount: PartnerDetails?.partnerTotalGamePlayed,
       icon: (
         <svg
           width="60"

@@ -12,6 +12,7 @@ function Partners() {
   const [addPartner, setAddPartner] = useState(false);
   const [ViewPartnerDetails, setViewPartnerDetails] = useState(false);
   const [update, setUpdate] = useState(false);
+  const [search, setSearch] = useState();
 
   return (
     <Partner>
@@ -58,10 +59,19 @@ function Partners() {
                     stroke-linejoin="round"
                   />
                 </svg>
-                <input type="text" placeholder="Search" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                />
               </div>
             </div>
-            <PartnersTable view={setViewPartnerDetails} />
+            <PartnersTable
+              view={setViewPartnerDetails}
+              search={search && search}
+            />
           </div>
         )}
       </DashBoardLayout>

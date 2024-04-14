@@ -7,9 +7,14 @@ import {
 } from "react-icons/ai";
 import { TiArrowUnsorted, TiMediaRecord } from "react-icons/ti";
 import { hope, opay } from "../assets/Images";
-function PartnersTable({ view }) {
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+function PartnersTable({ view, search }) {
   const token = localStorage.getItem("token");
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  const [loading, setLoading] = useState(false);
+
+  const [myData, setData] = useState();
 
   const config = {
     headers: {
@@ -20,99 +25,119 @@ function PartnersTable({ view }) {
   useEffect(() => {
     const myHeaders = new Headers();
     myHeaders.append("x-session-id", `${token}`);
-    myHeaders.append("X-API-Key", `${token}`);
-    myHeaders.append("Cookie", `JSESSIONID=${token}`);
 
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
       redirect: "follow",
     };
+    setLoading(true);
 
-    fetch(`${process.env.REACT_APP_BASE_URL}getpartners`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.error(error));
+    fetch("https://api.blkhut.com/wwtbam_v2//getpartners", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setLoading(false);
+        setData(result?.data);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error(error);
+      });
   }, []);
-
+  console.log(myData);
   return (
     <Head>
-      <div className="tablecontent">
-        <div className="gridoutside">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>
-                  ACTION
-                  <TiArrowUnsorted />
-                </th>
-                <th>PARTNER ID</th>
-                <th>PARTNER </th>
-                <th>USERNAME</th>
-                <th>DATE / TIME</th>
-                <th>SECTOR</th>
-                <th>STATUS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {userDetails.partners.map((u) => {
-                return (
-                  <tr>
-                    <td
-                      style={{ color: "#417CD4" }}
-                      onClick={() => {
-                        view(true);
-                        localStorage.setItem(
-                          "PartnerUserId",
-                          JSON.stringify(u)
-                        );
-                      }}
-                    >
-                      View Details
-                    </td>
-                    <td>{u?.userId}</td>
-                    <td
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
-                    >
-                      <img
-                        src={u.partnerLogo}
-                        style={{ borderRadius: "50%" }}
-                        width={30}
-                        height={30}
-                      />
-                      <p>{u?.companyName}</p>
-                    </td>
-                    <td>{u?.username}</td>
-                    <td>
-                      {u?.dateCreated.toString().slice(0, 10)} /{" "}
-                      {u?.dateCreated.toString().slice(11, 16)}
-                    </td>
-                    <td>{u?.sector}</td>
-                    <td>
-                      <div
-                        style={{
-                          color: "#027A48",
-                          backgroundColor: "#ECFDF3",
-                          display: "flex",
-                          alignItems: "center",
-                          width: " 100%",
-                          padding: "9px",
-                          gap: "5px",
-                          borderRadius: "10px",
-                        }}
-                      >
-                        <TiMediaRecord /> {u.status}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+      {loading && <Skeleton count={5} width="" height="10vh" />}
+      {loading ? (
+        ""
+      ) : (
+        <div className="tablecontent">
+          <div className="gridoutside">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>
+                    ACTION
+                    <TiArrowUnsorted />
+                  </th>
+                  <th>PARTNER ID</th>
+                  <th>PARTNER </th>
+                  <th>USERNAME</th>
+                  <th>DATE / TIME</th>
+                  <th>SECTOR</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {myData
+                  ?.filter((u) => {
+                    if (!search?.length) return u;
+                    else if (
+                      Object.values(u).some((value) =>
+                        value?.toString()?.toLowerCase()?.includes(search)
+                      )
+                    ) {
+                      return u;
+                    }
+                  })
+                  .map((u) => {
+                    return (
+                      <tr>
+                        <td
+                          style={{ color: "#417CD4" }}
+                          onClick={() => {
+                            view(true);
+                            localStorage.setItem(
+                              "PartnerUserId",
+                              JSON.stringify(u)
+                            );
+                          }}
+                        >
+                          View Details
+                        </td>
+                        <td>{u?.userId}</td>
+                        <td
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                          }}
+                        >
+                          <img
+                            src={u.partnerLogo}
+                            style={{ borderRadius: "50%" }}
+                            width={30}
+                            height={30}
+                          />
+                          <p>{u?.companyName}</p>
+                        </td>
+                        <td>{u?.username}</td>
+                        <td>
+                          {u?.dateCreated.toString().slice(0, 10)} /{" "}
+                          {u?.dateCreated.toString().slice(11, 16)}
+                        </td>
+                        <td>{u?.sector}</td>
+                        <td>
+                          <div
+                            style={{
+                              color: "#027A48",
+                              backgroundColor: "#ECFDF3",
+                              display: "flex",
+                              alignItems: "center",
+                              width: " 100%",
+                              padding: "9px",
+                              gap: "5px",
+                              borderRadius: "10px",
+                            }}
+                          >
+                            <TiMediaRecord /> {u.status}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
 
-              {/* <tr>
+                {/* <tr>
                 <td style={{ color: "#417CD4" }}>View Details</td>
                 <td>TX6352822</td>
                 <td
@@ -145,33 +170,34 @@ function PartnersTable({ view }) {
                   </div>
                 </td>
               </tr> */}
-            </tbody>
-          </table>
-        </div>
-        <div className="row">
-          <span>Showing 1-5 of entries</span>
-          <div className="pagins">
-            <p>Rows per page:</p>
-            <select>
-              <option>5</option>
-            </select>
-            <div className="arrow">
-              <button
-                onClick={() => {
-                  // setSortDate(sortdate - 1);
-                  // setEnd((prev) => prev - end);
-                }}
-              >
-                <AiOutlineLeft />
-              </button>
-              <button>1</button>
-              <button>
-                <AiOutlineRight />
-              </button>
+              </tbody>
+            </table>
+          </div>
+          <div className="row">
+            <span>Showing 1-5 of entries</span>
+            <div className="pagins">
+              <p>Rows per page:</p>
+              <select>
+                <option>5</option>
+              </select>
+              <div className="arrow">
+                <button
+                  onClick={() => {
+                    // setSortDate(sortdate - 1);
+                    // setEnd((prev) => prev - end);
+                  }}
+                >
+                  <AiOutlineLeft />
+                </button>
+                <button>1</button>
+                <button>
+                  <AiOutlineRight />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </Head>
   );
 }

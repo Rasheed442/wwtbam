@@ -33,7 +33,6 @@ function Login() {
       });
       const server = await response.json();
       setLoading(false);
-      console.log(server);
       if (server?.status) {
         toast.success(server?.message, {
           style: successToastStyle, // Apply the custom style

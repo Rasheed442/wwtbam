@@ -7,11 +7,79 @@ import { AiOutlineDown } from "react-icons/ai";
 import Aos from "aos";
 import "aos/dist/aos.css";
 function SideBar() {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
+  const [menustate, setMenuState] = useState(
+    role === "Admin"
+      ? [
+          {
+            name: "Hot Seat ",
+            path: "/hotseatplay",
+          },
+          {
+            name: "Audience Play",
+            path: "/audienceplay",
+          },
+          {
+            name: "Home Play",
+            path: "/homeplay",
+          },
+        ]
+      : role === "Partner"
+      ? [
+          {
+            name: "Hot Seat ",
+            path: "partner/hotseatplay",
+          },
+          {
+            name: "Audience Play",
+            path: "partner/audienceplay",
+          },
+          {
+            name: "Home Play",
+            path: "partner/homeplay",
+          },
+        ]
+      : []
+  );
   const navigate = useNavigate();
+  useEffect(() => {
+    //  ENDPOINT TO GET GAME ID
+    const myHeaders = new Headers();
+    myHeaders.append("x-session-id", `${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.REACT_APP_BASE_URL}getallgames`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        const newData = result.data.map((d) => {
+          return {
+            name: d?.name,
+            id: d?.id,
+            path:
+              d?.name === "Hot Seat"
+                ? "/hotseat?id=" + d?.id + ""
+                : d?.name === "Audience Play"
+                ? "/audience?id=" + d?.id + ""
+                : d?.name === "Home Play"
+                ? "/homeplay?id=" + d?.id + ""
+                : "",
+          };
+        });
+        setMenuState(newData);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   useEffect(() => {
     Aos.init({ duration: 400 });
   }, []);
-  const role = localStorage.getItem("role");
   const navlinks =
     role === "Admin"
       ? [
@@ -193,19 +261,26 @@ function SideBar() {
                 />
               </svg>
             ),
+
             subMenu: [
-              {
-                name: "Hot Seat Play",
-                path: "/hotseat",
-              },
-              {
-                name: "Audience Play",
-                path: "/audience",
-              },
-              {
-                name: "Home Play",
-                path: "/homeplay",
-              },
+              ...menustate.map((m) => {
+                return {
+                  name: m.name,
+                  path: m.path,
+                };
+              }),
+              // {
+              //   name: "Hot Seat Play",
+              //   path: "/hotseat",
+              // },
+              // {
+              //   name: "Audience Play",
+              //   path: "/audience",
+              // },
+              // {
+              //   name: "Home Play",
+              //   path: "/homeplay",
+              // },
             ],
             icon3: <AiOutlineDown style={{ color: "gray" }} size={13} />,
           },
@@ -368,18 +443,24 @@ function SideBar() {
               </svg>
             ),
             subMenu: [
-              {
-                name: "Hot Seat Play",
-                path: "/partner/hotseatplay",
-              },
-              {
-                name: "Audience Play",
-                path: "/partner/audienceplay",
-              },
-              {
-                name: "Home Play",
-                path: "/partner/homeplay",
-              },
+              ...menustate.map((m) => {
+                return {
+                  name: m.name,
+                  path: m.path,
+                };
+              }),
+              // {
+              //   name: "Hot Seat Play",
+              //   path: "/hotseat",
+              // },
+              // {
+              //   name: "Audience Play",
+              //   path: "/audience",
+              // },
+              // {
+              //   name: "Home Play",
+              //   path: "/homeplay",
+              // },
             ],
             icon3: <AiOutlineDown style={{ color: "gray" }} size={13} />,
           },

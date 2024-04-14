@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoMdArrowBack } from "react-icons/io";
 import LabelinputLayout from "../Layouts/LabelinputLayout";
 import { switchh, swt } from "../assets/Icons";
 import PulseLoader from "react-spinners/PulseLoader";
+import { useLocation } from "react-router-dom";
 
 function AddNewHomePlayGame({ close }) {
   const [check, setCheck] = useState(false);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    const id = queryParams.get("id");
+  }, [queryParams.get("id")]);
 
   const [addQuestion, setQuestion] = useState({
-    gameId: 20001,
+    gameId: queryParams.get("id"),
     question: "",
     gameSelectionType: {
       id: 1,
@@ -52,11 +59,9 @@ function AddNewHomePlayGame({ close }) {
         }
       );
       const server = await response.json();
-      console.log(server);
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error);
     }
   }
   return (
@@ -126,7 +131,6 @@ function AddNewHomePlayGame({ close }) {
                       setQuestion((prev) => {
                         return { ...prev, answerOptions: updatedAnswerOptions };
                       });
-                      console.log(addQuestion);
                     }}
                   />
                   <span>{p.optionA ? "Right Answer" : ""}</span>

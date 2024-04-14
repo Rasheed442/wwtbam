@@ -10,6 +10,7 @@ import { hope, opay } from "../assets/Images";
 import { useNavigate } from "react-router-dom";
 function TransactionHistoryTablePartners() {
   const navigate = useNavigate();
+  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
 
   return (
     <Head>
@@ -25,25 +26,38 @@ function TransactionHistoryTablePartners() {
             <thead>
               <tr>
                 <th>
-                  PARTNER ID
+                  GAME REF
                   <TiArrowUnsorted />
                 </th>
                 <th>PARTNER</th>
-                <th> PHONE NUMBER</th>
-                <th>GAME</th>
-                <th>QUESTION</th>
-                <th>
+                {/* <th>GAME</th> */}
+                {/* <th>QUESTION</th> */}
+                {/* <th>
                   ANSWER
                   <TiArrowUnsorted />
-                </th>
+                </th> */}
                 <th>NO OF ENTRIES</th>
-                <th>AMOUNT</th>
-                <th>DATE</th>
+                <th>PARTICIPANT NUMBER</th>
+                {/* <th>DATE</th> */}
                 <th>STATUS</th>
+                <th>STATUS CODE</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
+              {userDetails?.todayGameLog.map((u) => {
+                return (
+                  <tr>
+                    <td>{u?.gameRef}</td>
+                    <td>{u.participantName}</td>
+                    <td>{u.numerOfEntries}</td>
+                    <td>{u.partcipantPhone}</td>
+
+                    <td>{u.status}</td>
+                    <td>{u.statusCode}</td>
+                  </tr>
+                );
+              })}
+              {/* <tr>
                 <td>TX2354455</td>
                 <td
                   style={{
@@ -124,7 +138,7 @@ function TransactionHistoryTablePartners() {
                     <TiMediaRecord /> Successful
                   </div>
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>
@@ -222,6 +236,7 @@ const Head = styled.div`
   .table td {
     padding: 18px;
     font-weight: 500;
+    text-transform: uppercase;
     font-size: 12px;
     border-top: 1px solid gainsboro;
     color: #5a6376;

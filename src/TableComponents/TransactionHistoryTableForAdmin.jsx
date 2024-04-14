@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   AiOutlineLeft,
@@ -9,7 +9,29 @@ import { TiArrowUnsorted, TiMediaRecord } from "react-icons/ti";
 import { hope, opay } from "../assets/Images";
 import { useNavigate } from "react-router-dom";
 function TransactionHistoryTable() {
+  const token = localStorage.getItem("token");
+  const [mydata, setData] = useState();
+
   const navigate = useNavigate();
+  useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("x-session-id", `${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+      credentials: "include",
+    };
+
+    fetch(`${process.env.REACT_APP_BASE_URL}getgamehistory`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setData(result?.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <Head>
       <div className="tablecontent">
@@ -24,112 +46,98 @@ function TransactionHistoryTable() {
             <thead>
               <tr>
                 <th>
-                  PARTNER ID
+                  GAME REF
                   <TiArrowUnsorted />
                 </th>
-                <th>PARTNER</th>
-                <th> PHONE NUMBER</th>
-                <th>GAME</th>
-                <th>QUESTION</th>
-                <th>
-                  ANSWER
-                  <TiArrowUnsorted />
-                </th>
-                <th>NO OF ENTRIES</th>
-                <th>AMOUNT</th>
-                <th>DATE</th>
+                <th>CHANNEL</th>
+                <th> PARTICIPANT NUMBER</th>
+                <th>PARTICIPANT NAME</th>
+                <th>NUMBER OF ENTRIES</th>
+
+                <th>STATUS CODE</th>
                 <th>STATUS</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>TX2354455</td>
-                <td
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <img src={hope} width={40} height={40} alt="" />
-                  <p>HopePSBank</p>
-                </td>
-                <td>09127805458</td>
+              {mydata?.slice(1, 10)?.map((d) => {
+                return (
+                  <tr>
+                    <td>{d?.gameRef}</td>
+                    <td>{d?.channel}</td>
+                    <td>{d?.partcipantPhone}</td>
 
-                <td>Hot Seat</td>
+                    <td>{d?.participantName}</td>
 
-                <td>Who's the president of nigeria</td>
-                <td>A</td>
-                <td>4</td>
+                    <td>{d?.numerOfEntries}</td>
+                    <td>{d?.statusCode}</td>
 
-                <td>30.00</td>
+                    <td>
+                      <div
+                        style={{
+                          color: "#027A48",
+                          backgroundColor: "#ECFDF3",
 
-                <td>29/02/2023, 09:11:04</td>
-                <td>
-                  <div
-                    style={{
-                      color: "#027A48",
-                      backgroundColor: "#ECFDF3",
+                          display: "flex",
+                          alignItems: "center",
+                          width: " 100%",
+                          padding: "9px",
+                          gap: "5px",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <TiMediaRecord /> {d?.status}
+                      </div>
+                    </td>
+                  </tr>
+                  // <tr>
+                  //   <td>{d?.gameRef}</td>
+                  //   <td
+                  //     style={{
+                  //       display: "flex",
+                  //       alignItems: "center",
+                  //       gap: "10px",
+                  //     }}
+                  //   >
+                  //     <img src={hope} width={40} height={40} alt="" />
+                  //     <p>HopePSBank</p>
+                  //   </td>
+                  //   <td>09127805458</td>
 
-                      display: "flex",
-                      alignItems: "center",
-                      width: " 100%",
-                      padding: "9px",
-                      gap: "5px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <TiMediaRecord /> Successful
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>TX2354455</td>
-                <td
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <img src={opay} width={40} height={40} alt="" />
-                  <p>Opay</p>
-                </td>
-                <td>09127805458</td>
+                  //   <td>Hot Seat</td>
 
-                <td>Hot Seat</td>
+                  //   <td>Who's the president of nigeria</td>
+                  //   <td>A</td>
+                  //   <td>4</td>
 
-                <td>Who's the president of nigeria</td>
-                <td>A</td>
-                <td>4</td>
+                  //   <td>30.00</td>
 
-                <td>30.00</td>
+                  //   <td>29/02/2023, 09:11:04</td>
+                  //   <td>
+                  //     <div
+                  //       style={{
+                  //         color: "#027A48",
+                  //         backgroundColor: "#ECFDF3",
 
-                <td>29/02/2023, 09:11:04</td>
-                <td>
-                  <div
-                    style={{
-                      color: "#027A48",
-                      backgroundColor: "#ECFDF3",
-
-                      display: "flex",
-                      alignItems: "center",
-                      width: " 100%",
-                      padding: "9px",
-                      gap: "5px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <TiMediaRecord /> Successful
-                  </div>
-                </td>
-              </tr>
+                  //         display: "flex",
+                  //         alignItems: "center",
+                  //         width: " 100%",
+                  //         padding: "9px",
+                  //         gap: "5px",
+                  //         borderRadius: "10px",
+                  //       }}
+                  //     >
+                  //       <TiMediaRecord /> Successful
+                  //     </div>
+                  //   </td>
+                  // </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
         <div className="row">
-          <span>Showing 1-5 of entries</span>
-          <div className="pagins">
+          <span>Showing 1-{mydata?.length} of entries</span>
+          {/* <div className="pagins">
             <p>Rows per page:</p>
             <select>
               <option>5</option>
@@ -148,7 +156,7 @@ function TransactionHistoryTable() {
                 <AiOutlineRight />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </Head>
@@ -222,6 +230,7 @@ const Head = styled.div`
   .table td {
     padding: 18px;
     font-weight: 500;
+    text-transform: uppercase;
     font-size: 12px;
     border-top: 1px solid gainsboro;
     color: #5a6376;

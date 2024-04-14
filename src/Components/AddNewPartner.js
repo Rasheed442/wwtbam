@@ -3,10 +3,24 @@ import styled from "styled-components";
 import Modal from "../Layouts/Modal";
 import LabelinputLayout from "../Layouts/LabelinputLayout";
 import PasswordInputLayout from "../Layouts/PasswordInputLayout";
+import PulseLoader from "react-spinners/PulseLoader";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 function AddNewPartner({ close }) {
   const [partnerLogo, setPartnerLogo] = useState();
   const [image, setImage] = useState(null);
-  const [upload, setUpload] = useState(false);
+  const token = localStorage.getItem("token");
+  const userID = localStorage.getItem("userID");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const successToastStyle = {
+    backgroundColor: "green", // Set the background color to green
+    color: "white",
+  };
+  const errorToastStyle = {
+    backgroundColor: "red", // Set the background color to green
+    color: "white",
+  };
   const [addPartners, setAddpartners] = useState({
     companyName: "",
     address: "",
@@ -21,7 +35,7 @@ function AddNewPartner({ close }) {
     },
     phone: "",
     email: "",
-    password: "?",
+    password: "",
     bvn: "",
     idType: {
       id: 1,
@@ -38,50 +52,9 @@ function AddNewPartner({ close }) {
     sector: "Fintech",
     partnerLogo: "",
   });
-  const token = localStorage.getItem("token");
-  const userID = localStorage.getItem("userID");
-
-  // const handleFileChanges = async (event) => {
-  //   try {
-  //     const file = event.target.files[0];
-  //     if (file) {
-  //       const reader = new FileReader();
-  //       reader.onload = () => {
-  //         setImage(reader.result);
-  //       };
-  //       reader.readAsDataURL(file);
-  //     }
-
-  //     // fetch handler
-  //     const myHeaders = new Headers();
-
-  //     myHeaders.append("x-session-id", `${token}`);
-
-  //     const formdata = new FormData();
-  //     formdata.append("file", file);
-
-  //     const requestOptions = {
-  //       method: "POST",
-  //       headers: myHeaders,
-  //       body: formdata,
-  //       redirect: "follow",
-  //     };
-
-  //     const response = await fetch(
-  //       `${process.env.REACT_APP_BASE_URL}FileUploadAPI/${userID}`,
-  //       requestOptions
-  //     );
-  //     const data = await response.json();
-
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const handleFileChange = async (event) => {
-    const fileInputElement = document.getElementById("fileInput");
-    const file = fileInputElement.files[0];
+    const file = event.target.files[0];
+
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -89,7 +62,6 @@ function AddNewPartner({ close }) {
       };
       reader.readAsDataURL(file);
     }
-    console.log("🚀 ~ handleFileChange ~ file:", file);
     var myHeaders = new Headers();
     myHeaders.append("x-session-id", `${token}`);
 
@@ -107,30 +79,69 @@ function AddNewPartner({ close }) {
       requestOptions
     )
       .then((response) => response.json())
-      .then((result) => console.log(result))
+      .then((result) => {
+        setAddpartners({ ...addPartners, partnerLogo: result.secure_url });
+      })
       .catch((error) => console.error(error));
   };
 
   // add handler
   async function AddHandler(e) {
-    try {
-      e.preventDefault();
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}addnewpartner`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `x-session-id ${token}`,
-          },
-          body: JSON.stringify(addPartners),
+    // try {
+    //   e.preventDefault();
+
+    //   const response = await fetch(
+    //     `${process.env.REACT_APP_BASE_URL}addnewpartner`,
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `x-session-id ${token}`,
+    //       },
+    //       body: JSON.stringify(addPartners),
+    //     }
+    //   );
+    //   const server = await response.json();
+
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    const myHeaders = new Headers();
+    myHeaders.append("x-session-id", `${token}`);
+
+    const raw = JSON.stringify(addPartners);
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+    setLoading(true);
+    fetch("https://api.blkhut.com/wwtbam_v2//addnewpartner", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setLoading(false);
+        console.log(result);
+        if (result?.status) {
+          setLoading(false);
+          toast.success(result?.message, {
+            style: successToastStyle, // Apply the custom style
+          });
+          setTimeout(() => {
+            window.location = "/partners";
+          }, 1000);
+        } else {
+          setLoading(false);
+          toast.error(result?.message, {
+            style: errorToastStyle, // Apply the custom style
+          });
         }
-      );
-      const server = await response.json();
-      console.log(server);
-    } catch (error) {
-      console.error(error);
-    }
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
   }
   return (
     <NewPartner>
@@ -285,7 +296,7 @@ function AddNewPartner({ close }) {
               <input
                 type="file"
                 id="fileInput"
-                value={addPartners.partnerLogo}
+                // value={addPartners.partnerLogo}
                 onChange={handleFileChange}
               />
               or drag and drop
@@ -372,7 +383,7 @@ function AddNewPartner({ close }) {
             style={{ backgroundColor: "#38197A", color: "white" }}
             onClick={AddHandler}
           >
-            Add
+            {loading ? <PulseLoader color="white" size={20} /> : "Add"}
           </button>
         </div>
       </Modal>

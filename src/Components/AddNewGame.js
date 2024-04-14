@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoMdArrowBack } from "react-icons/io";
 import LabelinputLayout from "../Layouts/LabelinputLayout";
 import { switchh, swt } from "../assets/Icons";
 import PulseLoader from "react-spinners/PulseLoader";
+import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 
 function AddNewGame({ close }) {
   const [click, setClick] = useState(false);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    const id = queryParams.get("id");
+  }, [queryParams.get("id")]);
 
   const [addQuestion, setQuestion] = useState({
-    gameId: 20001,
+    gameId: queryParams.get("id"),
     question: "",
     gameSelectionType: {
       id: 1,
@@ -38,6 +46,14 @@ function AddNewGame({ close }) {
       },
     ],
   });
+  const successToastStyle = {
+    backgroundColor: "green", // Set the background color to green
+    color: "white",
+  };
+  const errorToastStyle = {
+    backgroundColor: "red", // Set the background color to green
+    color: "white",
+  };
 
   async function SubmitQuestion(e) {
     try {
@@ -52,8 +68,17 @@ function AddNewGame({ close }) {
         }
       );
       const server = await response.json();
-      console.log(server);
-      setLoading(false);
+      if (server?.status === true) {
+        toast.success(server?.message, {
+          style: successToastStyle, // Apply the custom style
+        });
+        setLoading(false);
+      } else {
+        toast.error(server?.message, {
+          style: errorToastStyle, // Apply the custom style
+        });
+        setLoading(false);
+      }
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -126,7 +151,6 @@ function AddNewGame({ close }) {
                       setQuestion((prev) => {
                         return { ...prev, answerOptions: updatedAnswerOptions };
                       });
-                      console.log(addQuestion);
                     }}
                   />
                   <span>{p.optionA ? "Right Answer" : ""}</span>

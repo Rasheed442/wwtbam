@@ -1,17 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashBoardLayout from "../../Layouts/DashBoardLayout";
 import TopHeader from "../../Components/TopHeader";
 import styled from "styled-components";
 import ButtonLayout from "../../Layouts/ButtonLayout";
 import HotseatTable from "../../TableComponents/HotseatTable";
 import AddNewHomePlayGame from "../../Components/AddNewHomePlayGame";
+import { useLocation } from "react-router-dom";
 
 function HomePlay() {
+  const token = localStorage.getItem("token");
+  const [myData, setMydata] = useState();
   const [newgame, setNewgame] = useState();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  useEffect(() => {
+    const id = queryParams.get("id");
+  }, [queryParams.get("id")]);
+  useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("x-session-id", `${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(
+      `${
+        process.env.REACT_APP_BASE_URL
+      }admingetgamequestion?gameId=${queryParams.get("id")}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setMydata(result?.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+  console.log(myData);
+  const columns = [
+    {
+      title: "ACTION",
+      dataIndex: "ACTION",
+    },
+    {
+      title: "	QUESTION",
+      dataIndex: "channel",
+    },
+    {
+      title: "	CORRECT ANSWER",
+      dataIndex: "partcipantPhone",
+    },
+    {
+      title: "	DURATION",
+      dataIndex: "participantName",
+    },
+    {
+      title: "	DATE",
+      dataIndex: "numerOfEntries",
+    },
+  ];
   const statistics = [
     {
       name: "Total Games Played",
-      amount: "1,450",
+      amount: "0",
       icon: (
         <svg
           width="60"
@@ -115,7 +168,7 @@ function HomePlay() {
     },
     {
       name: "Total Revenue",
-      amount: "5,280",
+      amount: "0",
       icon: (
         <svg
           width="60"
@@ -211,7 +264,7 @@ function HomePlay() {
     },
     {
       name: "Games Won",
-      amount: "380",
+      amount: "0",
       icon: (
         <svg
           width="60"
@@ -317,7 +370,7 @@ function HomePlay() {
   return (
     <Hot>
       <DashBoardLayout>
-        <TopHeader title="Games History" othertitle="Hot Seat Play" />
+        <TopHeader title="Games History" othertitle="Home Play" />
         {newgame && <AddNewHomePlayGame close={setNewgame} />}
         {newgame ? (
           ""
@@ -380,7 +433,44 @@ function HomePlay() {
                 <input type="text" placeholder="Search" />
               </div>
             </div>
-            <HotseatTable table="admin" />
+            <table className="table">
+              <thead>
+                <tr>
+                  {columns?.map((c) => {
+                    return <th>{c?.title}</th>;
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {myData?.map((m, index) => {
+                  // Check if answerOptions is an array
+
+                  return (
+                    <tr key={index}>
+                      {" "}
+                      {/* Ensure to add a unique key */}
+                      <td style={{ color: "#417CD4" }}>View Details</td>
+                      <td>{m?.question}</td>
+                      {Object.values(m?.answerOptions)
+                        .filter((option) => option?.isCorrectAnswer === true)
+                        .map((c, subIndex) => (
+                          <td key={subIndex}>
+                            {c?.isCorrectAnswer === true ? c?.answer : ""}
+                          </td>
+                        ))}
+                    </tr>
+                  );
+                })}
+
+                {/* <tr>
+                      <td style={{ color: "#417CD4" }}>View Details</td>
+                      <td>who's the president of nigeria</td>
+                      <td>A</td>
+                      <td>2 days</td>
+                      <td>29/02/2023, 09:11:04</td>
+                    </tr> */}
+              </tbody>
+            </table>
           </div>
         )}
       </DashBoardLayout>
@@ -391,6 +481,84 @@ function HomePlay() {
 export default HomePlay;
 const Hot = styled.div`
   background-color: #f6f6f6;
+  .table {
+    border-collapse: collapse;
+    font-size: 11.5px;
+    width: 100%;
+  }
+
+  .table th {
+    font-weight: 600;
+    text-align: left;
+    font-size: 11px;
+    padding: 15px;
+    color: #687182;
+    background-color: #f9fafb;
+  }
+
+  /* .table tr:nth-child(odd) {
+    background-color: #f6f6f6;
+} */
+
+  .table td {
+    padding: 18px;
+    font-weight: 500;
+    font-size: 11px;
+    border-top: 1px solid gainsboro;
+    color: #5a6376;
+    line-height: 20px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .table span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #667085;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
+  }
+
+  .row span {
+    font-size: 13px;
+    color: #687182;
+  }
+
+  .pagins {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+  }
+
+  .pagins p {
+    font-size: 14px;
+    color: #687182;
+  }
+
+  .pagins select {
+    width: 48px;
+    height: 24px;
+    background-color: transparent;
+    border: 1px solid gainsboro;
+    padding: 2px;
+    border-radius: 3px;
+  }
+
+  .arrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .arrow button {
+    width: 28.8px;
+    height: 24px;
+    background-color: transparent;
+    border: 1px solid gainsboro;
+    border-radius: 3px;
+  }
   .log {
     border-top: 1px solid #eaecf0;
     display: flex;

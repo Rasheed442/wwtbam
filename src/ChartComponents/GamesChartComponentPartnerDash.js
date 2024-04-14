@@ -29,7 +29,6 @@ function GamesChartComponentPartnersDash() {
     },
   ];
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-  console.log(userDetails);
   const data = [
     {
       name: "Jan",

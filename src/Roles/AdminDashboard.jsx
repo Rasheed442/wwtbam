@@ -12,35 +12,36 @@ import { useNavigate } from "react-router";
 function AdminDashboard() {
   const navigate = useNavigate();
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  console.log(userDetails);
   const numberWithSeparator = (number) => {
     return number?.toLocaleString(); // This will add thousand separators
   };
-  const collections = [
-    {
-      icon: FCMB,
-      name: "FCMB",
-      amount: "₦0",
-      rate: "24.5%",
-    },
-    {
-      name: "OPAY",
-      amount: "₦0",
-      rate: "24.5%",
-      icon: opay,
-    },
-    {
-      name: "Hope PS Bank",
-      amount: "₦0",
-      rate: "24.5%",
-      icon: hope,
-    },
-    {
-      name: "Palmpay",
-      amount: "₦0",
-      rate: "24.5%",
-      icon: palmpay,
-    },
-  ];
+  // const collections = [
+  //   {
+  //     icon: FCMB,
+  //     name: "FCMB",
+  //     amount: "₦0",
+  //     rate: "24.5%",
+  //   },
+  //   {
+  //     name: "OPAY",
+  //     amount: "₦0",
+  //     rate: "24.5%",
+  //     icon: opay,
+  //   },
+  //   {
+  //     name: "Hope PS Bank",
+  //     amount: "₦0",
+  //     rate: "24.5%",
+  //     icon: hope,
+  //   },
+  //   {
+  //     name: "Palmpay",
+  //     amount: "₦0",
+  //     rate: "24.5%",
+  //     icon: palmpay,
+  //   },
+  // ];
   return (
     <Head>
       <DashBoardLayout>
@@ -217,20 +218,20 @@ function AdminDashboard() {
             </div>
             <div className="contside2down">
               <div className="contside2childdown">
-                {collections.map((c) => {
+                {userDetails?.partners.slice(0, 4).map((c) => {
                   return (
-                    <div className="box2">
+                    <div className="box2" onClick={() => navigate("/partners")}>
                       <div className="boxcont">
-                        <img src={c.icon} alt="" />
-                        <p>{c.name}</p>
+                        <img src={c.partnerLogo} alt="" />
+                        <p>{c.companyName}</p>
                       </div>
-                      <h2>{c.amount}</h2>
+                      <h2>{c.partnerTotalGamePlayed}</h2>
                       <div className="rate">
                         <p>
                           {" "}
                           <span>
                             <FaArrowDown size={10} style={{ color: "red" }} />
-                            {c.rate}
+                            24.5%
                           </span>
                           &nbsp; vs last month
                         </p>
@@ -242,7 +243,7 @@ function AdminDashboard() {
             </div>
           </div>
         </div>
-        <PartnersChartComponent />
+        {/* <PartnersChartComponent /> */}
         <div className="gameschannel">
           <GamesChartComponent />
           <ChannelChartComponent />
