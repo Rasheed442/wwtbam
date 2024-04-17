@@ -59,7 +59,7 @@ function TransactionHistoryTable() {
               </tr>
             </thead>
             <tbody>
-              {mydata?.slice(1, 10)?.map((d) => {
+              {mydata?.slice(0, 10)?.map((d) => {
                 return (
                   <tr>
                     <td>{d?.gameRef}</td>

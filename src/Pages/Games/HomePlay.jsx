@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import DashBoardLayout from "../../Layouts/DashBoardLayout";
 import TopHeader from "../../Components/TopHeader";
 import styled from "styled-components";
@@ -6,12 +7,28 @@ import ButtonLayout from "../../Layouts/ButtonLayout";
 import HotseatTable from "../../TableComponents/HotseatTable";
 import AddNewHomePlayGame from "../../Components/AddNewHomePlayGame";
 import { useLocation } from "react-router-dom";
+import QuestionDetails from "../../Components/QuestionDetails";
 
 function HomePlay() {
   const token = localStorage.getItem("token");
+  const [questionDetails, setQuestionDet] = useState();
+  const [questiondata, setQuestionData] = useState();
   const [myData, setMydata] = useState();
   const [newgame, setNewgame] = useState();
   const location = useLocation();
+  const [search, setSearch] = useState();
+  // pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordPerPage = 5;
+  const lastIndex = currentPage * recordPerPage;
+  const firstIndex = lastIndex - recordPerPage;
+  const records = myData?.slice(firstIndex, lastIndex);
+  const npage = Math?.ceil(myData?.length / recordPerPage);
+  const numbers = Array.from(
+    { length: npage > 0 ? npage : 1 },
+    (_, i) => i + 1
+  );
+  // pagination state
   const queryParams = new URLSearchParams(location.search);
   useEffect(() => {
     const id = queryParams.get("id");
@@ -38,7 +55,7 @@ function HomePlay() {
       })
       .catch((error) => console.error(error));
   }, []);
-  console.log(myData);
+  // console.log(myData);
   const columns = [
     {
       title: "ACTION",
@@ -52,14 +69,14 @@ function HomePlay() {
       title: "	CORRECT ANSWER",
       dataIndex: "partcipantPhone",
     },
-    {
-      title: "	DURATION",
-      dataIndex: "participantName",
-    },
-    {
-      title: "	DATE",
-      dataIndex: "numerOfEntries",
-    },
+    // {
+    //   title: "	DURATION",
+    //   dataIndex: "participantName",
+    // },
+    // {
+    //   title: "	DATE",
+    //   dataIndex: "numerOfEntries",
+    // },
   ];
   const statistics = [
     {
@@ -369,6 +386,12 @@ function HomePlay() {
   ];
   return (
     <Hot>
+      {questionDetails && (
+        <QuestionDetails
+          onClick={() => setQuestionDet(false)}
+          questiondata={questiondata}
+        />
+      )}
       <DashBoardLayout>
         <TopHeader title="Games History" othertitle="Home Play" />
         {newgame && <AddNewHomePlayGame close={setNewgame} />}
@@ -430,7 +453,11 @@ function HomePlay() {
                     stroke-linejoin="round"
                   />
                 </svg>
-                <input type="text" placeholder="Search" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  onChange={(e) => setSearch(e.target.value)}
+                />
               </div>
             </div>
             <table className="table">
@@ -442,25 +469,46 @@ function HomePlay() {
                 </tr>
               </thead>
               <tbody>
-                {myData?.map((m, index) => {
-                  // Check if answerOptions is an array
+                {records
+                  ?.slice(0, 5)
+                  .filter((m) => {
+                    if (!search?.length) return m;
+                    else if (
+                      Object.values(m).some((value) =>
+                        value?.toString()?.toLowerCase()?.includes(search)
+                      )
+                    ) {
+                      return m;
+                    }
+                  })
+                  .map((m, index) => {
+                    // Check if answerOptions is an array
 
-                  return (
-                    <tr key={index}>
-                      {" "}
-                      {/* Ensure to add a unique key */}
-                      <td style={{ color: "#417CD4" }}>View Details</td>
-                      <td>{m?.question}</td>
-                      {Object.values(m?.answerOptions)
-                        .filter((option) => option?.isCorrectAnswer === true)
-                        .map((c, subIndex) => (
-                          <td key={subIndex}>
-                            {c?.isCorrectAnswer === true ? c?.answer : ""}
-                          </td>
-                        ))}
-                    </tr>
-                  );
-                })}
+                    return (
+                      <tr key={index}>
+                        {" "}
+                        {/* Ensure to add a unique key */}
+                        <td
+                          style={{ color: "#417CD4" }}
+                          onClick={() => {
+                            setQuestionDet(true);
+                            setQuestionData(m);
+                            // console.log(m);
+                          }}
+                        >
+                          View Details
+                        </td>
+                        <td>{m?.question}</td>
+                        {Object.values(m?.answerOptions)
+                          .filter((option) => option?.isCorrectAnswer === true)
+                          .map((c, subIndex) => (
+                            <td key={subIndex}>
+                              {c?.isCorrectAnswer === true ? c?.answer : ""}
+                            </td>
+                          ))}
+                      </tr>
+                    );
+                  })}
 
                 {/* <tr>
                       <td style={{ color: "#417CD4" }}>View Details</td>
@@ -471,11 +519,39 @@ function HomePlay() {
                     </tr> */}
               </tbody>
             </table>
+            <div className="row">
+              <span>Showing 1-5 of entries</span>
+              <div className="pagins">
+                <p>Rows per page:</p>
+                <select>
+                  <option>5</option>
+                </select>
+                <div className="arrow">
+                  <button onClick={prevPage}>
+                    <AiOutlineLeft />
+                  </button>
+                  <button>{currentPage}</button>
+                  <button onClick={NxtPage}>
+                    <AiOutlineRight />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </DashBoardLayout>
     </Hot>
   );
+  function prevPage() {
+    if (currentPage !== firstIndex) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+  function NxtPage() {
+    if (currentPage !== lastIndex) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
 }
 
 export default HomePlay;

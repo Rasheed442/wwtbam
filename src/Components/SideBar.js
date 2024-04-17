@@ -63,12 +63,18 @@ function SideBar() {
             name: d?.name,
             id: d?.id,
             path:
-              d?.name === "Hot Seat"
+              d?.name === "Hot Seat" && role === "Admin"
                 ? "/hotseat?id=" + d?.id + ""
-                : d?.name === "Audience Play"
+                : d?.name === "Hot Seat" && role === "Partner"
+                ? "/partner/hotseatplay"
+                : d?.name === "Audience Play" && role === "Admin"
                 ? "/audience?id=" + d?.id + ""
-                : d?.name === "Home Play"
+                : d?.name === "Audience Play" && role === "Partner"
+                ? "/partner/audienceplay"
+                : d?.name === "Home Play" && role === "Admin"
                 ? "/homeplay?id=" + d?.id + ""
+                : d?.name === "Home Play" && role === "Partner"
+                ? "/partner/homeplay"
                 : "",
           };
         });

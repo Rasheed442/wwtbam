@@ -10,11 +10,29 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { TiMediaRecord } from "react-icons/ti";
 
 import { TiArrowUnsorted } from "react-icons/ti";
+import QuestionDetails from "../../Components/QuestionDetails";
 function Audienceplay() {
   const [newgame, setNewgame] = useState();
+  const [questionDetails, setQuestionDet] = useState();
+  const [questiondata, setQuestionData] = useState();
   const [myData, setMyData] = useState();
   const token = localStorage.getItem("token");
   const location = useLocation();
+  const [search, setSearch] = useState();
+
+  // pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordPerPage = 5;
+  const lastIndex = currentPage * recordPerPage;
+  const firstIndex = lastIndex - recordPerPage;
+  const records = myData?.slice(firstIndex, lastIndex);
+  const npage = Math?.ceil(myData?.length / recordPerPage);
+  const numbers = Array.from(
+    { length: npage > 0 ? npage : 1 },
+    (_, i) => i + 1
+  );
+  // pagination state
+
   const queryParams = new URLSearchParams(location.search);
   useEffect(() => {
     const id = queryParams.get("id");
@@ -339,14 +357,14 @@ function Audienceplay() {
       title: "	CORRECT ANSWER",
       dataIndex: "partcipantPhone",
     },
-    {
-      title: "	DURATION",
-      dataIndex: "participantName",
-    },
-    {
-      title: "	DATE",
-      dataIndex: "numerOfEntries",
-    },
+    // {
+    //   title: "	DURATION",
+    //   dataIndex: "participantName",
+    // },
+    // {
+    //   title: "	DATE",
+    //   dataIndex: "numerOfEntries",
+    // },
   ];
   useEffect(() => {
     const myHeaders = new Headers();
@@ -370,10 +388,16 @@ function Audienceplay() {
       })
       .catch((error) => console.error(error));
   }, []);
-  console.log(myData);
+  // console.log(myData);
 
   return (
     <Hot>
+      {questionDetails && (
+        <QuestionDetails
+          onClick={() => setQuestionDet(false)}
+          questiondata={questiondata}
+        />
+      )}
       <DashBoardLayout>
         <TopHeader title="Games History" othertitle="Hot Seat Play" />
         {newgame && <AudienceGame close={setNewgame} />}
@@ -404,7 +428,7 @@ function Audienceplay() {
               </div>
             </div>
             <div className="grids">
-              {statistics.map((s) => {
+              {statistics?.map((s) => {
                 return (
                   <div className="gamesplayed">
                     <div className="revenue">
@@ -435,7 +459,11 @@ function Audienceplay() {
                     stroke-linejoin="round"
                   />
                 </svg>
-                <input type="text" placeholder="Search" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  onChange={(e) => setSearch(e.target.value)}
+                />
               </div>
             </div>
             <table className="table">
@@ -447,32 +475,46 @@ function Audienceplay() {
                 </tr>
               </thead>
               <tbody>
-                {myData?.map((m, index) => {
-                  // Check if answerOptions is an array
+                {records
+                  ?.filter((m) => {
+                    if (!search?.length) return m;
+                    else if (
+                      Object.values(m).some((value) =>
+                        value?.toString()?.toLowerCase()?.includes(search)
+                      )
+                    ) {
+                      return m;
+                    }
+                  })
+                  .slice(0, 5)
+                  ?.map((m, index) => {
+                    // Check if answerOptions is an array
 
-                  return (
-                    <tr key={index}>
-                      {" "}
-                      {/* Ensure to add a unique key */}
-                      <td style={{ color: "#417CD4" }}>View Details</td>
-                      <td>{m?.question}</td>
-                      {Object.values(m?.answerOptions)
-                        .filter((option) => option?.isCorrectAnswer === true)
-                        .map((c, subIndex) => (
-                          <td key={subIndex}>
-                            {c?.isCorrectAnswer === true ? c?.answer : "---"}
-                          </td>
-                        ))}
-                    </tr>
-                  );
-                })}
-                {/* <tr>
-                      <td style={{ color: "#417CD4" }}>View Details</td>
-                      <td>who's the president of nigeria</td>
-                      <td>A</td>
-                      <td>2 days</td>
-                      <td>29/02/2023, 09:11:04</td>
-                    </tr> */}
+                    return (
+                      <tr key={index}>
+                        {" "}
+                        {/* Ensure to add a unique key */}
+                        <td
+                          style={{ color: "#417CD4" }}
+                          onClick={() => {
+                            setQuestionDet(true);
+                            setQuestionData(m);
+                            // console.log(m);
+                          }}
+                        >
+                          View Details
+                        </td>
+                        <td>{m?.question}</td>
+                        {Object.values(m?.answerOptions)
+                          .filter((option) => option?.isCorrectAnswer === true)
+                          .map((c, subIndex) => (
+                            <td key={subIndex}>
+                              {c?.isCorrectAnswer === true ? c?.answer : "---"}
+                            </td>
+                          ))}
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
             <div className="row">
@@ -483,16 +525,11 @@ function Audienceplay() {
                   <option>5</option>
                 </select>
                 <div className="arrow">
-                  <button
-                    onClick={() => {
-                      // setSortDate(sortdate - 1);
-                      // setEnd((prev) => prev - end);
-                    }}
-                  >
+                  <button onClick={prevPage}>
                     <AiOutlineLeft />
                   </button>
-                  <button>1</button>
-                  <button>
+                  <button>{currentPage}</button>
+                  <button onClick={NxtPage}>
                     <AiOutlineRight />
                   </button>
                 </div>
@@ -503,6 +540,16 @@ function Audienceplay() {
       </DashBoardLayout>
     </Hot>
   );
+  function prevPage() {
+    if (currentPage !== firstIndex) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+  function NxtPage() {
+    if (currentPage !== lastIndex) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
 }
 
 export default Audienceplay;

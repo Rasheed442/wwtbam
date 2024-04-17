@@ -122,7 +122,7 @@ function AddNewPartner({ close }) {
       .then((response) => response.json())
       .then((result) => {
         setLoading(false);
-        console.log(result);
+        // console.log(result);
         if (result?.status) {
           setLoading(false);
           toast.success(result?.message, {

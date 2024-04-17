@@ -100,7 +100,7 @@ function AudienceGame({ close }) {
             <p>Question Bank</p>
             <span>you can add multiple questions</span>
           </div>
-          <button onClick={() => setAnotherQuestion(true)}>
+          {/* <button onClick={() => setAnotherQuestion(true)}>
             {" "}
             <svg
               width="14"
@@ -117,7 +117,7 @@ function AudienceGame({ close }) {
               />
             </svg>
             <p>Add another question</p>
-          </button>
+          </button> */}
         </div>
         <div>
           <div className="labelinput">
