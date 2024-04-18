@@ -509,7 +509,9 @@ function Audienceplay() {
                           .filter((option) => option?.isCorrectAnswer === true)
                           .map((c, subIndex) => (
                             <td key={subIndex}>
-                              {c?.isCorrectAnswer === true ? c?.answer : "---"}
+                              {c?.isCorrectAnswer === true
+                                ? c?.answer
+                                : "undefined"}
                             </td>
                           ))}
                       </tr>
@@ -518,7 +520,7 @@ function Audienceplay() {
               </tbody>
             </table>
             <div className="row">
-              <span>Showing 1-5 of entries</span>
+              <span>Showing 1-{myData?.length} of entries</span>
               <div className="pagins">
                 <p>Rows per page:</p>
                 <select>
