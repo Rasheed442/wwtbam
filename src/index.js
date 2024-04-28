@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Toaster } from "react-hot-toast";
-
+import { ConfigProvider } from "@arco-design/web-react";
+import { enUS } from "rsuite/esm/locales";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+    {/* <ConfigProvider locale={enUS}> */}
     <App />
     <Toaster />
+    {/* </ConfigProvider> */}
   </React.StrictMode>
 );
 

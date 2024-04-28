@@ -10,8 +10,8 @@ function Login() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [LoginCredentials, setLoginCredentials] = useState({
-    username: "keem@wwtbam.com",
-    password: "fileopen",
+    username: "",
+    password: "",
   });
   const navigate = useNavigate();
   const successToastStyle = {

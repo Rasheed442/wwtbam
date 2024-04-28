@@ -6,7 +6,7 @@ import { hope } from "../assets/Images";
 import { Table, TableColumnProps } from "@arco-design/web-react";
 import "@arco-design/web-react/dist/css/arco.css";
 function HistoryTable({ view, search }) {
-  const currentItems = view?.data.filter((u) => {
+  const currentItems = view?.data?.filter((u) => {
     if (!search?.length) return u;
     else if (
       Object.values(u).some((value) =>

@@ -5,8 +5,10 @@ import { albert } from "../assets/Images";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineDown } from "react-icons/ai";
 import Aos from "aos";
+import { IoMdArrowDropleft } from "react-icons/io";
+
 import "aos/dist/aos.css";
-function SideBar() {
+function SideBar({ back, setBack }) {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
@@ -506,6 +508,7 @@ function SideBar() {
       : [];
 
   const [subMenu, setSubmenu] = useState(false);
+
   // useEffect(() => {
   //   setSubmenu(true);
   // }, [navigate]);
@@ -517,11 +520,19 @@ function SideBar() {
   }
   return (
     <Head>
-      <div className="container">
-        <div className="logo">
-          <img src={wwtlogo} alt="" />
-        </div>
-        <div className="line"></div>
+      <div
+        className="container"
+        style={{ width: back ? "" : "120px", overflow: back ? "" : "hidden" }}
+      >
+        {back ? (
+          <div className="logo">
+            <img src={wwtlogo} alt="" />
+          </div>
+        ) : (
+          ""
+        )}
+
+        <div className="line" style={{ marginTop: back ? "" : "80px" }}></div>
         <div className="search">
           <svg
             width="11"
@@ -558,16 +569,18 @@ function SideBar() {
                           ? n.icon2
                           : n?.icon}
                       </div>
-                      <p
-                        style={{
-                          color:
-                            window.location.pathname === n?.paths
-                              ? "#E28C05"
-                              : "",
-                        }}
-                      >
-                        {n.name}
-                      </p>
+                      {back && (
+                        <p
+                          style={{
+                            color:
+                              window.location.pathname === n?.paths
+                                ? "#E28C05"
+                                : "",
+                          }}
+                        >
+                          {n.name}
+                        </p>
+                      )}
                     </div>
                     <span>{n?.icon3}</span>
                   </div>
@@ -592,10 +605,10 @@ function SideBar() {
           </div>
         </div>
 
-        <div className="footer">
+        <div className="footer" style={{ left: back ? "" : "35px" }}>
           <div className="settings">
             <svg
-              width="18"
+              width={back ? "18" : "25"}
               height="18"
               viewBox="0 0 20 20"
               fill="none"
@@ -606,7 +619,7 @@ function SideBar() {
                 fill="#D5DBE5"
               />
             </svg>
-            <span>Account Settings</span>
+            {back ? <span>Account Settings</span> : ""}
           </div>
           <div
             className="exit"
@@ -614,14 +627,17 @@ function SideBar() {
               localStorage.clear();
               navigate("/");
             }}
+            style={{ justifyContent: back ? "" : "center" }}
           >
-            <div className="fotname">
-              <img src={albert} alt="" />
-              <div className="names">
-                <p>Funke Oba</p>
-                <span>Log out</span>
+            {back && (
+              <div className="fotname">
+                <img src={albert} alt="" />
+                <div className="names">
+                  <p>Funke Oba</p>
+                  <span>Log out</span>
+                </div>
               </div>
-            </div>
+            )}
             <svg
               width="19"
               height="18"
@@ -640,6 +656,9 @@ function SideBar() {
             </svg>
           </div>
         </div>
+        <div className="back" onClick={() => setBack(!back)}>
+          <IoMdArrowDropleft size={30} />
+        </div>
       </div>
     </Head>
   );
@@ -647,6 +666,23 @@ function SideBar() {
 
 export default SideBar;
 const Head = styled.div`
+  .back {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    display: none;
+    border-radius: 7px;
+    cursor: pointer;
+    justify-content: center;
+    color: white;
+    background-color: #352f44;
+    width: 80%;
+    @media screen and (max-width: 900px) {
+      display: block;
+      display: flex;
+      justify-content: center;
+    }
+  }
   .submenu {
     padding-left: 60px;
     cursor: pointer;
@@ -710,7 +746,7 @@ const Head = styled.div`
   }
   .footer {
     position: absolute;
-    bottom: 20px;
+    bottom: 80px;
     color: white;
     display: flex;
     flex-direction: column;
@@ -742,7 +778,9 @@ const Head = styled.div`
     font-weight: 300;
   }
   .container {
+    position: relative;
     background-color: #0c051c;
+    transition: 0.5s;
     height: 100vh;
     padding: 20px;
   }
@@ -752,6 +790,7 @@ const Head = styled.div`
     display: flex;
     background-color: #352f44;
     align-items: center;
+    overflow: hidden;
     padding: 8px 8px 8px 13px;
     gap: 7px;
     border-radius: 7px;

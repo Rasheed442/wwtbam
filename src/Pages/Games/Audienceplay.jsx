@@ -476,6 +476,7 @@ function Audienceplay() {
               </thead>
               <tbody>
                 {records
+                  ?.reverse()
                   ?.filter((m) => {
                     if (!search?.length) return m;
                     else if (

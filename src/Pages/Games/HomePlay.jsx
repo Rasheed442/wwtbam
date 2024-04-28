@@ -470,8 +470,7 @@ function HomePlay() {
               </thead>
               <tbody>
                 {records
-                  ?.slice(0, 5)
-                  .filter((m) => {
+                  ?.filter((m) => {
                     if (!search?.length) return m;
                     else if (
                       Object.values(m).some((value) =>
@@ -508,7 +507,8 @@ function HomePlay() {
                           ))}
                       </tr>
                     );
-                  })}
+                  })
+                  .reverse()}
 
                 {/* <tr>
                       <td style={{ color: "#417CD4" }}>View Details</td>

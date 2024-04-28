@@ -76,7 +76,7 @@ function AdminDashboard() {
                   <FaChevronDown style={{ color: "#667085" }} size={13} />
                 </div>
                 <div className="contside2child2">
-                  {/* <div className="box">
+                  {/* <div className="box">a
                     <h2>3,534333</h2>
                     <span>Today’s total</span>
                   </div> */}
@@ -99,7 +99,7 @@ function AdminDashboard() {
               <div className="smallbox">
                 <div
                   className="smallcard"
-                  onClick={() => navigate("/hotseat")}
+                  onClick={() => navigate("/audience?id=20002")}
                   style={{ cursor: "pointer" }}
                 >
                   <svg
@@ -261,6 +261,11 @@ const Head = styled.div`
   .gameschannel {
     display: grid;
     grid-template-columns: 50% 50%;
+    @media screen and (max-width: 1405px) {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
   }
   .contside2child1 {
     position: absolute;
@@ -434,7 +439,7 @@ const Head = styled.div`
     overflow: hidden;
     padding: 20px;
     flex-wrap: wrap;
-    @media screen and (max-width: 40em) {
+    @media screen and (max-width: 800px) {
       width: 100%;
       flex: 1;
     }
@@ -518,7 +523,7 @@ const Head = styled.div`
     padding: 2em;
     text-align: center;
     border-radius: 10px;
-    @media screen and (max-width: 40em) {
+    @media screen and (max-width: 800px) {
       flex: 1 !important;
     }
     > .contside1Text {
@@ -551,6 +556,10 @@ const Head = styled.div`
     width: 100%;
     display: flex;
     gap: 10px;
+    @media screen and (max-width: 728px) {
+      display: flex;
+      flex-direction: column;
+    }
     @media screen and (max-width: 40em) {
       flex: 1 !important;
       flex-direction: column;
@@ -559,7 +568,8 @@ const Head = styled.div`
     .smallbox {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+      /* grid-template-columns: repeat(auto-fit, minmax(15%, 1fr)); */
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
       .smallcard {
         display: flex;
@@ -574,7 +584,16 @@ const Head = styled.div`
           font-size: 10px;
         }
       }
+      @media screen and (max-width: 923px) {
+        grid-template-columns: repeat(1, 1fr);
+        .smallcard p {
+          padding: 20px;
+        }
+      }
     }
+  }
+  .box {
+    padding: 0em 2em 0em 2em;
   }
   .contside2up {
     position: relative;
@@ -587,13 +606,16 @@ const Head = styled.div`
     gap: 20px;
     .contside2child2 {
       display: flex;
-
       .box {
         border-right: 1px solid rgba(213, 219, 229, 1);
         padding-inline-start: 20px;
         &:last-of-type {
           border-right: none;
         }
+      }
+      @media screen and (max-width: 1115px) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
       }
       @media screen and (max-width: 40em) {
         display: grid;
@@ -610,6 +632,14 @@ const Head = styled.div`
       align-items: center;
       /* text-align: center; */
       border-radius: 10px;
+      @media screen and (max-width: 971px) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media screen and (max-width: 619px) {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+      }
       .box2 {
         width: 100%;
         padding: 1rem;
