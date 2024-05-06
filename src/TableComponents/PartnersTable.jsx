@@ -22,6 +22,19 @@ function PartnersTable({ view, search }) {
     },
   };
 
+  // pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordPerPage = 5;
+  const lastIndex = currentPage * recordPerPage;
+  const firstIndex = lastIndex - recordPerPage;
+  const records = myData?.slice(firstIndex, lastIndex); /// this is what you are mapping to the table
+  const npage = Math?.ceil(myData?.length / recordPerPage);
+  const numbers = Array.from(
+    { length: npage > 0 ? npage : 1 },
+    (_, i) => i + 1
+  );
+  // pagination state
+
   useEffect(() => {
     const myHeaders = new Headers();
     myHeaders.append("x-session-id", `${token}`);
@@ -69,73 +82,62 @@ function PartnersTable({ view, search }) {
                 </tr>
               </thead>
               <tbody>
-                {myData
-                  ?.filter((u) => {
-                    if (!search?.length) return u;
-                    else if (
-                      Object.values(u).some((value) =>
-                        value?.toString()?.toLowerCase()?.includes(search)
-                      )
-                    ) {
-                      return u;
-                    }
-                  })
-                  .map((u) => {
-                    return (
-                      <tr>
-                        <td
-                          style={{ color: "#417CD4" }}
-                          onClick={() => {
-                            view(true);
-                            localStorage.setItem(
-                              "PartnerUserId",
-                              JSON.stringify(u)
-                            );
-                          }}
-                        >
-                          View Details
-                        </td>
-                        <td>{u?.userId}</td>
-                        <td
+                {records?.map((u) => {
+                  return (
+                    <tr>
+                      <td
+                        style={{ color: "#417CD4" }}
+                        onClick={() => {
+                          view(true);
+                          localStorage.setItem(
+                            "PartnerUserId",
+                            JSON.stringify(u)
+                          );
+                        }}
+                      >
+                        View Details
+                      </td>
+                      <td>{u?.userId}</td>
+                      <td
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <img
+                          src={u.partnerLogo}
+                          style={{ borderRadius: "50%" }}
+                          width={30}
+                          height={30}
+                        />
+                        <p>{u?.companyName}</p>
+                      </td>
+                      <td>{u?.username}</td>
+                      <td>
+                        {u?.dateCreated.toString().slice(0, 10)} /{" "}
+                        {u?.dateCreated.toString().slice(11, 16)}
+                      </td>
+                      <td>{u?.sector}</td>
+                      <td>
+                        <div
                           style={{
+                            color: "#027A48",
+                            backgroundColor: "#ECFDF3",
                             display: "flex",
                             alignItems: "center",
-                            gap: "10px",
+                            width: " 100%",
+                            padding: "9px",
+                            gap: "5px",
+                            borderRadius: "10px",
                           }}
                         >
-                          <img
-                            src={u.partnerLogo}
-                            style={{ borderRadius: "50%" }}
-                            width={30}
-                            height={30}
-                          />
-                          <p>{u?.companyName}</p>
-                        </td>
-                        <td>{u?.username}</td>
-                        <td>
-                          {u?.dateCreated.toString().slice(0, 10)} /{" "}
-                          {u?.dateCreated.toString().slice(11, 16)}
-                        </td>
-                        <td>{u?.sector}</td>
-                        <td>
-                          <div
-                            style={{
-                              color: "#027A48",
-                              backgroundColor: "#ECFDF3",
-                              display: "flex",
-                              alignItems: "center",
-                              width: " 100%",
-                              padding: "9px",
-                              gap: "5px",
-                              borderRadius: "10px",
-                            }}
-                          >
-                            <TiMediaRecord /> {u.status}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                          <TiMediaRecord /> {u.status}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
 
                 {/* <tr>
                 <td style={{ color: "#417CD4" }}>View Details</td>
@@ -181,16 +183,11 @@ function PartnersTable({ view, search }) {
                 <option>5</option>
               </select>
               <div className="arrow">
-                <button
-                  onClick={() => {
-                    // setSortDate(sortdate - 1);
-                    // setEnd((prev) => prev - end);
-                  }}
-                >
+                <button onClick={prevPage}>
                   <AiOutlineLeft />
                 </button>
-                <button>1</button>
-                <button>
+                <button>{currentPage}</button>
+                <button onClick={NxtPage}>
                   <AiOutlineRight />
                 </button>
               </div>
@@ -200,6 +197,16 @@ function PartnersTable({ view, search }) {
       )}
     </Head>
   );
+  function prevPage() {
+    if (currentPage !== firstIndex) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+  function NxtPage() {
+    if (currentPage !== lastIndex) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
 }
 
 export default PartnersTable;
