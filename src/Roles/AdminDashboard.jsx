@@ -84,7 +84,7 @@ function AdminDashboard() {
                     <h2>
                       {numberWithSeparator(userDetails?.gamePlayedRevenue)}
                     </h2>
-                    <span>Games Revenue</span>
+                    <span>Games Revenues</span>
                   </div>
                   <div className="box">
                     <h2>{userDetails?.totalUsers}</h2>
@@ -225,7 +225,7 @@ function AdminDashboard() {
                         <img src={c.partnerLogo} alt="" />
                         <p>{c.companyName}</p>
                       </div>
-                      <h2>{c.partnerTotalGamePlayed}</h2>
+                      <h2>{c.partnerGamePlayedRevenue}</h2>
                       <div className="rate">
                         <p>
                           {" "}
