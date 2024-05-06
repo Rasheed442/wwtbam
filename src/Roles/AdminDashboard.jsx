@@ -231,7 +231,7 @@ function AdminDashboard() {
                           {" "}
                           <span>
                             {c?.partnerTotalGamePlayed >= 50 ? (
-                              <FaArrowUp size={10} style={{ color: "red" }} />
+                              <FaArrowUp size={10} style={{ color: "green" }} />
                             ) : (
                               <FaArrowDown size={10} style={{ color: "red" }} />
                             )}
