@@ -3,7 +3,7 @@ import DashBoardLayout from "../Layouts/DashBoardLayout";
 import styled from "styled-components";
 import TopHeader from "../Components/TopHeader";
 import { FCMB, hope, opay, palmpay } from "../assets/Images";
-import { FaArrowDown, FaChevronDown } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp, FaChevronDown } from "react-icons/fa";
 import PartnersChartComponent from "../ChartComponents/PartnersChartComponent";
 import GamesChartComponent from "../ChartComponents/GamesChartComponent";
 import ChannelChartComponent from "../ChartComponents/ChannelChartComponent";
@@ -230,8 +230,12 @@ function AdminDashboard() {
                         <p>
                           {" "}
                           <span>
-                            <FaArrowDown size={10} style={{ color: "red" }} />
-                            24.5%
+                            {c?.partnerTotalGamePlayed >= 50 ? (
+                              <FaArrowUp size={10} style={{ color: "red" }} />
+                            ) : (
+                              <FaArrowDown size={10} style={{ color: "red" }} />
+                            )}
+                            {c?.partnerTotalGamePlayed}%
                           </span>
                           &nbsp; vs last month
                         </p>
