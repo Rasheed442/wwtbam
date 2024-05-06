@@ -235,7 +235,7 @@ function AdminDashboard() {
                             ) : (
                               <FaArrowDown size={10} style={{ color: "red" }} />
                             )}
-                            {c?.partnerTotalGamePlayed}%
+                            {c?.partnerTotalGamePlayed}
                           </span>
                           &nbsp; vs last month
                         </p>
