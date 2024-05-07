@@ -10,6 +10,7 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import ApiKeys from "./ApiKeys";
 import UpdateCommission from "./UpdateCommission";
 import DashBoardLayout from "../Layouts/DashBoardLayout";
+import toast from "react-hot-toast";
 
 function PartnersDetails({ close, update }) {
   const [overview, setOverView] = useState(true);
@@ -20,6 +21,36 @@ function PartnersDetails({ close, update }) {
   console.log(PartnerDetails);
 
   useEffect(() => {}, []);
+  function HandleCopy1() {
+    navigator.clipboard
+      .writeText(PartnerDetails?.phone)
+      .then(() => {
+        toast.success("Copied");
+      })
+      .catch((error) => {
+        toast.error("Copy failed: " + error);
+      });
+  }
+  function HandleCopy2() {
+    navigator.clipboard
+      .writeText(PartnerDetails?.email)
+      .then(() => {
+        toast.success("Copied");
+      })
+      .catch((error) => {
+        toast.error("Copy failed: " + error);
+      });
+  }
+  function HandleCopy3() {
+    navigator.clipboard
+      .writeText(PartnerDetails?.address)
+      .then(() => {
+        toast.success("Copied");
+      })
+      .catch((error) => {
+        toast.error("Copy failed: " + error);
+      });
+  }
 
   return (
     <Partners>
@@ -81,7 +112,7 @@ function PartnersDetails({ close, update }) {
               </div>
               <div className="edit">
                 <RxPencil1 size={22} />
-                <FiCopy size={18} />
+                <FiCopy size={18} onClick={HandleCopy1} />
               </div>
             </div>
             <div className="mobile">
@@ -91,7 +122,7 @@ function PartnersDetails({ close, update }) {
               </div>
               <div className="edit">
                 <RxPencil1 size={22} />
-                <FiCopy size={18} />
+                <FiCopy size={18} onClick={HandleCopy2} />
               </div>
             </div>
             <div className="mobile">
@@ -105,7 +136,7 @@ function PartnersDetails({ close, update }) {
               </div>
               <div className="edit">
                 <RxPencil1 size={22} />
-                <FiCopy size={18} />
+                <FiCopy size={18} onClick={HandleCopy3} />
               </div>
             </div>
           </div>
