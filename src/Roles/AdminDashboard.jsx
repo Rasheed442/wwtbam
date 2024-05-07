@@ -9,8 +9,33 @@ import GamesChartComponent from "../ChartComponents/GamesChartComponent";
 import ChannelChartComponent from "../ChartComponents/ChannelChartComponent";
 import TransactionHistoryTable from "../TableComponents/TransactionHistoryTableForAdmin";
 import { useNavigate } from "react-router";
+import Select from "react-select";
+
 function AdminDashboard() {
   const navigate = useNavigate();
+  // const customStyles = {
+  //   control: (provided) => ({
+  //     ...provided,
+  //     backgroundColor: "purple",
+  //     border: "1px solid purple",
+  //   }),
+  //   singleValue: (provided) => ({
+  //     ...provided,
+  //     color: "white",
+  //   }),
+  // };
+
+  const GamesPlay = [
+    {
+      games: "Audience Play",
+    },
+    {
+      games: "Home Play",
+    },
+    {
+      games: "Hot Seat",
+    },
+  ];
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
   console.log(userDetails);
   const numberWithSeparator = (number) => {
@@ -67,13 +92,24 @@ function AdminDashboard() {
               <div className="contside2up">
                 <div className="contside2child1">
                   {/* <CountryDropdown defaultValue={"Nigeria"} /> */}
-                  <select>
+                  <Select
+                    className="basic-single"
+                    classNamePrefix="select"
+                    defaultValue={{ value: "hotseat", label: "Hotseat" }}
+                    name="color"
+                    options={GamesPlay.map((d) => ({
+                      value: d.games,
+                      label: d.games.charAt(0).toUpperCase() + d.games.slice(1),
+                    }))}
+                    // styles={customStyles}
+                  />
+                  {/* <select>
                     <option>All Games</option>
                     <option>Hot Seat Play</option>
                     <option>Audience Play</option>
                     <option>Home Play</option>
                   </select>
-                  <FaChevronDown style={{ color: "#667085" }} size={13} />
+                  <FaChevronDown style={{ color: "#667085" }} size={13} /> */}
                 </div>
                 <div className="contside2child2">
                   {/* <div className="box">a
@@ -275,8 +311,6 @@ const Head = styled.div`
     position: absolute;
     top: 10px;
     left: 20px;
-    border: 1px solid #d0d5dd;
-    padding: 0px 5px 0px 10px;
     border-radius: 10px;
     display: flex;
     align-items: center;

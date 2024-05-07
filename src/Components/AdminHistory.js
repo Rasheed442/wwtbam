@@ -170,7 +170,6 @@ function AdminHistory() {
               <div className="select">
                 <select
                   onChange={(e) => {
-                    alert(e.target.value);
                     setPartnerID(e.target.value);
                     setGamesID("");
                   }}
@@ -189,7 +188,6 @@ function AdminHistory() {
                 <select
                   onChange={(e) => {
                     setPartnerID("");
-                    alert(e.target.value);
                     setGamesID(e.target.value);
                   }}
                 >
