@@ -14,6 +14,22 @@ import {
 import { FaChevronDown } from "react-icons/fa";
 
 function ChannelChartComponent() {
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active) {
+      return (
+        <div
+          className="custom-tooltip"
+          style={{ backgroundColor: "#FB923C", color: "white", padding: "5px" }}
+        >
+          <p className="label">{`${label} : ${payload[0]?.value}`}</p>
+          {/* Add more content or customize as needed */}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   const banks = [
     {
       name: "App Game Revenue",
@@ -184,7 +200,7 @@ function ChannelChartComponent() {
               fontSize={14}
               fontWeight={500}
             />
-            {/* <Tooltip /> */}
+            <Tooltip content={<CustomTooltip />} />
             {/* <Legend /> */}
 
             <Bar

@@ -14,6 +14,21 @@ import {
 import { FaChevronDown } from "react-icons/fa";
 
 function GamesChartComponent() {
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active) {
+      return (
+        <div
+          className="custom-tooltip"
+          style={{ backgroundColor: "#FF004D", color: "white", padding: "5px" }}
+        >
+          <p className="label">{`${label} : ${payload[0]?.value}`}</p>
+          {/* Add more content or customize as needed */}
+        </div>
+      );
+    }
+
+    return null;
+  };
   const banks = [
     {
       name: "Audience Play Revenue",
@@ -170,7 +185,7 @@ function GamesChartComponent() {
               fontSize={14}
               fontWeight={500}
             />
-            {/* <Tooltip /> */}
+            <Tooltip content={<CustomTooltip />} />
             {/* <Legend /> */}
 
             <Bar
