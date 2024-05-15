@@ -401,7 +401,7 @@ function Hotseatplay() {
         ) : (
           <div className="overview">
             <div>
-              <h2>Hot Seat Play</h2>
+              <h2>Weekly Play</h2>
               <span>This page allows you to manage this game mode</span>
             </div>
             <ButtonLayout

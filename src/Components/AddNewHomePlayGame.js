@@ -5,6 +5,7 @@ import LabelinputLayout from "../Layouts/LabelinputLayout";
 import { switchh, swt } from "../assets/Icons";
 import PulseLoader from "react-spinners/PulseLoader";
 import { useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function AddNewHomePlayGame({ close }) {
   const [check, setCheck] = useState(false);
@@ -15,6 +16,14 @@ function AddNewHomePlayGame({ close }) {
   useEffect(() => {
     const id = queryParams.get("id");
   }, [queryParams.get("id")]);
+  const successToastStyle = {
+    backgroundColor: "green", // Set the background color to green
+    color: "white",
+  };
+  const errorToastStyle = {
+    backgroundColor: "red", // Set the background color to green
+    color: "white",
+  };
 
   const [addQuestion, setQuestion] = useState({
     gameId: queryParams.get("id"),
@@ -59,8 +68,21 @@ function AddNewHomePlayGame({ close }) {
         }
       );
       const server = await response.json();
+      console.log(server);
+      if (server?.status === true) {
+        toast.success(server?.message, {
+          style: successToastStyle, // Apply the custom style
+        });
+        setLoading(false);
+      } else {
+        toast.error(server?.message, {
+          style: errorToastStyle, // Apply the custom style
+        });
+        setLoading(false);
+      }
       setLoading(false);
     } catch (error) {
+      console.log(error);
       setLoading(false);
     }
   }
@@ -68,7 +90,7 @@ function AddNewHomePlayGame({ close }) {
     <NewGame>
       <div className="new" onClick={() => close(false)}>
         <p>
-          <IoMdArrowBack /> Back to Home play
+          <IoMdArrowBack /> Back to Studio Play
         </p>
         <h2>New Question</h2>
       </div>

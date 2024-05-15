@@ -400,7 +400,7 @@ function HomePlay() {
         ) : (
           <div className="overview">
             <div>
-              <h2>Home Play</h2>
+              <h2>Studio Play</h2>
               <span>This page allows you to manage this game mode</span>
             </div>
             <ButtonLayout

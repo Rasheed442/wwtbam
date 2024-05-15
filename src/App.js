@@ -22,7 +22,7 @@ function App() {
             <Route path="/partners" element={<Partners />} />
             <Route path="/overview" element={<Overview />} />
             <Route path="/history" element={<History />} />
-            <Route path="/hotseat" element={<Hotseatplay />} />
+            <Route path="/weeklyplay" element={<Hotseatplay />} />
             <Route
               path="/partner/hotseatplay"
               element={<PartnerHotseatplay />}
@@ -33,7 +33,7 @@ function App() {
             />
             <Route path="/partner/homeplay" element={<PartnerHomeplay />} />
             <Route path="/audience" element={<Audienceplay />} />
-            <Route path="/homeplay" element={<HomePlay />} />
+            <Route path="/studioplay" element={<HomePlay />} />
           </Route>
         </Routes>
       </BrowserRouter>

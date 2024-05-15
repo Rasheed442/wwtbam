@@ -88,7 +88,7 @@ function AddNewGame({ close }) {
     <NewGame>
       <div className="new" onClick={() => close(false)}>
         <p>
-          <IoMdArrowBack /> Back to Hot seat play
+          <IoMdArrowBack /> Back to Weekly play
         </p>
         <h2>New Question</h2>
       </div>

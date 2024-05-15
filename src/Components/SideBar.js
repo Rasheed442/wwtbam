@@ -65,16 +65,16 @@ function SideBar({ back, setBack }) {
             name: d?.name,
             id: d?.id,
             path:
-              d?.name === "Hot Seat" && role === "Admin"
-                ? "/hotseat?id=" + d?.id + ""
+              d?.name === "Weekly Play" && role === "Admin"
+                ? "/weeklyplay?id=" + d?.id + ""
                 : d?.name === "Hot Seat" && role === "Partner"
                 ? "/partner/hotseatplay"
                 : d?.name === "Audience Play" && role === "Admin"
                 ? "/audience?id=" + d?.id + ""
                 : d?.name === "Audience Play" && role === "Partner"
                 ? "/partner/audienceplay"
-                : d?.name === "Home Play" && role === "Admin"
-                ? "/homeplay?id=" + d?.id + ""
+                : d?.name === "Studio Play" && role === "Admin"
+                ? "/studioplay?id=" + d?.id + ""
                 : d?.name === "Home Play" && role === "Partner"
                 ? "/partner/homeplay"
                 : "",
