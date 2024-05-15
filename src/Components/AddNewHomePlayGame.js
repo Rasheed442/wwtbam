@@ -35,22 +35,22 @@ function AddNewHomePlayGame({ close }) {
       {
         answer: "A",
         answerDescription: "Olusegun Obasanjo",
-        isCorrectAsnwer: false,
+        isCorrectAnswer: false,
       },
       {
         answer: "B",
         answerDescription: "Muhamadu Buhari",
-        isCorrectAsnwer: false,
+        isCorrectAnswer: false,
       },
       {
         answer: "C",
         answerDescription: "Bola ahmen Tinubu",
-        isCorrectAsnwer: false,
+        isCorrectAnswer: false,
       },
       {
         answer: "D",
         answerDescription: "Yakubu Gowon",
-        isCorrectAsnwer: false,
+        isCorrectAnswer: false,
       },
     ],
   });
@@ -148,8 +148,8 @@ function AddNewHomePlayGame({ close }) {
                       ];
                       updatedAnswerOptions[
                         index
-                      ].isCorrectAsnwer = !updatedAnswerOptions[index]
-                        .isCorrectAsnwer;
+                      ].isCorrectAnswer = !updatedAnswerOptions[index]
+                        .isCorrectAnswer;
                       setQuestion((prev) => {
                         return { ...prev, answerOptions: updatedAnswerOptions };
                       });

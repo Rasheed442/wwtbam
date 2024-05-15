@@ -19,30 +19,30 @@ function AddNewGame({ close }) {
 
   const [addQuestion, setQuestion] = useState({
     gameId: queryParams.get("id"),
-    question: "",
+    question: "how old is the current president of nigeria?",
     gameSelectionType: {
       id: 1,
     },
     answerOptions: [
       {
         answer: "A",
-        answerDescription: "Olusegun Obasanjo",
-        isCorrectAsnwer: false,
+        answerDescription: "65",
+        isCorrectAnswer: false,
       },
       {
         answer: "B",
-        answerDescription: "Muhamadu Buhari",
-        isCorrectAsnwer: false,
+        answerDescription: "80",
+        isCorrectAnswer: false,
       },
       {
         answer: "C",
-        answerDescription: "Bola ahmen Tinubu",
-        isCorrectAsnwer: false,
+        answerDescription: "71",
+        isCorrectAnswer: true,
       },
       {
         answer: "D",
-        answerDescription: "Yakubu Gowon",
-        isCorrectAsnwer: false,
+        answerDescription: "60",
+        isCorrectAnswer: false,
       },
     ],
   });
@@ -136,7 +136,6 @@ function AddNewGame({ close }) {
                   }}
                 />
                 <div className="check">
-                  {/* Assuming optionA is specific to each answer option */}
                   <input
                     type="checkbox"
                     checked={p.optionA}
@@ -146,8 +145,8 @@ function AddNewGame({ close }) {
                       ];
                       updatedAnswerOptions[
                         index
-                      ].isCorrectAsnwer = !updatedAnswerOptions[index]
-                        .isCorrectAsnwer;
+                      ].isCorrectAnswer = !updatedAnswerOptions[index]
+                        .isCorrectAnswer;
                       setQuestion((prev) => {
                         return { ...prev, answerOptions: updatedAnswerOptions };
                       });
