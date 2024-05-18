@@ -111,7 +111,7 @@ function PartnerHeader({ title, othertitle }) {
             <img src={userDetails?.partnerLogo} width={35} height={35} alt="" />
             <div className="user">
               <p>
-                {userDetails?.username} &nbsp; &nbsp;
+                {userDetails?.companyName} &nbsp; &nbsp;
                 {/* <AiOutlineDown size={10} /> */}
               </p>
               <span>Partner</span>

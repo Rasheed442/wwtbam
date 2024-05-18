@@ -35,8 +35,9 @@ function Login() {
       setLoading(false);
       if (server?.status) {
         toast.success(server?.message, {
-          style: successToastStyle, // Apply the custom style
+          style: successToastStyle, // Apply the custom sktyle
         });
+        localStorage.setItem("userName", LoginCredentials.username);
         localStorage.setItem("userDetails", JSON.stringify(server?.data));
         localStorage.setItem("userID", JSON.stringify(server?.data?.userId));
         localStorage.setItem("token", server?.data?.sessionToken);

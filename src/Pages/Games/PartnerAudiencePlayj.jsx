@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashBoardLayout from "../../Layouts/DashBoardLayout";
 import TopHeader from "../../Components/TopHeader";
 import styled from "styled-components";
@@ -8,14 +8,36 @@ import AddNewGame from "../../Components/AddNewGame";
 import AddNewGameForPartner from "../../Components/AddNewGameForPartner";
 import ViewGamesDetailsPartners from "../../Components/ViewGamesDetailsPartners";
 import PartnerHeader from "../../Components/PartnerHeader";
-
+import { useLocation } from "react-router-dom";
+import Axios from "axios";
 function PartnerAudienceplay() {
+  const location = useLocation();
+
   const [newgame, setNewgame] = useState();
   const [viewGames, setViewGames] = useState(false);
+  const [myData, setMyData] = useState();
+  const queryParams = new URLSearchParams(location.search);
+  const userID = localStorage.getItem("userID");
+
+  useEffect(() => {
+    const id = queryParams.get("id");
+  }, [queryParams.get("id")]);
+  useEffect(() => {
+    Axios.get(
+      `${
+        process.env.REACT_APP_BASE_URL
+      }/getgamestatistics?partnerId=${userID}&gameId=${queryParams.get("id")}`
+    ).then((response) => {
+      setMyData(response?.data);
+    });
+  }, []);
+  const numberWithSeparator = (number) => {
+    return number?.toLocaleString(); // This will add thousand separators
+  };
   const statistics = [
     {
       name: "Total Games Played",
-      amount: "1,450",
+      amount: numberWithSeparator(myData?.data?.totalGamePlayed),
       icon: (
         <svg
           width="60"
@@ -119,7 +141,7 @@ function PartnerAudienceplay() {
     },
     {
       name: "Total Revenue",
-      amount: "5,280",
+      amount: numberWithSeparator(myData?.data?.gamePlayedRevenue),
       icon: (
         <svg
           width="60"
@@ -214,8 +236,8 @@ function PartnerAudienceplay() {
       ),
     },
     {
-      name: "Games Won",
-      amount: "380",
+      name: "Total Earning",
+      amount: numberWithSeparator(myData?.data?.gamePlayedEarning),
       icon: (
         <svg
           width="60"
@@ -318,10 +340,11 @@ function PartnerAudienceplay() {
       ),
     },
   ];
+
   return (
     <Hot>
       <DashBoardLayout>
-        <PartnerHeader title="Games History" othertitle="Hot Seat Play" />
+        <PartnerHeader title="Games History" />
         {newgame && <AddNewGameForPartner close={setNewgame} />}
         {viewGames && <ViewGamesDetailsPartners closegame={setViewGames} />}
         {newgame || viewGames ? (

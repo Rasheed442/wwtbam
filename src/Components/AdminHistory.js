@@ -10,6 +10,8 @@ import HistoryTable from "../TableComponents/HistoryTable";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import Aos from "aos";
+import * as XLSX from "xlsx";
+
 import "aos/dist/aos.css";
 
 import Axios from "axios";
@@ -127,6 +129,26 @@ function AdminHistory() {
     link.download = "Report Download";
     link.click();
     URL.revokeObjectURL(url);
+  };
+
+  const ExcelDownload = () => {
+    const worksheet = XLSX.utils.json_to_sheet(dataArray);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+
+    const fileName = "data.xlsx";
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url; // Corrected this line
+    link.setAttribute("download", fileName); // Corrected this line
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const downloadPDF = () => {
@@ -263,6 +285,12 @@ function AdminHistory() {
               onClick={downloadCSV}
             >
               Export AS CSV
+            </button>
+            <button
+              style={{ border: "1px solid gainsboro" }}
+              onClick={ExcelDownload}
+            >
+              Export To Excel
             </button>
             <button
               style={{ border: "1px solid gainsboro" }}

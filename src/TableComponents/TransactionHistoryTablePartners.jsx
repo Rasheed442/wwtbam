@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   AiOutlineLeft,
@@ -11,7 +11,21 @@ import { useNavigate } from "react-router-dom";
 function TransactionHistoryTablePartners() {
   const navigate = useNavigate();
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  const userID = localStorage.getItem("userID");
 
+  const [mydata, setData] = useState();
+
+  useEffect(() => {
+    const myHeaders = new Headers();
+
+    fetch(`${process.env.REACT_APP_BASE_URL}getgamehistory/${userID}`)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setData(result?.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <Head>
       <div className="tablecontent">
@@ -29,31 +43,45 @@ function TransactionHistoryTablePartners() {
                   GAME REF
                   <TiArrowUnsorted />
                 </th>
-                <th>PARTNER</th>
-                {/* <th>GAME</th> */}
-                {/* <th>QUESTION</th> */}
-                {/* <th>
-                  ANSWER
-                  <TiArrowUnsorted />
-                </th> */}
-                <th>NO OF ENTRIES</th>
-                <th>PARTICIPANT NUMBER</th>
-                {/* <th>DATE</th> */}
-                <th>STATUS</th>
+                <th>CHANNEL</th>
+                <th> PARTICIPANT NUMBER</th>
+                <th>PARTICIPANT NAME</th>
+                <th>NUMBER OF ENTRIES</th>
+
                 <th>STATUS CODE</th>
+                <th>STATUS</th>
               </tr>
             </thead>
             <tbody>
-              {userDetails?.todayGameLog.map((u) => {
+              {mydata?.slice(0, 10)?.map((d) => {
                 return (
                   <tr>
-                    <td>{u?.gameRef}</td>
-                    <td>{u.participantName}</td>
-                    <td>{u.numerOfEntries}</td>
-                    <td>{u.partcipantPhone}</td>
+                    <td>{d?.gameRef}</td>
+                    <td>{d?.channel}</td>
+                    <td>{d?.partcipantPhone}</td>
 
-                    <td>{u.status}</td>
-                    <td>{u.statusCode}</td>
+                    <td>{d?.participantName}</td>
+
+                    <td>{d?.numerOfEntries}</td>
+                    <td>{d?.statusCode}</td>
+
+                    <td>
+                      <div
+                        style={{
+                          color: "#027A48",
+                          backgroundColor: "#ECFDF3",
+
+                          display: "flex",
+                          alignItems: "center",
+                          width: " 100%",
+                          padding: "9px",
+                          gap: "5px",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <TiMediaRecord /> {d?.status}
+                      </div>
+                    </td>
                   </tr>
                 );
               })}
@@ -144,7 +172,7 @@ function TransactionHistoryTablePartners() {
         </div>
         <div className="row">
           <span>Showing 1-5 of entries</span>
-          <div className="pagins">
+          {/* <div className="pagins">
             <p>Rows per page:</p>
             <select>
               <option>5</option>
@@ -163,7 +191,7 @@ function TransactionHistoryTablePartners() {
                 <AiOutlineRight />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </Head>

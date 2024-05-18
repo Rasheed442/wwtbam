@@ -11,6 +11,7 @@ import "aos/dist/aos.css";
 function SideBar({ back, setBack }) {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
+  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
 
   const [menustate, setMenuState] = useState(
     role === "Admin"
@@ -67,16 +68,16 @@ function SideBar({ back, setBack }) {
             path:
               d?.name === "Weekly Play" && role === "Admin"
                 ? "/weeklyplay?id=" + d?.id + ""
-                : d?.name === "Hot Seat" && role === "Partner"
-                ? "/partner/hotseatplay"
+                : d?.name === "Weekly Play" && role === "Partner"
+                ? "/partner/weeklyplay?id=" + d?.id + ""
                 : d?.name === "Audience Play" && role === "Admin"
                 ? "/audience?id=" + d?.id + ""
                 : d?.name === "Audience Play" && role === "Partner"
-                ? "/partner/audienceplay"
+                ? "/partner/audienceplay?id=" + d?.id + ""
                 : d?.name === "Studio Play" && role === "Admin"
                 ? "/studioplay?id=" + d?.id + ""
-                : d?.name === "Home Play" && role === "Partner"
-                ? "/partner/homeplay"
+                : d?.name === "Studio Play" && role === "Partner"
+                ? "/partner/studioplay?id=" + d?.id + ""
                 : "",
           };
         });
@@ -631,9 +632,13 @@ function SideBar({ back, setBack }) {
           >
             {back && (
               <div className="fotname">
-                <img src={albert} alt="" />
+                <img src={userDetails?.partnerLogo} alt="" />
                 <div className="names">
-                  <p>Funke Oba</p>
+                  <p>
+                    {userDetails?.companyName
+                      ? userDetails?.companyName
+                      : "Funke Oba"}
+                  </p>
                   <span>Log out</span>
                 </div>
               </div>

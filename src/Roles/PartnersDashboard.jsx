@@ -20,6 +20,7 @@ function PartnersDashboard({ close, update }) {
   const [commission, setCommission] = useState(false);
   const [apikeys, setApikeys] = useState(false);
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  console.log(userDetails);
 
   function HandleCopy() {
     navigator.clipboard

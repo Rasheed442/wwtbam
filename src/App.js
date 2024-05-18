@@ -53,14 +53,14 @@ function App() {
             <Route path="/audience" element={<Audienceplay />} />
             <Route path="/studioplay" element={<HomePlay />} />
             <Route
-              path="/partner/hotseatplay"
+              path="/partner/weeklyplay"
               element={<PartnerHotseatplay />}
             />
             <Route
               path="/partner/audienceplay"
               element={<PartnerAudienceplay />}
             />
-            <Route path="/partner/homeplay" element={<PartnerHomeplay />} />
+            <Route path="/partner/studioplay" element={<PartnerHomeplay />} />
           </Route>
         </Routes>
       </BrowserRouter>

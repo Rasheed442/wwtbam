@@ -28,7 +28,7 @@ function HotseatTable({ viewGames, table }) {
                 <tr>
                   <td
                     style={{ color: "#417CD4" }}
-                    onClick={() => viewGames(true)}
+                    // onClick={() => viewGames(true)}
                   >
                     View Details
                   </td>
