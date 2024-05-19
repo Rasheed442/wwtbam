@@ -28,9 +28,13 @@ function PartnerHomeplay() {
       `${
         process.env.REACT_APP_BASE_URL
       }/getgamestatistics?partnerId=${userID}&gameId=${queryParams.get("id")}`
-    ).then((response) => {
-      setMyData(response?.data);
-    });
+    )
+      .then((response) => {
+        setMyData(response?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   const statistics = [
     {
@@ -349,7 +353,7 @@ function PartnerHomeplay() {
         ) : (
           <div className="overview">
             <div>
-              <h2>Home Play</h2>
+              <h2>Studio Play</h2>
               <span>This page allows you to manage this game mode</span>
             </div>
             {/* <ButtonLayout

@@ -29,9 +29,13 @@ function PartnerHotseatplay() {
       `${
         process.env.REACT_APP_BASE_URL
       }/getgamestatistics?partnerId=${userID}&gameId=${queryParams.get("id")}`
-    ).then((response) => {
-      setMyData(response?.data);
-    });
+    )
+      .then((response) => {
+        setMyData(response?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   const statistics = [
     {

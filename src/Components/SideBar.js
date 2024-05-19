@@ -13,39 +13,7 @@ function SideBar({ back, setBack }) {
   const role = localStorage.getItem("role");
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
 
-  const [menustate, setMenuState] = useState(
-    role === "Admin"
-      ? [
-          {
-            name: "Hot Seat ",
-            path: "/hotseatplay",
-          },
-          {
-            name: "Audience Play",
-            path: "/audienceplay",
-          },
-          {
-            name: "Home Play",
-            path: "/homeplay",
-          },
-        ]
-      : role === "Partner"
-      ? [
-          {
-            name: "Hot Seat ",
-            path: "partner/hotseatplay",
-          },
-          {
-            name: "Audience Play",
-            path: "partner/audienceplay",
-          },
-          {
-            name: "Home Play",
-            path: "partner/homeplay",
-          },
-        ]
-      : []
-  );
+  const [menustate, setMenuState] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     //  ENDPOINT TO GET GAME ID
@@ -61,7 +29,7 @@ function SideBar({ back, setBack }) {
     fetch(`${process.env.REACT_APP_BASE_URL}getallgames`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        const newData = result.data.map((d) => {
+        const newData = result?.data?.map((d) => {
           return {
             name: d?.name,
             id: d?.id,
@@ -272,7 +240,7 @@ function SideBar({ back, setBack }) {
             ),
 
             subMenu: [
-              ...menustate.map((m) => {
+              ...menustate?.map((m) => {
                 return {
                   name: m.name,
                   path: m.path,
@@ -452,7 +420,7 @@ function SideBar({ back, setBack }) {
               </svg>
             ),
             subMenu: [
-              ...menustate.map((m) => {
+              ...menustate?.map((m) => {
                 return {
                   name: m.name,
                   path: m.path,
@@ -556,7 +524,7 @@ function SideBar({ back, setBack }) {
         <div className="side">
           <span>MAIN MENU</span>
           <div className="navlink">
-            {navlinks.map((n) => {
+            {navlinks?.map((n) => {
               return (
                 <>
                   <div
@@ -632,12 +600,17 @@ function SideBar({ back, setBack }) {
           >
             {back && (
               <div className="fotname">
-                <img src={userDetails?.partnerLogo} alt="" />
+                <img
+                  src={
+                    userDetails?.partnerLogo ? userDetails?.partnerLogo : albert
+                  }
+                  alt=""
+                />
                 <div className="names">
                   <p>
                     {userDetails?.companyName
                       ? userDetails?.companyName
-                      : "Funke Oba"}
+                      : "Albert Abiodun"}
                   </p>
                   <span>Log out</span>
                 </div>
