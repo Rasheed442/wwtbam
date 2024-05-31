@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import LabelinputLayout from "../Layouts/LabelinputLayout";
 import { FiCopy } from "react-icons/fi";
+import KeyinputLayout from "../Layouts/KeyInputLayout";
 
 function ApiKeys() {
-  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  const [PartnerDetails, setData] = useState();
+  // const [PartnerDetails, setPartnerDetails] = useState();
+  const [open, setOpen] = useState();
+
+  const PartnerD = JSON.parse(localStorage.getItem("PartnerUserId"));
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("x-session-id", `${token}`);
+    // myHeaders.append("Authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(
+      `https://api.blkhut.com/wwtbam_v2/getpartners/${PartnerD?.userId}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setData(result?.data?.[0]);
+      })
+      .catch((error) => console.error(error));
+  }, []);
   return (
     <MyKeys>
       <div className="contain">
@@ -23,6 +51,9 @@ function ApiKeys() {
               border: "1px solid #D0D5DD",
               color: "#344054",
             }}
+            onClick={() => {
+              setOpen(!open);
+            }}
           >
             Reveal keys
           </button>
@@ -40,18 +71,21 @@ function ApiKeys() {
 
       <div className="livekeys">
         <div className="testkeys">
-          <LabelinputLayout
+          <KeyinputLayout
+            open={open}
             label="Test Keys"
-            placeholder="*****************"
+            value={PartnerDetails?.clientKeys?.testKey}
             disabled
           />
           <FiCopy size={20} style={{ color: "#667085" }} />
         </div>
 
         <div className="testkeys">
-          <LabelinputLayout
+          <KeyinputLayout
+            open={open}
             style={{ width: "100%" }}
             label="Live Keys"
+            value={PartnerDetails?.clientKeys?.liveKey}
             placeholder="*****************"
             disabled
           />

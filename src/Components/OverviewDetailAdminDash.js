@@ -1,14 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PartnerDetailsChart from "../ChartComponents/PartnerDetailsChart";
-
+import { FaChevronDown } from "react-icons/fa";
+import PartnerDetailsChart2 from "../ChartComponents/PartnerDetailsChart2";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 function OverviewDetailAdminDash() {
-  const PartnerDetails = JSON.parse(localStorage.getItem("PartnerUserId"));
+  const PartnerD = JSON.parse(localStorage.getItem("PartnerUserId"));
+  const token = localStorage.getItem("token");
+  const [PartnerDetails, setData] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const numberWithSeparator = (number) => {
+    return number?.toLocaleString(); // This will add thousand separators
+  };
+  useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("x-session-id", `${token}`);
+    // myHeaders.append("Authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    setLoading(true);
+    fetch(
+      `https://api.blkhut.com/wwtbam_v2/getpartners/${PartnerD?.userId}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setLoading(false);
+        setData(result?.data?.[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
 
   const statistics = [
     {
       name: "Total Games Played",
-      amount: PartnerDetails?.partnerTotalGamePlayed,
+      amount: loading ? (
+        <Skeleton count={1} width="10vw" height="5vh" />
+      ) : (
+        numberWithSeparator(PartnerDetails?.partnerTotalGamePlayed)
+      ),
       icon: (
         <svg
           width="60"
@@ -112,7 +151,11 @@ function OverviewDetailAdminDash() {
     },
     {
       name: "Total Revenue",
-      amount: PartnerDetails?.partnerGamePlayedRevenue,
+      amount: loading ? (
+        <Skeleton count={1} width="10vw" height="5vh" />
+      ) : (
+        numberWithSeparator(PartnerDetails?.partnerGamePlayedRevenue)
+      ),
       icon: (
         <svg
           width="60"
@@ -223,50 +266,118 @@ function OverviewDetailAdminDash() {
   ];
   return (
     <>
-      <div className="statistics">
-        <p>Overview</p>
-        <div className="months">
-          <span>12 months</span>
-          <span>30 Days</span>
-          <span>7 Days</span>
+      <Oving>
+        <div className="statistics">
+          <p>Overview</p>
+          <div className="months">
+            <span>12 months</span>
+            <span>30 Days</span>
+            <span>7 Days</span>
+          </div>
         </div>
-      </div>
-      <div className="start">
-        <h2>Statistics</h2>
-        <div className="grids">
-          {statistics.map((s) => {
-            return (
-              <div className="gamesplayed">
-                <div className="revenue">
-                  <span>{s.name}</span>
-                  <p>{s.amount}</p>
+        <div className="start">
+          <h2>Statistics</h2>
+          <div className="grids">
+            {statistics.map((s) => {
+              return (
+                <div className="gamesplayed">
+                  <div className="revenue">
+                    <span>{s.name}</span>
+                    <p>{s.amount}</p>
+                  </div>
+                  <div>{s.icon}</div>
                 </div>
-                <div>{s.icon}</div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <div className="overtime">
-        <span>Revenue over time</span>
-        <div className="banks">
-          {banks?.map((b) => {
-            return (
-              <div className="content">
-                <div
-                  className="line2"
-                  style={{ backgroundColor: b?.color }}
-                ></div>
-                <p>{b.name}</p>
+        <div className="gameschannel">
+          <div className="header">
+            <div className="selection">
+              <div className="overhead">
+                <h2>Games</h2>
+                <p>Shows a snapshot of games types on your system</p>
               </div>
-            );
-          })}
+              <div className="games">
+                <select>
+                  <option>All Games</option>
+                </select>
+                <FaChevronDown style={{ color: "#667085" }} size={13} />
+              </div>
+            </div>
+            <PartnerDetailsChart />
+          </div>
+          <div className="header">
+            <div className="selection">
+              <div className="overhead">
+                <h2>Channels</h2>
+                <p>Shows a snapshot of channels types on your system</p>
+              </div>
+              <div className="games">
+                <select>
+                  <option>All Games</option>
+                </select>
+                <FaChevronDown style={{ color: "#667085" }} size={13} />
+              </div>
+            </div>
+            <PartnerDetailsChart2 />
+          </div>
         </div>
-      </div>
-      <PartnerDetailsChart />
+      </Oving>
     </>
   );
 }
 
 export default OverviewDetailAdminDash;
-const Oving = styled.div``;
+const Oving = styled.div`
+  .gameschannel {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+  .games {
+    border: 1px solid #d0d5dd;
+    padding: 0px 10px 0px 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 38px;
+  }
+  .games select {
+    border: none;
+    appearance: none;
+
+    color: #667085;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: 400;
+    outline: none;
+  }
+  .header {
+    background-color: white;
+    padding: 20px;
+  }
+  .selection {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .overhead {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+    gap: 5px;
+  }
+  .overhead p {
+    color: #909090;
+    letter-spacing: 2%;
+    line-height: 19px;
+    font-size: 14px;
+  }
+  .overhead h2 {
+    color: #090814;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+  }
+`;

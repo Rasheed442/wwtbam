@@ -10,11 +10,11 @@ import { hope, opay } from "../assets/Images";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 function PartnersTable({ view, search }) {
-  const token = localStorage.getItem("token");
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
   const [loading, setLoading] = useState(false);
 
   const [myData, setData] = useState();
+  const token = localStorage.getItem("token");
 
   const config = {
     headers: {

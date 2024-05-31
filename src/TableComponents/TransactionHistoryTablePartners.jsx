@@ -202,6 +202,9 @@ export default TransactionHistoryTablePartners;
 const Head = styled.div`
   .tablecontent {
     background-color: white;
+    margin: 20px;
+    box-shadow: 5px 5px 5px 5px gainsboro;
+    border-radius: 10px;
   }
   .content {
     display: flex;

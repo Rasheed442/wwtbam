@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { hope } from "../assets/Images";
 import { RxPencil1 } from "react-icons/rx";
@@ -19,8 +19,38 @@ function PartnersDashboard({ close, update }) {
   const [overview, setOverView] = useState(true);
   const [commission, setCommission] = useState(false);
   const [apikeys, setApikeys] = useState(false);
-  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-  console.log(userDetails);
+  const [userDetails, setData] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const userD = JSON.parse(localStorage.getItem("userDetails"));
+  console.log(userD);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("x-session-id", `${token}`);
+    // myHeaders.append("Authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    setLoading(true);
+    fetch(
+      `https://api.blkhut.com/wwtbam_v2/getpartners/${userD?.userId}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setLoading(false);
+        setData(result?.data?.[0]);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  }, []);
 
   function HandleCopy() {
     navigator.clipboard

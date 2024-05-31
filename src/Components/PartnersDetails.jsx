@@ -6,18 +6,62 @@ import { FiCopy } from "react-icons/fi";
 import { TiMediaRecord } from "react-icons/ti";
 import OverviewDetail from "./OverviewDetailAdminDash";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-
+import Axios from "axios";
 import ApiKeys from "./ApiKeys";
 import UpdateCommission from "./UpdateCommission";
 import DashBoardLayout from "../Layouts/DashBoardLayout";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import toast from "react-hot-toast";
 
 function PartnersDetails({ close, update }) {
   const [overview, setOverView] = useState(true);
   const [commission, setCommission] = useState(false);
   const [apikeys, setApikeys] = useState(false);
+  const [PartnerDetails, setData] = useState();
+  const [loading, setLoading] = useState(false);
+  // const [PartnerDetails, setPartnerDetails] = useState();
 
-  const PartnerDetails = JSON.parse(localStorage.getItem("PartnerUserId"));
+  const PartnerD = JSON.parse(localStorage.getItem("PartnerUserId"));
+  const token = localStorage.getItem("token");
+  // console.log(PartnerDetails);
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("x-session-id", `${token}`);
+    // myHeaders.append("Authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    setLoading(true);
+    fetch(
+      `https://api.blkhut.com/wwtbam_v2/getpartners/${PartnerD?.userId}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setLoading(false);
+        setData(result?.data?.[0]);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  }, []);
+
+  // console.log(PartnersTrans);
+  // const Dtdata = PartnersTrans.map((item) => Object.values(item));
+  // const tableColumn = Object.values(Dtdata[0]);
+
   console.log(PartnerDetails);
 
   useEffect(() => {}, []);
@@ -53,229 +97,253 @@ function PartnersDetails({ close, update }) {
   }
 
   return (
-    <Partners>
-      <div className="details">
-        <div className="back" onClick={() => close(false)}>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4.25 12.2743L19.25 12.2743"
-              stroke="#38197A"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M10.2993 18.2987L4.24932 12.2747L10.2993 6.24969"
-              stroke="#38197A"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+    <div>
+      <Partners>
+        <div className="details">
+          <div className="back" onClick={() => close(false)}>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4.25 12.2743L19.25 12.2743"
+                stroke="#38197A"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.2993 18.2987L4.24932 12.2747L10.2993 6.24969"
+                stroke="#38197A"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
 
-          <p>Back to Partners</p>
-        </div>
-        <h2>Hope PS Bank</h2>
-      </div>
-
-      <div className="white">
-        <div className="flex">
-          <div className="hope">
-            <img src={PartnerDetails?.partnerLogo} />
-            <div className="payment">
-              <h2>{PartnerDetails?.companyName}</h2>
-              <span>{PartnerDetails?.userId}</span>
-              <div className="registration">
-                <p>Registration Date</p>
-                <h3>{PartnerDetails?.dateCreated}</h3>
-              </div>
-            </div>
+            <p>Back to Partners</p>
           </div>
-          <div className="status">
-            <p>
-              <TiMediaRecord />
-              {PartnerDetails?.status}
-            </p>
-          </div>
-          <div className="line"></div>
-          <div className="space">
-            <div className="mobile">
-              <div className="number">
-                <span>Mobile Number</span>
-                <p>{PartnerDetails?.phone}</p>
-              </div>
-              <div className="edit">
-                <RxPencil1 size={22} />
-                <FiCopy size={18} onClick={HandleCopy1} />
-              </div>
-            </div>
-            <div className="mobile">
-              <div className="number">
-                <span>Email Address</span>
-                <p>{PartnerDetails?.email}</p>
-              </div>
-              <div className="edit">
-                <RxPencil1 size={22} />
-                <FiCopy size={18} onClick={HandleCopy2} />
-              </div>
-            </div>
-            <div className="mobile">
-              <div className="number">
-                <span>Address</span>
-                <p>
-                  {PartnerDetails?.address
-                    ? PartnerDetails?.address
-                    : "------------"}
-                </p>
-              </div>
-              <div className="edit">
-                <RxPencil1 size={22} />
-                <FiCopy size={18} onClick={HandleCopy3} />
-              </div>
-            </div>
-          </div>
+          <h2>Hope PS Bank</h2>
         </div>
 
-        <div className="over">
-          <span
-            style={{
-              color: overview ? "#38197A" : "",
-              borderBottom: overview ? "2px solid #38197A" : "",
-            }}
-            onClick={() => {
-              setOverView(true);
-              setCommission(false);
-              setApikeys(false);
-            }}
-          >
-            Overview
-          </span>
-          <span
-            style={{
-              color: commission ? "#38197A" : "",
-              borderBottom: commission ? "2px solid #38197A" : "",
-            }}
-            onClick={() => {
-              setOverView(false);
-              setCommission(true);
-              setApikeys(false);
-            }}
-          >
-            Commissions
-          </span>
-          <span
-            style={{
-              color: apikeys ? "#38197A" : "",
-              borderBottom: apikeys ? "2px solid #38197A" : "",
-            }}
-            onClick={() => {
-              setOverView(false);
-              setCommission(false);
-              setApikeys(true);
-            }}
-          >
-            Api Keys
-          </span>
-        </div>
+        <div className="white">
+          <div className="flex">
+            <div className="hope">
+              {loading ? (
+                <Skeleton count={1} width="10vw" height="20vh" />
+              ) : (
+                <img src={PartnerDetails?.partnerLogo} />
+              )}
+              <div className="payment">
+                <h2>{PartnerDetails?.companyName}</h2>
 
-        {overview && <OverviewDetail />}
-        {apikeys && <ApiKeys />}
-        {commission && (
-          <Comit>
-            <div className="head">
-              <h2>Commissions</h2>
-              <div className="searchh">
-                <svg
-                  width="17"
-                  height="17"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z"
-                    stroke="#667085"
-                    stroke-width="1.66667"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <input type="text" placeholder="Search" />
-              </div>
-            </div>
+                <span>{PartnerDetails?.userId}</span>
 
-            {/* for table component */}
-            <div className="tablecontent">
-              <div className="gridoutside">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>ACTIONS</th>
-                      <th>GAMES </th>
-                      <th>COMMISSION TYPE </th>
-                      <th>AMOUNT </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td
-                        style={{ color: "#417CD4" }}
-                        onClick={() => update(true)}
-                      >
-                        Update
-                      </td>
-                      <td>Hot Seat Play</td>
-                      <td>Fixed</td>
-                      <td>200</td>
-                    </tr>
-                    <tr>
-                      <td
-                        style={{ color: "#417CD4" }}
-                        onClick={() => update(true)}
-                      >
-                        Update
-                      </td>
-                      <td>Hot Seat Play</td>
-                      <td>Fixed</td>
-                      <td>200</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="row">
-                <span>Showing 1-5 of entries</span>
-                <div className="pagins">
-                  <p>Rows per page:</p>
-                  <select>
-                    <option>5</option>
-                  </select>
-                  <div className="arrow">
-                    <button
-                      onClick={() => {
-                        // setSortDate(sortdate - 1);
-                        // setEnd((prev) => prev - end);
-                      }}
-                    >
-                      <AiOutlineLeft />
-                    </button>
-                    <button>1</button>
-                    <button>
-                      <AiOutlineRight />
-                    </button>
-                  </div>
+                <div className="registration">
+                  <p>Registration Date</p>
+                  <h3>{PartnerDetails?.dateCreated}</h3>
                 </div>
               </div>
             </div>
-          </Comit>
-        )}
-      </div>
-    </Partners>
+            {loading ? (
+              <Skeleton count={1} width="10vw" height="7vh" />
+            ) : (
+              <div className="status">
+                <p>
+                  <TiMediaRecord />
+                  {PartnerDetails?.status}
+                </p>
+              </div>
+            )}
+            <div className="line"></div>
+            <div className="space">
+              <div className="mobile">
+                <div className="number">
+                  <span>Mobile Number</span>
+                  {loading ? (
+                    <Skeleton count={1} width="10vw" height="2vh" />
+                  ) : (
+                    <p>{PartnerDetails?.phone}</p>
+                  )}
+                </div>
+                <div className="edit">
+                  <RxPencil1 size={22} />
+                  <FiCopy size={18} onClick={HandleCopy1} />
+                </div>
+              </div>
+              <div className="mobile">
+                <div className="number">
+                  <span>Email Address</span>
+                  {loading ? (
+                    <Skeleton count={1} width="10vw" height="2vh" />
+                  ) : (
+                    <p>{PartnerDetails?.email}</p>
+                  )}
+                </div>
+                <div className="edit">
+                  <RxPencil1 size={22} />
+                  <FiCopy size={18} onClick={HandleCopy2} />
+                </div>
+              </div>
+              <div className="mobile">
+                <div className="number">
+                  <span>Address</span>
+                  {loading ? (
+                    <Skeleton count={1} width="10vw" height="2vh" />
+                  ) : (
+                    <p>{PartnerDetails?.address}</p>
+                  )}
+                </div>
+                <div className="edit">
+                  <RxPencil1 size={22} />
+                  <FiCopy size={18} onClick={HandleCopy3} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="over">
+            <span
+              style={{
+                color: overview ? "#38197A" : "",
+                borderBottom: overview ? "2px solid #38197A" : "",
+              }}
+              onClick={() => {
+                setOverView(true);
+                setCommission(false);
+                setApikeys(false);
+              }}
+            >
+              Overview
+            </span>
+            <span
+              style={{
+                color: commission ? "#38197A" : "",
+                borderBottom: commission ? "2px solid #38197A" : "",
+              }}
+              onClick={() => {
+                setOverView(false);
+                setCommission(true);
+                setApikeys(false);
+              }}
+            >
+              Commissions
+            </span>
+            <span
+              style={{
+                color: apikeys ? "#38197A" : "",
+                borderBottom: apikeys ? "2px solid #38197A" : "",
+              }}
+              onClick={() => {
+                setOverView(false);
+                setCommission(false);
+                setApikeys(true);
+              }}
+            >
+              Api Keys
+            </span>
+          </div>
+
+          {overview && <OverviewDetail />}
+          {apikeys && <ApiKeys />}
+          {commission && (
+            <Comit>
+              <div className="head">
+                <h2>Commissions</h2>
+                <div className="searchh">
+                  <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z"
+                      stroke="#667085"
+                      stroke-width="1.66667"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <input type="text" placeholder="Search" />
+                </div>
+              </div>
+
+              {/* for table component */}
+              <div className="tablecontent">
+                <div className="gridoutside">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>ACTIONS</th>
+                        <th>COMMISSION </th>
+                        <th>PRICE </th>
+                        <th>GAME DESCRIPTION </th>
+                        <th>STATUS </th>
+                      </tr>
+                    </thead>
+                    {loading ? (
+                      <Skeleton count={1} width="100vw" height="10vh" />
+                    ) : (
+                      <tbody>
+                        {PartnerDetails?.partnerCommissions.map((p) => {
+                          return (
+                            <tr>
+                              <td>{p?.game?.name}</td>
+                              <td>{p?.commission}</td>
+                              <td>{p?.game?.price}</td>
+                              <td>
+                                {
+                                  p?.game?.gameQuestionSelectionType
+                                    ?.description
+                                }
+                              </td>
+                              <td>
+                                <div className="statuss">
+                                  <TiMediaRecord size={16} />
+                                  {p?.game?.status}
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    )}
+                  </table>
+                </div>
+                <div className="row">
+                  <span>Showing 1-5 of entries</span>
+                  <div className="pagins">
+                    <p>Rows per page:</p>
+                    <select>
+                      <option>5</option>
+                    </select>
+                    <div className="arrow">
+                      <button
+                        onClick={() => {
+                          // setSortDate(sortdate - 1);
+                          // setEnd((prev) => prev - end);
+                        }}
+                      >
+                        <AiOutlineLeft />
+                      </button>
+                      <button>1</button>
+                      <button>
+                        <AiOutlineRight />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Comit>
+          )}
+        </div>
+      </Partners>
+    </div>
   );
 }
 
@@ -307,6 +375,20 @@ const Partners = styled.div`
     height: 10px;
     width: 10px;
     border-radius: 50%;
+  }
+  .statuss {
+    background-color: #ecfdf3;
+    color: #027a48;
+    padding: 10px;
+    border-radius: 10px;
+    width: 50%;
+    border: 1px solid green;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    /* position: absolute; */
+    /* left: 370px; */
+    /* bottom: 130px; */
   }
   .start {
     display: flex;
