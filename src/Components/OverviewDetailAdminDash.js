@@ -252,16 +252,30 @@ function OverviewDetailAdminDash() {
   ];
   const banks = [
     {
-      name: "Home Play",
-      color: "#4D2087",
-    },
-    {
-      name: "Hot Seat Play",
-      color: "#9BCF53",
-    },
-    {
       name: "Audience Play",
-      color: "#FAA300",
+      color: "#FB6D48",
+    },
+    {
+      name: "Studio Play",
+      color: "#D37676",
+    },
+    {
+      name: "Weekly Play",
+      color: "#FF004D",
+    },
+  ];
+  const banks2 = [
+    {
+      name: "App Game Revenue",
+      color: "#FB923C",
+    },
+    {
+      name: "Pos Game Revenue",
+      color: "#CBC7C6",
+    },
+    {
+      name: "Web Game Revenue",
+      color: "#7694E0",
     },
   ];
   return (
@@ -305,6 +319,19 @@ function OverviewDetailAdminDash() {
                 <FaChevronDown style={{ color: "#667085" }} size={13} />
               </div>
             </div>
+            <div className="banks">
+              {banks?.map((b) => {
+                return (
+                  <div className="content">
+                    <div
+                      className="lines"
+                      style={{ backgroundColor: b?.color }}
+                    ></div>
+                    <p>{b.name}</p>
+                  </div>
+                );
+              })}
+            </div>
             <PartnerDetailsChart />
           </div>
           <div className="header">
@@ -318,7 +345,20 @@ function OverviewDetailAdminDash() {
                   <option>All Games</option>
                 </select>
                 <FaChevronDown style={{ color: "#667085" }} size={13} />
-              </div>
+              </div>{" "}
+            </div>
+            <div className="banks">
+              {banks2?.map((b) => {
+                return (
+                  <div className="content">
+                    <div
+                      className="lines"
+                      style={{ backgroundColor: b?.color }}
+                    ></div>
+                    <p>{b.name}</p>
+                  </div>
+                );
+              })}
             </div>
             <PartnerDetailsChart2 />
           </div>
@@ -330,6 +370,27 @@ function OverviewDetailAdminDash() {
 
 export default OverviewDetailAdminDash;
 const Oving = styled.div`
+  .lines {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+  }
+  .banks {
+    display: flex;
+    gap: 30px;
+    padding: 40px 0px 30px 0px;
+  }
+  .content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .content p {
+    color: #464f60;
+    line-height: 19px;
+    font-size: 13px;
+    font-weight: 400;
+  }
   .gameschannel {
     display: grid;
     grid-template-columns: 50% 50%;
