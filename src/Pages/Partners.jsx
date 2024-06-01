@@ -13,16 +13,24 @@ function Partners() {
   const [ViewPartnerDetails, setViewPartnerDetails] = useState(false);
   const [update, setUpdate] = useState(false);
   const [search, setSearch] = useState();
+  const [refresh, setRefresh] = useState(false);
+  const [refresh2, setRefresh2] = useState(false);
 
   return (
     <Partner>
-      {addPartner && <AddNewPartner close={setAddPartner} />}
-      {update && <UpdateCommission close={setUpdate} />}
+      {addPartner && (
+        <AddNewPartner close={setAddPartner} setRefresh2={setRefresh2} />
+      )}
+      {update && <UpdateCommission close={setUpdate} setRefresh={setRefresh} />}
 
       <DashBoardLayout>
         <TopHeader title="Game History" />
         {ViewPartnerDetails && (
-          <PartnersDetails close={setViewPartnerDetails} update={setUpdate} />
+          <PartnersDetails
+            close={setViewPartnerDetails}
+            refresh={refresh}
+            update={setUpdate}
+          />
         )}
         {ViewPartnerDetails ? (
           ""
@@ -69,6 +77,7 @@ function Partners() {
               </div>
             </div>
             <PartnersTable
+              refresh2={refresh2}
               view={setViewPartnerDetails}
               search={search && search}
             />

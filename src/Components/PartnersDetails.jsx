@@ -14,7 +14,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import toast from "react-hot-toast";
 
-function PartnersDetails({ close, update }) {
+function PartnersDetails({ close, update, refresh }) {
   const [overview, setOverView] = useState(true);
   const [commission, setCommission] = useState(false);
   const [apikeys, setApikeys] = useState(false);
@@ -25,6 +25,24 @@ function PartnersDetails({ close, update }) {
   const PartnerD = JSON.parse(localStorage.getItem("PartnerUserId"));
   const token = localStorage.getItem("token");
   // console.log(PartnerDetails);
+
+  // pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordPerPage = 5;
+  const lastIndex = currentPage * recordPerPage;
+  const firstIndex = lastIndex - recordPerPage;
+  const records = PartnerDetails?.partnerCommissions?.slice(
+    firstIndex,
+    lastIndex
+  ); /// this is what you are mapping to the table
+  const npage = Math?.ceil(
+    PartnerDetails?.partnerCommissions?.length / recordPerPage
+  );
+  const numbers = Array.from(
+    { length: npage > 0 ? npage : 1 },
+    (_, i) => i + 1
+  );
+  // pagination state
 
   const config = {
     headers: {
@@ -56,7 +74,7 @@ function PartnersDetails({ close, update }) {
         setLoading(false);
         console.log(error);
       });
-  }, []);
+  }, [refresh]);
 
   // console.log(PartnersTrans);
   // const Dtdata = PartnersTrans.map((item) => Object.values(item));
@@ -284,15 +302,25 @@ function PartnersDetails({ close, update }) {
                         <th>PRICE </th>
                         <th>GAME DESCRIPTION </th>
                         <th>STATUS </th>
+                        <th> </th>
                       </tr>
                     </thead>
                     {loading ? (
                       <Skeleton count={1} width="100vw" height="10vh" />
                     ) : (
                       <tbody>
-                        {PartnerDetails?.partnerCommissions.map((p) => {
+                        {records?.map((p) => {
                           return (
                             <tr>
+                              <td
+                                style={{ color: "#417CD4" }}
+                                onClick={() => {
+                                  localStorage.setItem("commissionId", p?.id);
+                                  update(true);
+                                }}
+                              >
+                                Update Commission
+                              </td>
                               <td>{p?.game?.name}</td>
                               <td>{p?.commission}</td>
                               <td>{p?.game?.price}</td>
@@ -323,16 +351,11 @@ function PartnersDetails({ close, update }) {
                       <option>5</option>
                     </select>
                     <div className="arrow">
-                      <button
-                        onClick={() => {
-                          // setSortDate(sortdate - 1);
-                          // setEnd((prev) => prev - end);
-                        }}
-                      >
+                      <button onClick={prevPage}>
                         <AiOutlineLeft />
                       </button>
-                      <button>1</button>
-                      <button>
+                      <button>{currentPage}</button>
+                      <button onClick={NxtPage}>
                         <AiOutlineRight />
                       </button>
                     </div>
@@ -345,6 +368,16 @@ function PartnersDetails({ close, update }) {
       </Partners>
     </div>
   );
+  function prevPage() {
+    if (currentPage !== firstIndex) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+  function NxtPage() {
+    if (currentPage !== lastIndex) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
 }
 
 export default PartnersDetails;

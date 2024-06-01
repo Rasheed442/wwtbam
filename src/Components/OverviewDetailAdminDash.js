@@ -342,7 +342,7 @@ function OverviewDetailAdminDash() {
               </div>
               <div className="games">
                 <select>
-                  <option>All Games</option>
+                  <option>All Channels</option>
                 </select>
                 <FaChevronDown style={{ color: "#667085" }} size={13} />
               </div>{" "}

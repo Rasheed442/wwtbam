@@ -9,7 +9,7 @@ import { TiArrowUnsorted, TiMediaRecord } from "react-icons/ti";
 import { hope, opay } from "../assets/Images";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-function PartnersTable({ view, search }) {
+function PartnersTable({ view, search, refresh2 }) {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
   const [loading, setLoading] = useState(false);
 
@@ -56,7 +56,7 @@ function PartnersTable({ view, search }) {
         setLoading(false);
         console.error(error);
       });
-  }, []);
+  }, [refresh2]);
   console.log(myData);
   return (
     <Head>

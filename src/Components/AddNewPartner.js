@@ -6,7 +6,7 @@ import PasswordInputLayout from "../Layouts/PasswordInputLayout";
 import PulseLoader from "react-spinners/PulseLoader";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-function AddNewPartner({ close }) {
+function AddNewPartner({ close, setRefresh2 }) {
   const [partnerLogo, setPartnerLogo] = useState();
   const [image, setImage] = useState(null);
   const token = localStorage.getItem("token");
