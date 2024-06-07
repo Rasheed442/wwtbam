@@ -83,8 +83,13 @@ function AdminDashboard() {
         <div className="content1">
           <div className="contside1">
             <div className="contside1Text">
+<<<<<<< HEAD
               <h1>{numberWithSeparator(userDetails?.totalGamePlayed)}</h1>
               <p>Total Entries</p>
+=======
+              <h1>{userDetails?.totalGamePlayed}</h1>
+              <p>Total Games played</p>
+>>>>>>> 976c8ef4b7a1f46e00d7e0088365095b98435513
             </div>
           </div>
           <div className="contside2">
@@ -573,13 +578,20 @@ const Head = styled.div`
       justify-content: center;
       h1 {
         font-size: clamp(3rem, 5vw, 4rem);
+<<<<<<< HEAD
         font-weight: 500;
+=======
+>>>>>>> 976c8ef4b7a1f46e00d7e0088365095b98435513
       }
       p {
         color: #667085;
         line-height: 19px;
         font-size: 12px;
+<<<<<<< HEAD
         font-weight: 500;
+=======
+        font-weight: 400;
+>>>>>>> 976c8ef4b7a1f46e00d7e0088365095b98435513
       }
     }
   }

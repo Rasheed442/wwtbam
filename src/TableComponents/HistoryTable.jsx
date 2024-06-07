@@ -19,6 +19,7 @@ function HistoryTable({ view, search }) {
 
   const columns = [
     {
+<<<<<<< HEAD
       title: "ENTRY DATE",
       dataIndex: `entryDate`,
       render: (text) => (text ? text.slice(0, 10) : ""), // Slices the first 10 characters
@@ -26,6 +27,8 @@ function HistoryTable({ view, search }) {
       // render: (text) => (text ? entryDate.slice(0, 10) : ""),
     },
     {
+=======
+>>>>>>> 976c8ef4b7a1f46e00d7e0088365095b98435513
       title: "GAME REF",
       dataIndex: "gameRef",
     },

@@ -38,7 +38,11 @@ function PartnerHomeplay() {
   }, []);
   const statistics = [
     {
+<<<<<<< HEAD
       name: "Total Entries",
+=======
+      name: "Total Games Played",
+>>>>>>> 976c8ef4b7a1f46e00d7e0088365095b98435513
       amount: numberWithSeparator(myData.data?.totalGamePlayed),
       icon: (
         <svg

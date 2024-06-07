@@ -46,10 +46,16 @@ function TransactionHistoryTable() {
             <thead>
               <tr>
                 <th>
+<<<<<<< HEAD
                   ENTRIES DATE
                   <TiArrowUnsorted />
                 </th>
                 <th>GAME REF</th>
+=======
+                  GAME REF
+                  <TiArrowUnsorted />
+                </th>
+>>>>>>> 976c8ef4b7a1f46e00d7e0088365095b98435513
                 <th>CHANNEL</th>
                 <th> PARTICIPANT NUMBER</th>
                 <th>PARTICIPANT NAME</th>
@@ -63,7 +69,10 @@ function TransactionHistoryTable() {
               {mydata?.slice(0, 10)?.map((d) => {
                 return (
                   <tr>
+<<<<<<< HEAD
                     <td>{d?.entryDate.slice(0, 10)}</td>
+=======
+>>>>>>> 976c8ef4b7a1f46e00d7e0088365095b98435513
                     <td>{d?.gameRef}</td>
                     <td>{d?.channel}</td>
                     <td>{d?.partcipantPhone}</td>
